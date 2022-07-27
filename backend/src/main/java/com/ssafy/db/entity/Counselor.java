@@ -19,7 +19,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Counselor extends BaseEntity{
+public class Counselor extends BaseEntity {
 	@NotNull
 	String counselorId;
 	@NotNull
@@ -28,27 +28,26 @@ public class Counselor extends BaseEntity{
 	String phoneNumber;
 	@NotNull
 	String profile;
-    @NotNull
-    String shortIntroduction;
-    @DateTimeFormat(pattern = "kk:mm:ss")
-    LocalTime contactStartTime;
-    @DateTimeFormat(pattern = "kk:mm:ss")
-    LocalTime contactEndTime;
-    int career;
-    String longIntroduction;
-    @DateTimeFormat(pattern = "kk:mm:ss")
-    LocalTime reserveStartTime;
-    @DateTimeFormat(pattern = "kk:mm:ss")
-    LocalTime reserveEndTime;
-    String consultTarget;
-    int price;
-    int consultNumber;
-    String holiday;
-    
+	@NotNull
+	String shortIntroduction;
+	@DateTimeFormat(pattern = "kk:mm:ss")
+	LocalTime contactStartTime;
+	@DateTimeFormat(pattern = "kk:mm:ss")
+	LocalTime contactEndTime;
+	int career;
+	String longIntroduction;
+	@DateTimeFormat(pattern = "kk:mm:ss")
+	LocalTime reserveStartTime;
+	@DateTimeFormat(pattern = "kk:mm:ss")
+	LocalTime reserveEndTime;
+	String consultTarget;
+	int price;
+	int consultNumber;
+	String holiday;
 
-    @JsonIgnore
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotNull
-    String password;
+	@JsonIgnore
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@NotNull
+	String password;
 
 }

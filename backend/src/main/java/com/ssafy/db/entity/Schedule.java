@@ -3,6 +3,7 @@ package com.ssafy.db.entity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,6 +47,10 @@ public class Schedule extends BaseEntity {
 	private boolean isComplete = false;
 	private boolean isHoliday = false;
 
+	public Schedule() {
+		super();
+	}
+
 	@Builder
 	public Schedule(Counselor counselor, User user, String startTime, boolean isComplete, boolean isHoliday)
 			throws ParseException {
@@ -61,12 +66,12 @@ public class Schedule extends BaseEntity {
 
 		// 휴일인 경우
 		if (isHoliday == true) {
-			SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 			Date date = dateformatter.parse(startTime);
 			this.startTime = date;
 			this.endTime = DateUtils.addMinutes(date, 1439);
 		} else {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA);
 			this.startTime = formatter.parse(startTime);
 			this.endTime = DateUtils.addHours(this.startTime, 1);
 		}
