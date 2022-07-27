@@ -44,29 +44,32 @@ public class Schedule extends BaseEntity {
 	private Date endTime;
 
 	private boolean isComplete = false;
-	private boolean isVacation = false;
+	private boolean isHoliday = false;
 
 	@Builder
-	public Schedule(Counselor counselor, User user, String startTime, boolean isComplete,
-			boolean isVacation) {
+	public Schedule(Counselor counselor, User user, String startTime, boolean isComplete, boolean isHoliday)
+			throws ParseException {
 
-		//Not null을 체크
-		//날짜는 String으로 받기
-		Assert.hasText(startTime, "startTime must note be empty");
-		
+		// Not null을 체크
+		// 날짜는 String으로 받기
+		Assert.hasText(startTime, "startTime must not be empty");
+
 		this.counselor = counselor;
 		this.user = user;
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
-		try {
-			this.startTime = formatter.parse(startTime);
-		} catch (ParseException e) {
-			e.printStackTrace();
-			System.out.println("에러발생" + startTime);
-		}
-		this.endTime = DateUtils.addHours(this.startTime, 1);
 		this.isComplete = isComplete;
-		this.isVacation = isVacation;
+		this.isHoliday = isHoliday;
+
+		// 휴일인 경우
+		if (isHoliday == true) {
+			SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = dateformatter.parse(startTime);
+			this.startTime = date;
+			this.endTime = DateUtils.addMinutes(date, 1439);
+		} else {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			this.startTime = formatter.parse(startTime);
+			this.endTime = DateUtils.addHours(this.startTime, 1);
+		}
 	}
 
 }
