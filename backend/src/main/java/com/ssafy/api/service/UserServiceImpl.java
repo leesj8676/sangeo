@@ -56,8 +56,8 @@ public class UserServiceImpl implements UserService {
 		user.setName(userRegisterInfo.getName());
 		user.setPhoneNumber(userRegisterInfo.getPhoneNumber());
 		user.setProfile(userRegisterInfo.getProfile());
-		userRepository.save(user);
-		return user;
+
+		return userRepository.save(user);
 	}
 
 	@Override

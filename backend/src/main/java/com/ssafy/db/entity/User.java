@@ -2,6 +2,7 @@ package com.ssafy.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.istack.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,10 +16,14 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 public class User extends BaseEntity{
+	@NotNull
 	String userId;
-    String name;
-    String phoneNumber;
-    String profile;
+	@NotNull
+	String name;
+	@NotNull
+	String phoneNumber;
+	@NotNull
+	String profile;
 
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
