@@ -1,7 +1,5 @@
 package com.ssafy.api.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -111,7 +109,7 @@ public class UserController {
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
-		
+		System.out.println(userId+" 본인 인증 성공");
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
 

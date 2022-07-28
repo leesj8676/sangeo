@@ -23,16 +23,15 @@ import static com.google.common.collect.Lists.newArrayList;
 @Component
 public class JwtTokenUtil {
     private static String secretKey;
-    private static Integer expirationTime;
+    private static Integer expirationTime = 1000 * 60 * 60 * 2; // 토큰 유효 시간 2시간
 
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
     public static final String ISSUER = "ssafy.com";
     
     @Autowired
-	public JwtTokenUtil(@Value("${jwt.secret}") String secretKey, @Value("${jwt.expiration}") Integer expirationTime) {
+	public JwtTokenUtil(@Value("${jwt.secret}") String secretKey) {
 		this.secretKey = secretKey;
-		this.expirationTime = expirationTime;
 	}
     
 	public void setExpirationTime() {
@@ -48,7 +47,9 @@ public class JwtTokenUtil {
     }
     
     public static String getToken(String userId) {
+    		System.out.println(expirationTime);
     		Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
+    		System.out.println("expires: "+expires);
         return JWT.create()
                 .withSubject(userId)
                 .withExpiresAt(expires)
