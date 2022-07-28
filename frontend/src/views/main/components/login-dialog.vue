@@ -102,6 +102,7 @@ export default {
           store.dispatch('root/requestLogin', { id: state.form.id, password: state.form.password })
           .then(function (result) {
             alert('accessToken: ' + result.data.accessToken)
+            sessionStorage.setItem("Authorization", result.data.accessToken)
           })
           .catch(function (err) {
             alert(err)
@@ -117,6 +118,8 @@ export default {
       state.form.password = ''
       emit('closeLoginDialog')
     }
+
+
 
     return { loginForm, state, clickLogin, handleClose }
   }
