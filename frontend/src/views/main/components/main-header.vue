@@ -15,7 +15,9 @@
         </div>
         <div class="button-wrapper">
           <el-button>회원가입</el-button>
+          <el-button @click="clickUserInfo">로그인 유저 조회</el-button>
           <el-button type="primary" @click="clickLogin">로그인</el-button>
+          <el-button type="primary" @click="clickLogout">로그아웃</el-button>
         </div>
       </div>
 
@@ -110,11 +112,28 @@ export default {
       emit('openLoginDialog')
     }
 
+    const clickLogout = () => {
+      sessionStorage.removeItem("Authorization");
+      alert("logout");
+    }
+
+    const clickUserInfo = () => {
+          let token = sessionStorage.getItem("Authorization");
+          alert('token: ' + token)
+          store.dispatch('root/requestUserInfo')
+          .then(function (result) {
+            alert(result.data.userId)
+          })
+          .catch(function (err) {
+            alert(err)
+          })
+    }
+
     const changeCollapse = () => {
       state.isCollapse = !state.isCollapse
     }
 
-    return { state, menuSelect, clickLogo, clickLogin, changeCollapse }
+    return { state, menuSelect, clickLogo, clickLogin, clickLogout, clickUserInfo, changeCollapse }
   }
 }
 </script>
@@ -129,7 +148,7 @@ export default {
     position: relative;
     top: 14px;
   }
-  
+
   .main-header .hide-on-big .logo-wrapper {
     display: inline-block;
     margin: 0 calc(50% - 51px)
@@ -219,7 +238,7 @@ export default {
     float: right;
   }
   .main-header .hide-on-small .tool-wrapper .button-wrapper .el-button {
-    width: 45%;
+    width: 20%;
     height: 50px;
     cursor: pointer;
     margin-right: 1%;
