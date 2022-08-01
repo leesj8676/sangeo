@@ -1,0 +1,14 @@
+.card {
+    background-color: rgb(168, 219, 210);
+    padding: 1em;
+    margin: 1em;
+}
+
+.card.dark{
+    background-color: rgb(72, 112, 75);
+    color: white;
+}
+
+.card.light {
+    background-color: rgb(195, 231, 95);
+}
