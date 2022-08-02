@@ -1,21 +1,13 @@
-ul {
-  list-style: none;
+.point_color{
+  color: #62AAFF
 }
-a {
-  text-decoration: none;
-  color: #828282;
-  font-size: 20px;
+
+.point_bgcolor{
+  background-color: #62AAFF
 }
-button {
-  border: 0;
-  color: #828282;
-  font-size: 20px;
-}
-.navbar {
-  display: flex;
-}
-.navbar li {
-  text-align: center;
-  flex: 1;
-  padding: 10px;
+
+.profileImg{
+  border: 1px solid #62AAFF;
+  border-radius: 50%;
+  box-sizing: border-box;
 }

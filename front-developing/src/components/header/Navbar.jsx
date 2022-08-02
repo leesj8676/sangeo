@@ -52,7 +52,7 @@ function NavigationBar({authService}) {
         placement="end"
       >
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title className="point_color" id={`offcanvasNavbarLabel-expand-lg`}>
+          <Offcanvas.Title className={styles.point_color} id={`offcanvasNavbarLabel-expand-lg`}>
             SangEo - 상담 어때요
           </Offcanvas.Title>
         </Offcanvas.Header>
