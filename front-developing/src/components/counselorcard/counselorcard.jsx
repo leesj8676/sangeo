@@ -18,25 +18,25 @@ const CounselorCard = ({card}) => {
 
     const onDetail = (event) => {
         const cunslName = event.currentTarget.textContent;
-        console.log("밖  "+ card.name);
         if(cunslName === card.name){
-            console.log("안  "+ card.name);
             <CunslDetail card = {card} />
-            console.log("카드 컴포넌트 다음 ");
+
             goToDetail(card);
         }
     }
 
+
     return (
-        <li>
-            <img src={url} alt ="profile photo" />
-            <div>
+        <li className={`${styles.card} ${getStyles(theme)}`} >
+            <img className={styles.avatar} src={url} alt ="profile photo" />
+            <div className={styles.info}>
                 <h1>{name}</h1>
                 <p>{email}</p>
                 <p>{message}</p>
             </div>
         </li>
     )
+
 };
 
 function getStyles(theme){

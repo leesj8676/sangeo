@@ -1,24 +1,27 @@
-import React, { useState } from "react";
-import "./LoginRegister.css";
+import React, { useState, useEffect } from "react";
+import "../components/LoginRegister.css";
 import { useNavigate } from "react-router-dom";
-import * as auth from "../auth";
 import axios from "axios";
 
-function LoginPage() {
+const LoginPage = ({authService}) =>{
   const [userid, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  let sessionStorage = window.sessionStorage;
-  let isAuthorized = sessionStorage.getItem("isAuthorized");
+  //let sessionStorage = window.sessionStorage;
+  //let isAuthorized = sessionStorage.getItem("isAuthorized");
+  const goToCunslList = (userId) => {
+    navigate({
+      pathname: '/maker',
+      state: {id: userId},
+  });
+}
 
   const onUserIdHandler = (event) => {
-    console.log("1뭐함?");
     setUserId(event.currentTarget.value);
   };
 
   const onPasswordHandler = (event) => {
-    console.log("2뭐함?");
     setPassword(event.currentTarget.value);
   };
 
@@ -37,6 +40,21 @@ function LoginPage() {
     })
 
   };
+
+  const onLogin =(event) => {
+    event.preventDefault();
+    authService//
+    .login(event.currentTarget.textContent)
+    //.then(console.log("ezzzzzzzz"));
+   .then(data => goToCunslList(data.user.uid));
+}
+
+useEffect(() => {
+  authService
+  .onAuthChange(user => {
+      user && goToCunslList(user.uid);
+  })
+})
 
   return (
     <div className="loginregister">
@@ -68,6 +86,16 @@ function LoginPage() {
             className="loginregister__button"
           >
             로그인
+          </button>
+        </div>
+        <div>
+          <button onClick={onLogin} className="loginregister__button">
+            Google
+          </button>
+        </div>
+        <div>
+          <button onClick={onLogin} className="loginregister__button">
+           Github
           </button>
         </div>
       </form>
