@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from './Navbar.module.css';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -7,18 +8,36 @@ import Form from 'react-bootstrap/Form';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
-
-function NavigationBar() {
-  const [sign, setSign] = useState(true);
-  const onClick = () => {
-    setSign((prev) => !prev);
-  };
+import { useSelector, useDispatch } from 'react-redux';
+import setAuthorizationToken from "../../utils/setAuthorizationToken";
 
 
+function NavigationBar({authService}) {
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const user = useSelector(state => state.user.user);
+  const isLogin = useSelector(state => state.user.isLogin);
+
   const onClickRegister = () => {
     navigate('sign_up');
   }
+
+  // 사이트 내 로그아웃
+  const onClickLogout= () => {
+    localStorage.removeItem("Authorization");
+    setAuthorizationToken(null);
+    dispatch({type:'LOG_OUT'});
+    alert("로그아웃합니다.");
+    navigate('/');
+  }
+
+  // 구글, 깃헙 로그아웃
+  const onLogout = () => {
+     authService.logout();
+ }
+
 
   return (
     <Navbar key="lg" expand="lg" className="mb-3">
@@ -48,9 +67,31 @@ function NavigationBar() {
           <FaSearch className="align-self-center"/>
         </Form>
           <Nav className="justify-content-end flex-grow-1 pe-3">
-          <Nav.Link className="me-1 text-center align-self-center" href="/maker" >상담사 찾기</Nav.Link>
-          <Nav.Link className="me-1 text-center align-self-center" href="/sign_in">로그인</Nav.Link>
-          <Button className="point_bgcolor" onClick={onClickRegister}>회원가입</Button>
+          <Nav.Link className="me-1 text-center align-self-center" href="/maker">상담사 찾기</Nav.Link>
+          { isLogin ?
+            (
+              <div>
+              <Nav.Link className="me-1 text-center align-self-center" onClick={onClickLogout}>로그아웃</Nav.Link>
+              <Button className="point_bgcolor" onClick={onLogout}>구글로그아웃</Button>
+              </div>
+            )
+            :
+            (
+              <Nav.Link className="me-1 text-center align-self-center" href="/sign_in">로그인</Nav.Link>
+            )
+          }
+           { isLogin ? 
+            (
+              <div className="text-center">
+                <img src={user.profile} className={styles.profileImg+" me-1"} width="50" height="50" alt="profile"></img>
+                { user.isUser ?  (<a href="/">{user.name}님</a>) : (<>상담사 <a href="/">{user.name}님</a></>)}
+              </div>
+              )
+            :(
+              <Button className={styles.point_bgcolor} onClick={onClickRegister}>회원가입</Button>
+            ) 
+          }
+         
           </Nav>
         </Offcanvas.Body>
       </Navbar.Offcanvas>

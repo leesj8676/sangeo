@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
-import "../components/LoginRegister.css";
+import "./LoginRegister.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 import axios from "axios";
+import setAuthorizationToken from "../utils/setAuthorizationToken";
+import jwtDecode from "jwt-decode";
 
 const LoginPage = ({authService}) =>{
   const [userid, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  //let sessionStorage = window.sessionStorage;
-  //let isAuthorized = sessionStorage.getItem("isAuthorized");
+
+  let localStorage = window.localStorage;
   const goToCunslList = (userId) => {
     navigate({
       pathname: '/maker',
@@ -25,16 +29,25 @@ const LoginPage = ({authService}) =>{
     setPassword(event.currentTarget.value);
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = (isUser, event) => { // isUser가 true이면 user, false이면 counselor
     event.preventDefault();
-    const url = 'auth/login'
+ 
+    let url = "auth/user/login";
+    if(!isUser){
+      url = "auth/counselor/login"
+    }
 
     axios.post(url, {
       id : userid,
       password : password
     })
     .then(function(result){
-      alert(result);
+      alert(result.data.message);
+      localStorage.setItem("Authorization", result.data.accessToken)
+      // token이 필요한 API 요청시 헤더에 token 담아서 보냄
+      setAuthorizationToken(result.data.accessToken);
+      dispatch({type:"LOG_IN", user: jwtDecode(result.data.accessToken)});
+      navigate('/');
     }).catch(function(err){
       alert(err);
     })
@@ -45,8 +58,7 @@ const LoginPage = ({authService}) =>{
     event.preventDefault();
     authService//
     .login(event.currentTarget.textContent)
-    //.then(console.log("ezzzzzzzz"));
-   .then(data => goToCunslList(data.user.uid));
+    .then(data => goToCunslList(data.user.uid));
 }
 
 useEffect(() => {
@@ -82,10 +94,19 @@ useEffect(() => {
         <div>
           <button
             type="submit"
-            onClick={onSubmit}
+            onClick={(event) => {onSubmit(true, event)}}
             className="loginregister__button"
           >
-            로그인
+            유저 로그인
+          </button>
+        </div>
+        <div>
+          <button
+            type="submit"
+            onClick={(event) => {onSubmit(false, event)}}
+            className="loginregister__button"
+          >
+            상담사 로그인
           </button>
         </div>
         <div>

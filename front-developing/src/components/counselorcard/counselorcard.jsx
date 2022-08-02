@@ -27,12 +27,12 @@ const CounselorCard = ({card}) => {
 
 
     return (
-        <li className={`${styles.card} ${getStyles(theme)}`} >
+        <li className={`${styles.card}`} >
             <img className={styles.avatar} src={url} alt ="profile photo" />
             <div className={styles.info}>
-                <h1>{name}</h1>
-                <p>{email}</p>
-                <p>{message}</p>
+                <h1 className={styles.name}>{name}</h1>
+                <p className={styles.email}>{email}</p>
+                <p className={styles.message}>{message}</p>
             </div>
         </li>
     )

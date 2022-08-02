@@ -61,6 +61,7 @@ function RegisterPage() {
     })
     .then(function(result){
       alert(result.data.userId+"님 가입을 축하드립니다.");
+      
     }).catch(function(err){
       if(err.response.status===401){
         alert("이미 가입된 사용자입니다.");
@@ -95,17 +96,18 @@ function RegisterPage() {
 
      /* 1. 가맹점 식별하기 */
      const { IMP } = window;
-     //IMP.init('imp27086612') // 발급한 가맹점 식별번호 (인예림)
-     IMP.init('imp10391932') // 오픈 github에서 가져온 가맹점 식별번호
+     IMP.init('imp27086612') // 발급한 가맹점 식별번호 (인예림)
+     //IMP.init('imp10391932') // 오픈 github에서 가져온 가맹점 식별번호
      console.log("본인 인증")
      /* 2. 본인인증 데이터 정의하기 */
      const data = {
        merchant_uid : 'merchant_' + new Date().getTime(),
-       //name: name,
-       //phone:Tel
+       name: name,
+       phone:Tel
      }
      /* 4. 본인인증 창 호출하기 */
      IMP.certification(data, callback);
+     console.log("호출");
    }
    
    /* 3. 콜백 함수 정의하기 */

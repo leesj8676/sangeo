@@ -1,10 +1,11 @@
-
-import './app.css';
-
+// 리액트
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
 
 // 페이지
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import RegisterCounselorPage from './pages/RegisterCounselorPage';
 
 // 컴포넌트
 import CounselorList from './components/counselorlist/counselorlist';
@@ -12,21 +13,16 @@ import NavigationBar from './components/header/Navbar';
 import Maker from './components/maker/maker';
 import CunslDetail from './components/counselordetail/counselordetail';
 
-
-
-import styles from './app.module.css';
-import { BrowserRouter, Routes, Route} from 'react-router-dom';
-
-
-import RegisterPage from './components/RegisterPage';
-import RegisterCounselorPage from './components/RegisterCounselorPage';
+// CSS
+import './app.css';
+//import styles from './app.module.css';
 
 
 function App({authService}) {
   return (
-    <div className={styles.app}>
+    <div >
       <BrowserRouter>
-        <NavigationBar />
+        <NavigationBar authService={authService}/>
         <Routes>
           <Route path="/" element = {<HomePage/>}/>
           

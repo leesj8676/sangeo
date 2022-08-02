@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 
 
 
-const Maker = ({authService}) => {
+const Maker = () => {
 
     const [cards, setCards] = useState([
         {
@@ -49,32 +49,32 @@ const Maker = ({authService}) => {
             name: '정순지',
             email: 'sunsun@email.com',
             message : '그림전공입니다.',
-            theme : 'dark',
+            theme : 'colorful',
             fileName : 'profile4',
             fileURL:'/images/profile_M.jpg',
 
         },
     ]);
-    const navigate = new useNavigate();
-    const onLogout = () => {
-        authService.logout();
-    }
+    // const navigate = new useNavigate();
+    // const onLogout = () => {
+    //     authService.logout();
+    // }
 
 
-    useEffect(() => {
-        authService
-        .onAuthChange(user => {
-            if(!user){
-                navigate('/');
-            }
-        })
-    })
+    // useEffect(() => {
+    //     authService
+    //     .onAuthChange(user => {
+    //         if(!user){
+    //             navigate('/');
+    //         }
+    //     })
+    // })
 
 
 
     return (
         <section className={styles.maker}>
-            <Header onLogout={onLogout} />
+           {/* <Header onLogout={onLogout} /> */}
             <div className={styles.container} >
                 <CounselorList cards={cards}/>
             
