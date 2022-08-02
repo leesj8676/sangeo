@@ -48,7 +48,7 @@ function NavigationBar() {
           <FaSearch className="align-self-center"/>
         </Form>
           <Nav className="justify-content-end flex-grow-1 pe-3">
-          <Nav.Link className="me-1 text-center align-self-center" href="/counselorList" >상담사 찾기</Nav.Link>
+          <Nav.Link className="me-1 text-center align-self-center" href="/maker" >상담사 찾기</Nav.Link>
           <Nav.Link className="me-1 text-center align-self-center" href="/sign_in">로그인</Nav.Link>
           <Button className="point_bgcolor" onClick={onClickRegister}>회원가입</Button>
           </Nav>
