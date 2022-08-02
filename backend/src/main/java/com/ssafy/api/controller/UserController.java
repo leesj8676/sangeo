@@ -19,7 +19,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ssafy.api.request.UserLoginPostReq;
 import com.ssafy.api.request.UserRegisterPostReq;
-import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.response.UserRes;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
@@ -66,7 +65,7 @@ public class UserController {
 			@RequestBody @ApiParam(value = "회원가입 정보", required = true) UserRegisterPostReq registerInfo) {
 		// 아이디 중복검사
 		if (userService.getUserByUserId(registerInfo.getUserId()) == null) {
-			System.out.println("가입가능한 아이디입니다.");
+			System.out.println(registerInfo.getUserId()+" 가입가능한 아이디입니다.");
 			// db에 registerInfo 저장
 			User user = userService.createUser(registerInfo);
 			return ResponseEntity.status(200).body(user);
