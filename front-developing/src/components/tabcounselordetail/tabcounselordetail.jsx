@@ -1,13 +1,14 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import Review from "../review/review";
 import Reservation from "../reservation/reservation";
 import { useState } from "react";
 import {Nav, TabContent} from 'react-bootstrap';
 import styles from './tabcounselordetail.module.css';
+import { useLocation} from "react-router-dom";
 
 
-const Tabcounselordetail = () => {
-
+const Tabcounselordetail = ({card}) => {
+  //console.log("tabdetail    "+ card.name);
   const[tab, setTab] = useState(0);
  
   function TabContent(props) {
@@ -16,7 +17,7 @@ const Tabcounselordetail = () => {
     }else if(props.tab === 1) {
       return <div><Reservation/></div>
     }else if(props.tab === 2){
-      return <div><Review /></div>
+      return <div><Review userId = {card.id} /></div>
     }
   }
 
@@ -35,7 +36,7 @@ const Tabcounselordetail = () => {
         </Nav.Item>
 
       </Nav>
-      <TabContent className={styles.tabcontent} tab={tab}/>
+      <TabContent className={styles.tabcontent} tab={tab}  />
       </>
     )
     

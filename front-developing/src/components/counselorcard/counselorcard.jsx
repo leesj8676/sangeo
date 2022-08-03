@@ -8,7 +8,6 @@ const DEFAULT_IMAGE = '/images/default_logo.png';
 const CounselorCard = ({card}) => {
     
     const {id, name, email, message, theme, fileName, fileURL} = card;
-
     const url = fileURL || DEFAULT_IMAGE;
     const navigate = useNavigate();
 
