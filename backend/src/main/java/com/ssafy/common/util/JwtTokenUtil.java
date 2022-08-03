@@ -23,7 +23,7 @@ import static com.google.common.collect.Lists.newArrayList;
 @Component
 public class JwtTokenUtil {
     private static String secretKey;
-    private static Integer expirationTime = 1000 * 60 * 60 * 2; // 토큰 유효 시간 2시간
+    private static Integer expirationTime = 1000 * 60 * 60 * 10; // 토큰 유효 시간 10시간
 
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
@@ -46,21 +46,28 @@ public class JwtTokenUtil {
                 .build();
     }
     
-    public static String getToken(String userId) {
+    public static String getToken(Boolean isUser, String userId, String userName, String profile) {
     		System.out.println(expirationTime);
     		Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
     		System.out.println("expires: "+expires);
         return JWT.create()
                 .withSubject(userId)
+                .withClaim("isUser", isUser)
+                .withClaim("id", userId)
+                .withClaim("name", userName)
+                .withClaim("profile", profile)
                 .withExpiresAt(expires)
                 .withIssuer(ISSUER)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }
 
-    public static String getToken(Instant expires, String userId) {
+    public static String getToken(Instant expires, Boolean isUser, String userId, String userName, String profile) {
         return JWT.create()
                 .withSubject(userId)
+                .withClaim("id", userId)
+                .withClaim("name", userName)
+                .withClaim("profile", profile)
                 .withExpiresAt(Date.from(expires))
                 .withIssuer(ISSUER)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))

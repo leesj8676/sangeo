@@ -1,11 +1,9 @@
 package com.ssafy.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,18 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.ssafy.api.request.UserLoginPostReq;
 import com.ssafy.api.request.UserRegisterPostReq;
-import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.response.UserRes;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
-import com.ssafy.common.model.response.BaseResponseBody;
-import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.User;
-import com.ssafy.db.repository.UserRepositorySupport;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,6 +32,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(value = "유저 API", tags = { "User" })
 @RestController
 @RequestMapping("/api/v1/users")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
 	@Autowired
@@ -66,7 +58,7 @@ public class UserController {
 			@RequestBody @ApiParam(value = "회원가입 정보", required = true) UserRegisterPostReq registerInfo) {
 		// 아이디 중복검사
 		if (userService.getUserByUserId(registerInfo.getUserId()) == null) {
-			System.out.println("가입가능한 아이디입니다.");
+			System.out.println(registerInfo.getUserId()+" 가입가능한 아이디입니다.");
 			// db에 registerInfo 저장
 			User user = userService.createUser(registerInfo);
 			return ResponseEntity.status(200).body(user);

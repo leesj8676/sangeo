@@ -1,8 +1,11 @@
 package com.ssafy.api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +34,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(value = "상담사 API", tags = { "Counselor" })
 @RestController
 @RequestMapping("/api/v1/counselors")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CounselorController {
 	
 	@Autowired
@@ -45,6 +49,16 @@ public class CounselorController {
 		Counselor counselor = counselorService.getCounselorByCounselorId(counselorId);
 		System.out.println(counselor.toString());
 		return ResponseEntity.status(200).body(counselor);
+
+	}
+	
+	@GetMapping("")
+	@ApiOperation(value = "전체 상담사 정보 조회", notes = "전체 상담사 정보를 조회한다.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "상담사 없음"), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<List<Counselor>> searchAll() {
+		List<Counselor> clist = counselorService.getAllCounselor();
+		return ResponseEntity.status(200).body(clist);
 
 	}
 
