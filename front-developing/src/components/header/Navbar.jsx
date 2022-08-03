@@ -67,7 +67,7 @@ function NavigationBar({authService}) {
           <FaSearch className="align-self-center"/>
         </Form>
           <Nav className="justify-content-end flex-grow-1 pe-3">
-          <Nav.Link className="me-1 text-center align-self-center" href="/maker">상담사 찾기</Nav.Link>
+          <Nav.Link className="me-1 text-center align-self-center" href="/counselorlist">상담사 찾기</Nav.Link>
           { isLogin ?
             (
               <div>

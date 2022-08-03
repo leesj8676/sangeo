@@ -1,16 +1,15 @@
 import React from 'react';
-import styles from './maker.module.css';
-import Header from '../header/header';
-import Footer from  '../footer/footer';
-import CounselorList from '../counselorlist/counselorlist';
-import CounselorDetail  from '../counselordetail/counselordetail';
+import styles from './CounListPage.module.css';
+import Footer from  '../components/footer/footer';
+import CounselorList from '../components/counselorlist/counselorlist';
+import CounselorDetail  from './CounDetailPage';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 
 
 
-const Maker = () => {
+const CounListPage = () => {
 
     const [cards, setCards] = useState([
         {
@@ -74,7 +73,6 @@ const Maker = () => {
 
     return (
         <section className={styles.maker}>
-           {/* <Header onLogout={onLogout} /> */}
             <div className={styles.container} >
                 <CounselorList cards={cards}/>
             
@@ -86,4 +84,4 @@ const Maker = () => {
     )
 }
 
-export default Maker;
+export default CounListPage;

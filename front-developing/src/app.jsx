@@ -6,12 +6,11 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import RegisterCounselorPage from './pages/RegisterCounselorPage';
+import CounListPage from './pages/CounListPage';
+import CounDetailPage from './pages/CounDetailPage';
 
 // 컴포넌트
-import CounselorList from './components/counselorlist/counselorlist';
 import NavigationBar from './components/header/Navbar';
-import Maker from './components/maker/maker';
-import CunslDetail from './components/counselordetail/counselordetail';
 
 // CSS
 import './app.css';
@@ -28,9 +27,8 @@ function App({authService}) {
           
         
         {/* 상담사 경로 */}
-          <Route path="/cunsldetail" element = {<CunslDetail/>}/>
-          <Route path ="/counselorList" element = {<CounselorList authService={authService}/>} />
-          <Route path="/maker" element = {<Maker authService={authService}/>}/>
+          <Route path="/counselordetail" element = {<CounDetailPage/>}/>
+          <Route path="/counselorlist" element = {<CounListPage authService={authService}/>}/>
         
         
          {/* 회원관리 경로 */}
