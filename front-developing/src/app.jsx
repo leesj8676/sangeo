@@ -8,12 +8,12 @@ import RegisterPage from './pages/RegisterPage';
 import RegisterCounselorPage from './pages/RegisterCounselorPage';
 import CounListPage from './pages/CounListPage';
 import CounDetailPage from './pages/CounDetailPage';
-
+import UserMyPage from './pages/UserMyPage'
 // 컴포넌트
 import NavigationBar from './components/header/Navbar';
 
 // CSS
-import './app.css';
+import './App.css';
 //import styles from './app.module.css';
 
 
@@ -27,7 +27,7 @@ function App({authService}) {
           
         
         {/* 상담사 경로 */}
-          <Route path="/counselordetail" element = {<CounDetailPage/>}/>
+          <Route path="/counselordetail/:id" element = {<CounDetailPage/>}/>
           <Route path="/counselorlist" element = {<CounListPage authService={authService}/>}/>
         
         
@@ -35,6 +35,7 @@ function App({authService}) {
           <Route path="/sign_in" element={<LoginPage authService={authService}/>} />
           <Route path="/sign_up" element={<RegisterPage />} />
           <Route path="/sign_up/counselor" element={<RegisterCounselorPage />} />
+          <Route path="/mypage/:id" element={<UserMyPage authService={authService}/>} />
 
        
         </Routes>

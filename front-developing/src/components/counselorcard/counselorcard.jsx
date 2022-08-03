@@ -16,7 +16,7 @@ const CounselorCard = ({card}) => {
     return (
         
         <li className={`${styles.card}`}>
-            <Link to= "/counselordetail" 
+            <Link to= {`/counselordetail/${name}`} 
             state = {{card}}>
             <img className={styles.avatar} src={url} alt ="profile photo" />
             </Link>
