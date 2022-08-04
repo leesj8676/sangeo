@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ssafy.api.mapping.ScheduleMapping;
 import com.ssafy.db.entity.Schedule;
 
 /**
@@ -25,6 +26,12 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 	Schedule findByCounselor_IdAndStartTime(Long counselorId, Date date);
 	Schedule findByUser_IdAndStartTime(Long userId, Date date);
 	
-	@Query(value = "select * from schedule where id = user_id and date_format(start_time,'%Y-%m-%d') = date", nativeQuery = true)
-	List<Schedule> findByUser_IdAndDate(@Param(value = "user_id") long id, @Param(value = "date") String date);
+	//날짜별 스케줄을 조회하기 위한 native query
+	@Query(value = "select start_time as starttime from schedule where counselor_id = :counselor_id and date_format(start_time,'%Y-%m-%d') = :date", nativeQuery = true)
+	List<TimeOnly> getSchedulesByCounser_IdAndDate(@Param(value = "counselor_id") long id, @Param(value = "date") String date);
+	
+	public static interface TimeOnly {
+		Date getStarttime();
+	}
+	
 }
