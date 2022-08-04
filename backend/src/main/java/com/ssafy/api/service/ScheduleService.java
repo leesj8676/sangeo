@@ -3,9 +3,11 @@ package com.ssafy.api.service;
 import java.text.ParseException;
 import java.util.List;
 
+import com.ssafy.api.mapping.ScheduleMapping;
 import com.ssafy.db.entity.Counselor;
 import com.ssafy.db.entity.Schedule;
 import com.ssafy.db.entity.User;
+import com.ssafy.db.repository.ScheduleRepository.TimeOnly;
 
 public interface ScheduleService {
 
@@ -18,6 +20,6 @@ public interface ScheduleService {
 	Schedule getSchedulesByUserIdAndStartTime(Long userId, String startTime) throws ParseException;
 	Schedule updateSchedule(Schedule schedule, String afterStartTime) throws ParseException;
 	void deleteSchedule(Schedule schedule);
-	List<Schedule> getSchedulesByCounselorIdAndDate(Long id, String date) throws ParseException;
+	public List<TimeOnly> getSchedulesByCounselorIdAndDate(Long id, String date) throws ParseException;
 	Schedule confirmSchedule(Schedule schedule);
 }

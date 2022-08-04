@@ -5,16 +5,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.api.mapping.ScheduleMapping;
 import com.ssafy.db.entity.Counselor;
 import com.ssafy.db.entity.Schedule;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.ScheduleRepository;
+import com.ssafy.db.repository.ScheduleRepository.TimeOnly;
 
 /**
  *	스케줄 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -103,12 +104,12 @@ public class ScheduleServiceImpl implements ScheduleService{
 
 
 	@Override
-	public List<Schedule> getSchedulesByCounselorIdAndDate(Long id, String date) throws ParseException {
-		// 변경하려는 시간 포매팅 검사
+	public List<TimeOnly> getSchedulesByCounselorIdAndDate(Long id, String date) throws ParseException {
+		// 변경하려는 시간 유효한지 검사
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		Date searchDate = formatter.parse(date);
 		
-		List<Schedule> list = scheduleRepository.findByUser_IdAndDate(id, date);
+		List<TimeOnly> list = scheduleRepository.getSchedulesByCounser_IdAndDate(id, date);
 		return list;
 	}
 

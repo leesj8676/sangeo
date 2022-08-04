@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.api.mapping.ScheduleMapping;
 import com.ssafy.api.request.BreakRegisterPostReq;
 import com.ssafy.api.request.HolidayRegisterPostReq;
 import com.ssafy.api.request.ScheduleGetReq;
@@ -27,6 +28,7 @@ import com.ssafy.api.service.UserService;
 import com.ssafy.db.entity.Counselor;
 import com.ssafy.db.entity.Schedule;
 import com.ssafy.db.entity.User;
+import com.ssafy.db.repository.ScheduleRepository.TimeOnly;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -212,7 +214,7 @@ public class ScheduleController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"),
 		@ApiResponse(code = 401, message = "date 포맷 부적절"),
 			@ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<List<Schedule>> searchSchedulesByCounselorIdAndDate(
+	public ResponseEntity<List<TimeOnly>> searchSchedulesByCounselorIdAndDate(
 			@PathVariable("counselorId") @ApiParam(value = "스케줄을 조회할 상담사 아이디(예: parkcs)", required = true) String counselorId,
 			@PathVariable("date") @ApiParam(value = "연도가 포함된 날짜(예: \"2022-08-04\")", required = true) String date ) {
 
@@ -220,8 +222,7 @@ public class ScheduleController {
 		if (counselor == null)
 			return ResponseEntity.status(400).body(null);
 
-		List<Schedule> list = new ArrayList<Schedule>();
-		
+		List<TimeOnly> list = new ArrayList<TimeOnly>();
 		try {
 			list = scheduleService.getSchedulesByCounselorIdAndDate(counselor.getId(), date);
 		} catch (Exception e) {
