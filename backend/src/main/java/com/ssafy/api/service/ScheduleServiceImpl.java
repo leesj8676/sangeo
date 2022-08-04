@@ -2,15 +2,16 @@ package com.ssafy.api.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.api.mapping.ScheduleMapping;
 import com.ssafy.db.entity.Counselor;
 import com.ssafy.db.entity.Schedule;
 import com.ssafy.db.entity.User;
@@ -74,26 +75,24 @@ public class ScheduleServiceImpl implements ScheduleService{
 	@Override
 	public Schedule getSchedulesByCounselorIdAndStartTime(Long counselorId, String startTime) throws ParseException {
 		// 시간 포맷팅
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA);
-		Date date = formatter.parse(startTime);
+		LocalDateTime date = LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 		return scheduleRepository.findByCounselor_IdAndStartTime(counselorId, date);
 	}
 
 	@Override
 	public Schedule getSchedulesByUserIdAndStartTime(Long userId, String startTime) throws ParseException {
 		// 시간 포맷팅
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA);
-		Date date = formatter.parse(startTime);
+		LocalDateTime date = LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 		return scheduleRepository.findByUser_IdAndStartTime(userId, date);
 	}
 
 	@Override
 	public Schedule updateSchedule(Schedule schedule, String afterStartTime) throws ParseException {
-		// 변경하려는 시간 포맷팅
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA);
-		Date startTime = formatter.parse(afterStartTime);
-		schedule.setStartTime(startTime);
-		schedule.setEndTime(DateUtils.addHours(startTime, 1));
+		// 시간 포맷팅
+		LocalDateTime start = LocalDateTime.parse(afterStartTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+		
+		schedule.setStartTime(start);
+		schedule.setEndTime(start.plusHours(1));
 		return scheduleRepository.save(schedule);
 	}
 
@@ -106,9 +105,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 	@Override
 	public List<TimeOnly> getSchedulesByCounselorIdAndDate(Long id, String date) throws ParseException {
 		// 변경하려는 시간 유효한지 검사
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
-		Date searchDate = formatter.parse(date);
-		
+		LocalDate searchDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		List<TimeOnly> list = scheduleRepository.getSchedulesByCounser_IdAndDate(id, date);
 		return list;
 	}
@@ -116,7 +113,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 	@Override
 	public Schedule confirmSchedule(Schedule schedule) {
 		schedule.setConfirmed(true);
-		scheduleRepository.save(schedule);
+		scheduleRepository.saveAndFlush(schedule);
 		return null;
 	}
 	
