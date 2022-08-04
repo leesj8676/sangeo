@@ -100,5 +100,19 @@ public class ScheduleServiceImpl implements ScheduleService{
 	public void deleteSchedule(Schedule schedule) {
 		scheduleRepository.delete(schedule);
 	}
+
+
+	@Override
+	public List<Schedule> getSchedulesByCounselorIdAndDate(Long id, String date) throws ParseException {
+		// 변경하려는 시간 포맷팅
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+		Date searchDate = formatter.parse(date);
+		Date nextDate = DateUtils.addDays(searchDate, 1);
+		System.out.println(searchDate+" "+nextDate);
+		System.out.println(scheduleRepository.findAll());
+		List<Schedule> list = scheduleRepository.findByUser_IdAndStartTimeGreaterThanAndStartTimeLessThan(id, searchDate,nextDate);
+		System.out.println(list);
+		return list;
+	}
 	
 }

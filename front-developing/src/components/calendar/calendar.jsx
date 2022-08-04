@@ -12,10 +12,11 @@ const Calendar = (props) => {
 
   const preMonth = () => {
     //이전 달 보기 보튼
+    /*
     if(props.selectedMonth <= props.today.month){
       alert("이전달은 예약 불가합니다.");
       return;
-    }
+    }*/
 
     if (props.selectedMonth === 1) {
       props.setSelectedMonth(12);
