@@ -21,6 +21,8 @@ const LoginPage = ({authService}) =>{
   });
 }
 
+  // input check 추가
+
   const onUserIdHandler = (event) => {
     setUserId(event.currentTarget.value);
   };
@@ -49,6 +51,7 @@ const LoginPage = ({authService}) =>{
       dispatch({type:"LOG_IN", user: jwtDecode(result.data.accessToken)});
       navigate('/');
     }).catch(function(err){
+      // 에러메세지 수정
       alert(err);
     })
 

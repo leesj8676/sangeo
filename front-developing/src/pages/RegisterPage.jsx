@@ -61,6 +61,7 @@ function RegisterPage() {
     })
     .then(function(result){
       alert(result.data.userId+"님 가입을 축하드립니다.");
+      // 로그인 페이지로 이동하게 수정
       
     }).catch(function(err){
       if(err.response.status===401){

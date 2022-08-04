@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import RegisterCounselorPage from './pages/RegisterCounselorPage';
+import ReservationPage from './pages/ReservationPage';
 
 // 컴포넌트
 import CounselorList from './components/counselorlist/counselorlist';
@@ -38,6 +39,8 @@ function App({authService}) {
           <Route path="/sign_up" element={<RegisterPage />} />
           <Route path="/sign_up/counselor" element={<RegisterCounselorPage />} />
 
+          {/* 예약하기 경로 */}
+          <Route path="/reservation" element={<ReservationPage/>}></Route>
        
         </Routes>
       </BrowserRouter>
