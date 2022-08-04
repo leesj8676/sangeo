@@ -22,4 +22,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 	List<Schedule> findByUser_Id(Long userId);
 	Schedule findByCounselor_IdAndStartTime(Long counselorId, Date date);
 	Schedule findByUser_IdAndStartTime(Long userId, Date date);
+	//public List<Student> findByRollNumberLessThanEqual(String rollnumber);
+	List<Schedule> findByUser_IdAndStartTimeGreaterThanAndStartTimeLessThan(Long id, Date searchDate, Date nextDate);
 }

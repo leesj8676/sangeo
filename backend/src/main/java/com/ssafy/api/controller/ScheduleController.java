@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,6 +141,8 @@ public class ScheduleController {
 		return ResponseEntity.status(200).body(list);
 	}
 
+	
+	
 	@GetMapping("/counselors/{counselorId}/{starttime}")
 	@ApiOperation(value = "상담사 스케줄 상세 조회", notes = "<strong>아이디와 날짜가 포함된 시작 시간</strong>을 통해 상담사의 해당 스케줄을 조회한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"),
@@ -203,6 +206,31 @@ public class ScheduleController {
 		return ResponseEntity.status(200).body(schedule);
 	}
 
+	@GetMapping("/counselors/date/{counselorId}/{date}")
+	@ApiOperation(value = "상담사 스케줄 날짜별 조회", notes = "<strong>아이디, 연월일</strong>을 통해 상담사 스케줄을 날짜별로 조회한다.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"),
+		@ApiResponse(code = 401, message = "date 포맷 부적절"),
+			@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<List<Schedule>> searchSchedulesByCounselorIdAndDate(
+			@PathVariable("counselorId") @ApiParam(value = "스케줄을 조회할 상담사 아이디(예: parkcs)", required = true) String counselorId,
+			@PathVariable("date") @ApiParam(value = "연도가 포함된 날짜(예: \"2022-08-04\")", required = true) String date ) {
+
+		Counselor counselor = counselorService.getCounselorByCounselorId(counselorId);
+		if (counselor == null)
+			return ResponseEntity.status(400).body(null);
+
+		List<Schedule> list = new ArrayList<Schedule>();
+		
+		try {
+			list = scheduleService.getSchedulesByCounselorIdAndDate(counselor.getId(), date);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(401).body(null);
+		}
+		
+		return ResponseEntity.status(200).body(list);
+	}
+	
 	@PutMapping()
 	@ApiOperation(value = "상담사 스케줄 시간 변경", notes = "<strong>상담사ID, 날짜가 포함된 시작 시간과 변경 시간</strong>을 통해 회원 정보를 수정한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"),
