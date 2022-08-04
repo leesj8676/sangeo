@@ -1,13 +1,11 @@
 package com.ssafy.api.service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,14 +15,15 @@ import com.ssafy.db.entity.Counselor;
 import com.ssafy.db.entity.Schedule;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.ScheduleRepository;
+import com.ssafy.db.repository.ScheduleRepository.DateOnly;
 import com.ssafy.db.repository.ScheduleRepository.TimeOnly;
 
 /**
- *	스케줄 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
+ * 스케줄 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
  */
 
 @Service("scheduleService")
-public class ScheduleServiceImpl implements ScheduleService{
+public class ScheduleServiceImpl implements ScheduleService {
 
 	@Autowired
 	ScheduleRepository scheduleRepository;
@@ -32,32 +31,19 @@ public class ScheduleServiceImpl implements ScheduleService{
 	@Override
 	public Schedule createSchedule(Counselor counselor, User user, String startTime) throws ParseException {
 
-		Schedule schedule = Schedule.builder()
-				.counselor(counselor)
-				.user(user)
-				.startTime(startTime)
-				.build();
+		Schedule schedule = Schedule.builder().counselor(counselor).user(user).startTime(startTime).build();
 		return scheduleRepository.save(schedule);
 	}
 
 	@Override
-	public void createHoliday(Counselor counselor, User user, String date) throws ParseException{
-		Schedule schedule = Schedule.builder()
-				.counselor(counselor)
-				.user(user)
-				.isHoliday(true)
-				.startTime(date)
-				.build();
+	public void createHoliday(Counselor counselor, User user, String date) throws ParseException {
+		Schedule schedule = Schedule.builder().counselor(counselor).user(user).isHoliday(true).startTime(date).build();
 		scheduleRepository.save(schedule);
 	}
 
 	@Override
 	public void createBreak(Counselor counselor, User user, String date) throws ParseException {
-		Schedule schedule = Schedule.builder()
-				.counselor(counselor)
-				.user(user)
-				.startTime(date)
-				.build();
+		Schedule schedule = Schedule.builder().counselor(counselor).user(user).startTime(date).build();
 		scheduleRepository.save(schedule);
 	}
 
@@ -91,7 +77,7 @@ public class ScheduleServiceImpl implements ScheduleService{
 	public Schedule updateSchedule(Schedule schedule, String afterStartTime) throws ParseException {
 		// 시간 포맷팅
 		LocalDateTime start = LocalDateTime.parse(afterStartTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-		
+
 		schedule.setStartTime(start);
 		schedule.setEndTime(start.plusHours(1));
 		return scheduleRepository.save(schedule);
@@ -101,7 +87,6 @@ public class ScheduleServiceImpl implements ScheduleService{
 	public void deleteSchedule(Schedule schedule) {
 		scheduleRepository.delete(schedule);
 	}
-
 
 	@Override
 	public List<TimeOnly> getSchedulesByCounselorIdAndDate(Long id, String date) throws ParseException {
@@ -124,5 +109,16 @@ public class ScheduleServiceImpl implements ScheduleService{
 		scheduleRepository.saveAndFlush(schedule);
 		return null;
 	}
-	
+
+	@Override
+	public List<DateOnly> getHolidaysByCounselorIdAndMonth(Long id, String month) {
+		// 변경하려는 시간 유효한지 검사
+		YearMonth searchMonth = YearMonth.parse(month, DateTimeFormatter.ofPattern("yyyy-MM"));
+		System.out.println("test1");
+		List<DateOnly> list = scheduleRepository.getHolidaysByCounser_IdAndMonth(id, month);
+		System.out.println("test2");
+		return list;
+
+	}
+
 }

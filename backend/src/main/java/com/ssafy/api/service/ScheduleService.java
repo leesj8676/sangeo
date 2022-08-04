@@ -7,6 +7,7 @@ import com.ssafy.api.mapping.ScheduleMapping;
 import com.ssafy.db.entity.Counselor;
 import com.ssafy.db.entity.Schedule;
 import com.ssafy.db.entity.User;
+import com.ssafy.db.repository.ScheduleRepository.DateOnly;
 import com.ssafy.db.repository.ScheduleRepository.TimeOnly;
 
 public interface ScheduleService {
@@ -23,4 +24,5 @@ public interface ScheduleService {
 	public List<TimeOnly> getSchedulesByCounselorIdAndDate(Long id, String date) throws ParseException;
 	Schedule confirmSchedule(Schedule schedule);
 	Schedule completeSchedule(Schedule schedule);
+	List<DateOnly> getHolidaysByCounselorIdAndMonth(Long id, String month);
 }
