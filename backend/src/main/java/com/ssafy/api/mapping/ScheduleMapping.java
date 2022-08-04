@@ -1,13 +1,62 @@
 package com.ssafy.api.mapping;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-public interface ScheduleMapping {
-	String getCounselorId();
-	String getUserId();
-	Date getStartTime();
-	Date getEndTime();
-	Boolean getIsComplete();
-	Boolean getIsHoliday();
-	Boolean getIsConfirmed();
+import com.ssafy.db.entity.Counselor;
+import com.ssafy.db.entity.User;
+
+public class ScheduleMapping {
+
+	private Counselor counselor;
+	private User user;
+	private LocalDateTime startTime;
+	private LocalDateTime endTime;
+	private boolean isConfirmed;
+	private boolean isComplete;
+
+	public ScheduleMapping(Counselor counselor, User user, LocalDateTime startTime, LocalDateTime endTime,
+			boolean isConfirmed, boolean isComplete) {
+		super();
+		this.counselor = counselor;
+		this.user = user;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.isConfirmed = isConfirmed;
+		this.isComplete = isComplete;
+	}
+
+	public String getCounselorId() {
+		return counselor.getCounselorId();
+	}
+	
+	public String getCounselorName() {
+		return counselor.getName();
+	}
+
+	public String getUserId() {
+		return user.getUserId();
+	}
+	
+	public String getUserName() {
+		return user.getName();
+	}
+
+	public LocalDateTime getStartTime() {
+		return startTime;
+	}
+
+	public LocalDateTime getEndTime() {
+		return endTime;
+	}
+
+	public boolean isConfirmed() {
+		return isConfirmed;
+	}
+
+	public boolean isComplete() {
+		return isComplete;
+	}
+	
+	
+	
 }

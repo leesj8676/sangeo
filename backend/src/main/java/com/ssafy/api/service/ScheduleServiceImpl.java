@@ -12,6 +12,7 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.api.mapping.ScheduleMapping;
 import com.ssafy.db.entity.Counselor;
 import com.ssafy.db.entity.Schedule;
 import com.ssafy.db.entity.User;
@@ -61,14 +62,14 @@ public class ScheduleServiceImpl implements ScheduleService{
 	}
 
 	@Override
-	public List<Schedule> getSchedulesByCounselor(Counselor counselor) {
-		List<Schedule> list = scheduleRepository.findByCounselor_Id(counselor.getId());
+	public List<ScheduleMapping> getSchedulesByCounselor(Counselor counselor) {
+		List<ScheduleMapping> list = scheduleRepository.findByCounselor_Id(counselor.getId());
 		return list;
 	}
 
 	@Override
-	public List<Schedule> getSchedulesByUser(User user) {
-		List<Schedule> list = scheduleRepository.findByUser_Id(user.getId());
+	public List<ScheduleMapping> getSchedulesByUser(User user) {
+		List<ScheduleMapping> list = scheduleRepository.findByUser_Id(user.getId());
 		return list;
 	}
 

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ssafy.api.mapping.ScheduleMapping;
 import com.ssafy.db.entity.Schedule;
 
 /**
@@ -22,8 +23,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
 //    @Transactional
 //    Optional<User> deleteByUserId(String userId);
-	List<Schedule> findByCounselor_Id(Long counselorId);
-	List<Schedule> findByUser_Id(Long userId);
+	List<ScheduleMapping> findByCounselor_Id(Long counselorId);
+	List<ScheduleMapping> findByUser_Id(Long userId);
 	Schedule findByCounselor_IdAndStartTime(Long counselorId, LocalDateTime date);
 	Schedule findByUser_IdAndStartTime(Long userId, LocalDateTime date);
 	
