@@ -77,4 +77,10 @@ public class Schedule extends BaseEntity {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "Schedule [counselor=" + counselor + ", user=" + user + ", startTime=" + startTime + ", endTime="
+				+ endTime + ", isComplete=" + isComplete + ", isHoliday=" + isHoliday + "]";
+	}
+
 }
