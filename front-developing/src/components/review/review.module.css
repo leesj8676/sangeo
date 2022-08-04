@@ -1,0 +1,11 @@
+
+
+
+.review {
+    margin: 1em;
+    border-radius: 0.2em;
+    border-style: none;
+    box-shadow: 1px 1px 10px 0.1px rgba(158, 158, 158, 0.39);
+    padding: 1em;
+    list-style-type: none;
+}

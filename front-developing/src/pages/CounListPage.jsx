@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './CounListPage.module.css';
 import Footer from  '../components/footer/footer';
 import CounselorList from '../components/counselorlist/counselorlist';
+
 import CounselorDetail  from './CounDetailPage';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -13,18 +14,28 @@ const CounListPage = () => {
 
     const [cards, setCards] = useState([
         {
-            id: '1',
+            cardId: '1',
             name: '이성진',
             email: 'l010l@email.com',
             message : '20년간 상담했습니다.',
+            longMessage: '20년간 상담했습니다.20년간 상담했습니다.20년간 상담했습니다.20년간 상담했습니다.',
+            tel : '010-1111-1111',
+            contactStartTime : 9,
+            contactEndTime: 18,
+            reserveStartTime : 10,
+            reserveEndTime: 18,
+            consultTarget: 30,
+            price: 30000,
+            holiday: 0, //요일 숫자형
             theme : 'light',
             fileName : 'profile1',
             fileURL:'/images/profile_S.jpg',
 
+
         },
 
         {
-            id: '2',
+            cardId: '2',
             name: '김준기',
             email: 'jk@email.com',
             message : '다양한 시각에서 분석해드려요',
@@ -34,7 +45,7 @@ const CounListPage = () => {
 
         },
         {
-            id: '3',
+            cardId: '3',
             name: '인예자',
             email: 'jjja@email.com',
             message : '다 맞춰요',
@@ -44,7 +55,7 @@ const CounListPage = () => {
 
         },
         {
-            id: '4',
+            cardId: '4',
             name: '정순지',
             email: 'sunsun@email.com',
             message : '그림전공입니다.',
@@ -72,8 +83,10 @@ const CounListPage = () => {
 
 
     return (
-        <section className={styles.maker}>
+        <section className={styles.list}>
+            
             <div className={styles.container} >
+                
                 <CounselorList cards={cards}/>
             
             </div>
