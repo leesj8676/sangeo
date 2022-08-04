@@ -18,4 +18,5 @@ public interface ScheduleService {
 	Schedule getSchedulesByUserIdAndStartTime(Long userId, String startTime) throws ParseException;
 	Schedule updateSchedule(Schedule schedule, String afterStartTime) throws ParseException;
 	void deleteSchedule(Schedule schedule);
+	List<Schedule> getSchedulesByCounselorIdAndDate(Long id, String date) throws ParseException;
 }
