@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ssafy.db.entity.Schedule;
@@ -22,6 +24,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 	List<Schedule> findByUser_Id(Long userId);
 	Schedule findByCounselor_IdAndStartTime(Long counselorId, Date date);
 	Schedule findByUser_IdAndStartTime(Long userId, Date date);
-	//public List<Student> findByRollNumberLessThanEqual(String rollnumber);
-	List<Schedule> findByUser_IdAndStartTimeGreaterThanAndStartTimeLessThan(Long id, Date searchDate, Date nextDate);
+	
+	@Query(value = "select * from schedule where id = user_id and date_format(start_time,'%Y-%m-%d') = date", nativeQuery = true)
+	List<Schedule> findByUser_IdAndDate(@Param(value = "user_id") long id, @Param(value = "date") String date);
 }
