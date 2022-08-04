@@ -1,5 +1,7 @@
 package com.ssafy.db.repository;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.ssafy.api.mapping.ScheduleMapping;
 import com.ssafy.db.entity.Schedule;
 
 /**
@@ -23,15 +24,15 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 //    Optional<User> deleteByUserId(String userId);
 	List<Schedule> findByCounselor_Id(Long counselorId);
 	List<Schedule> findByUser_Id(Long userId);
-	Schedule findByCounselor_IdAndStartTime(Long counselorId, Date date);
-	Schedule findByUser_IdAndStartTime(Long userId, Date date);
+	Schedule findByCounselor_IdAndStartTime(Long counselorId, LocalDateTime date);
+	Schedule findByUser_IdAndStartTime(Long userId, LocalDateTime date);
 	
 	//날짜별 스케줄을 조회하기 위한 native query
 	@Query(value = "select start_time as starttime from schedule where counselor_id = :counselor_id and date_format(start_time,'%Y-%m-%d') = :date", nativeQuery = true)
 	List<TimeOnly> getSchedulesByCounser_IdAndDate(@Param(value = "counselor_id") long id, @Param(value = "date") String date);
 	
 	public static interface TimeOnly {
-		Date getStarttime();
+		LocalTime getStarttime();
 	}
 	
 }

@@ -294,7 +294,7 @@ public class ScheduleController {
 	@DeleteMapping("/{counselorId}/{starttime}")
 	@ApiOperation(value = "스케줄 삭제(현재는 상담사만 가능)", notes = "<strong>상담사 ID와 스케줄 시작 시간</strong>으로 스케줄을 삭제한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"),
-			@ApiResponse(code = 401, message = "날짜 포맷 부적절"), @ApiResponse(code = 500, message = "서버 오류") })
+			@ApiResponse(code = 401, message = "날짜 포맷 부적절"), @ApiResponse(code = 402, message = "스케줄 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<String> delete(
 			@PathVariable("counselorId") @ApiParam(value = "스케줄을 삭제할 상담사 아이디", required = true) String counselorId,
 			@PathVariable("starttime") @ApiParam(value = "날짜가 포함된 시작 시간(예: \"2022-07-27 17:30\")", required = true) String startTime) {
