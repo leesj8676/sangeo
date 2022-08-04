@@ -104,11 +104,11 @@ public class ScheduleServiceImpl implements ScheduleService{
 
 	@Override
 	public List<Schedule> getSchedulesByCounselorIdAndDate(Long id, String date) throws ParseException {
-		// 변경하려는 시간 포맷팅
+		// 변경하려는 시간 포매팅 검사
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		Date searchDate = formatter.parse(date);
-		Date nextDate = DateUtils.addDays(searchDate, 1);
-		List<Schedule> list = scheduleRepository.findByUser_IdAndStartTimeGreaterThanAndStartTimeLessThan(id, searchDate,nextDate);
+		
+		List<Schedule> list = scheduleRepository.findByUser_IdAndDate(id, date);
 		return list;
 	}
 	
