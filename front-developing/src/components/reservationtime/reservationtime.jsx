@@ -30,7 +30,7 @@ function ReservationTime(props) {
             }
         };
         fetchData();
-    },[]);
+    },[props.counselorId, YMD]);
 
     console.log(rsvTimeArr);
 
@@ -41,16 +41,27 @@ function ReservationTime(props) {
         let rsvTimeH = Number(rsvTimeSpl[0]);
         let rsvTimeM = Number(rsvTimeSpl[1]);
         if (rsvTimeM === 0) {
+            if(rsvTimeH < 10){
+                rsvTimeH = "0"+rsvTimeH;
+            }
             allRsvTimeArr.push(rsvTimeH + ":30");
         }
         else {
-            allRsvTimeArr.push((rsvTimeH + 1) + ":00");
+            rsvTimeH++;
+            if(rsvTimeH < 10){
+                rsvTimeH = "0"+rsvTimeH;
+            }
+            allRsvTimeArr.push(rsvTimeH + ":00");
         }
     }
     console.log(allRsvTimeArr);
 
     const handleChange = (event) => {
-        setSelectedTime(event.currentTarget.value);
+        let value = event.currentTarget.value;
+        if(value.length === 4){
+            value = "0"+value;
+        }
+        setSelectedTime(value);
     };
 
     const onSubmit = (event) => {
@@ -71,6 +82,7 @@ function ReservationTime(props) {
                 .then(function (result) {
                     console.log(result.data);
                     alert("예약되었습니다!");
+                    window.location.reload();
                 }).catch(function (err) {
                     // 에러메세지 수정
                     alert(err);
@@ -82,6 +94,9 @@ function ReservationTime(props) {
     };
 
     const checkRsvTime = (time) => {
+        if(time.length === 4){
+            return allRsvTimeArr.includes("0"+time);
+        }
         return allRsvTimeArr.includes(time);
     };
 
@@ -134,7 +149,7 @@ function ReservationTime(props) {
                         )}>
                         <input type="radio" name="time" value={`${i}:30`} onChange={handleChange}
                             {...(checkThirty ? { disabled: true, checked: false } : {})} />
-                        <span>{i}:30</span>
+                        <span>{i < 10 ? `0${i}:30`:`${i}:30`}</span>
                     </label>
                 );
             }
@@ -147,7 +162,7 @@ function ReservationTime(props) {
                         )}>
                         <input type="radio" name="time" value={`${i}:00`} onChange={handleChange}
                             {...(checkZero ? { disabled: true, checked: false } : {})} />
-                        <span>{i}:00</span>
+                        <span>{i < 10 ? `0${i}:00`:`${i}:00`}</span>
                     </label>
                 );
             }
@@ -160,7 +175,7 @@ function ReservationTime(props) {
                         )}>
                         <input type="radio" name="time" value={`${i}:00`} onChange={handleChange}
                             {...(checkZero ? { disabled: true, checked: false } : {})} />
-                        <span>{i}:00</span>
+                        <span>{i < 10 ? `0${i}:00`:`${i}:00`}</span>
                     </label>
                 );
                 timeArr.push(
@@ -171,7 +186,7 @@ function ReservationTime(props) {
                         )}>
                         <input type="radio" name="time" value={`${i}:30`} onChange={handleChange}
                             {...(checkThirty ? { disabled: true, checked: false } : {})} />
-                        <span>{i}:30</span>
+                        <span>{i < 10 ? `0${i}:30`:`${i}:30`}</span>
                     </label>
                 );
             }

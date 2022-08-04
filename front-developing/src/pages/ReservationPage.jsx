@@ -24,7 +24,7 @@ function ReservationPage() {
         setSelectedMonth={setSelectedMonth} selectedDate={selectedDate} setSelectedDate={setSelectedDate}
         today={today}
         holiday="0/6"/> {/* 받을 때 일 -> 0, 토 -> 6 이런 식으로 받도록 */}
-        <ReservationTime rst="08:30:00" ret="17:00:00" counselorId="parkcs"
+        <ReservationTime rst="08:30:00" ret="17:00:00" counselorId="inyeja"
         selectedYear={selectedYear} selectedMonth={selectedMonth} selectedDate={selectedDate} today={today}/>
         </div>
       </div>
