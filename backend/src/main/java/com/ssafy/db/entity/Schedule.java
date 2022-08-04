@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,6 +47,7 @@ public class Schedule extends BaseEntity {
 
 	private boolean isComplete = false;
 	private boolean isHoliday = false;
+	private boolean isConfirmed = false;
 
 	public Schedule() {
 		super();
@@ -79,8 +81,9 @@ public class Schedule extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "Schedule [counselor=" + counselor + ", user=" + user + ", startTime=" + startTime + ", endTime="
-				+ endTime + ", isComplete=" + isComplete + ", isHoliday=" + isHoliday + "]";
+		return "Schedule [counselor=" + counselor + ", endTime=" + endTime + ", isComplete=" + isComplete
+				+ ", isConfirmed=" + isConfirmed + ", isHoliday=" + isHoliday + ", startTime=" + startTime + ", user="
+				+ user + "]";
 	}
 
 }

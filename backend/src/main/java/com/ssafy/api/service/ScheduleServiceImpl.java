@@ -2,10 +2,10 @@ package com.ssafy.api.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +113,13 @@ public class ScheduleServiceImpl implements ScheduleService{
 		List<Schedule> list = scheduleRepository.findByUser_IdAndStartTimeGreaterThanAndStartTimeLessThan(id, searchDate,nextDate);
 		System.out.println(list);
 		return list;
+	}
+
+	@Override
+	public Schedule confirmSchedule(Schedule schedule) {
+		schedule.setConfirmed(true);
+		scheduleRepository.save(schedule);
+		return null;
 	}
 	
 }

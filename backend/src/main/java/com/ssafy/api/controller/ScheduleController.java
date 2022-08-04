@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.api.request.BreakRegisterPostReq;
 import com.ssafy.api.request.HolidayRegisterPostReq;
+import com.ssafy.api.request.ScheduleGetReq;
 import com.ssafy.api.request.ScheduleRegisterPostReq;
 import com.ssafy.api.request.ScheduleUpdatePutReq;
 import com.ssafy.api.service.CounselorService;
@@ -230,7 +231,7 @@ public class ScheduleController {
 	}
 	
 	@PutMapping()
-	@ApiOperation(value = "상담사 스케줄 시간 변경", notes = "<strong>상담사ID, 날짜가 포함된 시작 시간과 변경 시간</strong>을 통해 회원 정보를 수정한다.")
+	@ApiOperation(value = "상담사 스케줄 시간 변경", notes = "<strong>상담사ID, 날짜가 포함된 시작 시간과 변경 시간</strong>을 통해 스케줄 정보를 수정한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"),
 			@ApiResponse(code = 401, message = "날짜 포맷 부적절"), @ApiResponse(code = 402, message = "예약 존재 하지 않음"),
 			@ApiResponse(code = 500, message = "서버 오류") })
@@ -258,6 +259,35 @@ public class ScheduleController {
 		return ResponseEntity.status(200).body(schedule);
 	}
 
+	@PutMapping("/confirm")
+	@ApiOperation(value = "스케줄 확정", notes = "<strong>상담사ID, 날짜가 포함된 시작 시간과 변경 시간</strong>을 통해 <strong>상담사가</strong> 스케줄을 확정한다.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"),
+			@ApiResponse(code = 401, message = "날짜 포맷 부적절"), @ApiResponse(code = 402, message = "예약 존재 하지 않음"),
+			@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<Schedule> confirmSchedule(
+			@RequestBody @ApiParam(value = "확정할 스케줄 정보", required = true) ScheduleGetReq scheduleInfo) {
+
+		String counselorId = scheduleInfo.getCounselorId();
+		Counselor counselor = counselorService.getCounselorByCounselorId(counselorId);
+		if (counselor == null)
+			return ResponseEntity.status(400).body(null);
+
+		String startTime = scheduleInfo.getStartTime();
+		Schedule schedule = null;
+		try {
+			schedule = scheduleService.getSchedulesByCounselorIdAndStartTime(counselor.getId(), startTime);
+			if (schedule == null)
+				return ResponseEntity.status(402).body(null);
+			// 스케쥴을 찾은 경우
+			schedule = scheduleService.confirmSchedule(schedule);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(401).body(null);
+		}
+
+		return ResponseEntity.status(200).body(schedule);
+	}
+	
 	@DeleteMapping("/{counselorId}/{starttime}")
 	@ApiOperation(value = "스케줄 삭제(현재는 상담사만 가능)", notes = "<strong>상담사 ID와 스케줄 시작 시간</strong>으로 스케줄을 삭제한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"),
