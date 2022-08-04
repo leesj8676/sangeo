@@ -1,11 +1,13 @@
 package com.ssafy.db.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.ssafy.api.mapping.CounselorMapping;
 import com.ssafy.db.entity.Counselor;
 
 /**
@@ -16,4 +18,7 @@ public interface CounselorRepository extends JpaRepository<Counselor, Long>{ // 
     
     @Transactional
     Optional<Counselor> deleteByCounselorId(String counselorId);
+    
+    // 전체 상담사 목록 조회시 password는 가져오지 않음
+    List<CounselorMapping> findAllBy();
 }
