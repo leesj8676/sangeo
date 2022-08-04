@@ -2,8 +2,6 @@ package com.ssafy.api.response;
 
 import java.time.LocalTime;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.ssafy.db.entity.Counselor;
 
 import io.swagger.annotations.ApiModel;
