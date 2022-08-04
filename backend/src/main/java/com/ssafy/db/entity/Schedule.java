@@ -2,6 +2,7 @@ package com.ssafy.db.entity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -65,11 +66,11 @@ public class Schedule extends BaseEntity {
 		this.user = user;
 		this.isComplete = isComplete;
 		this.isHoliday = isHoliday;
-
 		// 휴일인 경우 0시 0분 부터 23시 59분 까지 스케줄 생성
 		if (isHoliday == true) {
-			LocalDateTime start = LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-			this.startTime = start; 
+			LocalDate holiday = LocalDate.parse(startTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			LocalDateTime start = holiday.atStartOfDay();
+			this.startTime = start;
 			this.endTime = start.plusMinutes(1439);
 		} else {
 			LocalDateTime start = LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
