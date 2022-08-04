@@ -6,7 +6,7 @@ import styles from './sort.module.css';
 
 
 const Sort = ({cards}) => {
-   
+
     return (
     <section className={styles.sortContainer}>
         <p>정렬하기</p>
