@@ -38,7 +38,7 @@ function RegisterCounselorPage() {
     const url = '/counselors'
     const lState = location.state; // 이전 페이지에서 전달된 state
     console.log(lState.counselorId);
-    axios.post(url, {
+    axios.post(process.env.REACT_APP_DB_HOST+url, {
         counselorId: lState.counselorId,
         password: lState.password,
         name: lState.name,

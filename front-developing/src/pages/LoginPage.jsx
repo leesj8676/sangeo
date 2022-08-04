@@ -39,7 +39,7 @@ const LoginPage = ({authService}) =>{
       url = "auth/counselor/login"
     }
 
-    axios.post(url, {
+    axios.post(process.env.REACT_APP_DB_HOST+url, {
       id : userid,
       password : password
     })

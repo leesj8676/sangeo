@@ -57,7 +57,7 @@ const Calendar = (props) => {
   };
 
   const clickDate = (date) => {
-    props.setSelectedDate(date);
+      props.setSelectedDate(Number(date));
   };
 
   const checkPrev = (date) => {
