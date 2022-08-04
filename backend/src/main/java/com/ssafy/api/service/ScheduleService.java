@@ -22,4 +22,5 @@ public interface ScheduleService {
 	void deleteSchedule(Schedule schedule);
 	public List<TimeOnly> getSchedulesByCounselorIdAndDate(Long id, String date) throws ParseException;
 	Schedule confirmSchedule(Schedule schedule);
+	Schedule completeSchedule(Schedule schedule);
 }

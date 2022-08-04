@@ -116,5 +116,12 @@ public class ScheduleServiceImpl implements ScheduleService{
 		scheduleRepository.saveAndFlush(schedule);
 		return null;
 	}
+
+	@Override
+	public Schedule completeSchedule(Schedule schedule) {
+		schedule.setComplete(true);
+		scheduleRepository.saveAndFlush(schedule);
+		return null;
+	}
 	
 }
