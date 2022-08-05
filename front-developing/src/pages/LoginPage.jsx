@@ -117,11 +117,6 @@ useEffect(() => {
             Google
           </button>
         </div>
-        <div>
-          <button onClick={onLogin} className="loginregister__button">
-           Github
-          </button>
-        </div>
       </form>
     </div>
   );

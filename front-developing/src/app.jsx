@@ -7,15 +7,16 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import RegisterCounselorPage from './pages/RegisterCounselorPage';
 import ReservationPage from './pages/ReservationPage';
+import CounListPage from './pages/CounListPage';
+import CounDetailPage from './pages/CounDetailPage';
+import UserInfoChangePage from './pages/UserInfoChangePage';
+import UserMyPage from './pages/UserMyPage'
 
 // 컴포넌트
-import CounselorList from './components/counselorlist/counselorlist';
 import NavigationBar from './components/header/Navbar';
-import Maker from './components/maker/maker';
-import CunslDetail from './components/counselordetail/counselordetail';
 
 // CSS
-import './app.css';
+import './App.css';
 //import styles from './app.module.css';
 
 
@@ -29,15 +30,17 @@ function App({authService}) {
           
         
         {/* 상담사 경로 */}
-          <Route path="/cunsldetail" element = {<CunslDetail/>}/>
-          <Route path ="/counselorList" element = {<CounselorList authService={authService}/>} />
-          <Route path="/maker" element = {<Maker authService={authService}/>}/>
+          <Route path="/counselordetail/:id" element = {<CounDetailPage/>}/>
+          <Route path="/counselorlist" element = {<CounListPage authService={authService}/>}/>
         
         
          {/* 회원관리 경로 */}
           <Route path="/sign_in" element={<LoginPage authService={authService}/>} />
           <Route path="/sign_up" element={<RegisterPage />} />
           <Route path="/sign_up/counselor" element={<RegisterCounselorPage />} />
+
+          <Route path="/mypage/:id" element={<UserMyPage authService={authService}/>} />
+          <Route path="/mypage/:id/change" element={<UserInfoChangePage authService={authService}/>} />
 
           {/* 예약하기 경로 */}
           <Route path="/reservation" element={<ReservationPage/>}></Route>
