@@ -1,4 +1,3 @@
-<<<<<<< README.md
 ### 서버 배포시 변경사항
 - application.properties 변경 [참고](https://www.notion.so/EC2-86be60492dcf4e19990cc92f12fdbb0d#b4d315660a2c41aa999ae5b428dc2b93)
 
