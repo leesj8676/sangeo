@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './CounListPage.module.css';
 import Footer from  '../components/footer/footer';
 import CounselorList from '../components/counselorlist/counselorlist';
-import Sort from '../components/sort/sort';
 import axios from "axios";
 
 
