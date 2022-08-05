@@ -1,23 +1,17 @@
 package com.ssafy.db.entity;
 
+import java.io.Serializable;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.util.Assert;
 
 import lombok.Builder;
@@ -30,7 +24,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Schedule extends BaseEntity {
+public class Schedule extends BaseEntity implements Serializable{
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "COUNSELOR_ID")

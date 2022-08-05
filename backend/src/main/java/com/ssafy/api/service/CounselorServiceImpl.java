@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.api.mapping.CounselorMapping;
 import com.ssafy.api.request.CounselorRegisterPostReq;
+import com.ssafy.api.request.CounselorUpdateReq;
+import com.ssafy.api.request.PasswordUpdateReq;
 import com.ssafy.db.entity.Counselor;
+import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.CounselorRepository;
 
 /**
@@ -55,28 +58,38 @@ public class CounselorServiceImpl implements CounselorService{
 	}
 
 	@Override
-	public Counselor updateCounselor(Counselor updateCounselor) { // 모든 정보 수정 가능한 버전
-		Counselor counselor = counselorRepository.findByCounselorId(updateCounselor.getCounselorId()).get();
-		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
-		counselor.setPassword(passwordEncoder.encode(updateCounselor.getPassword()));
-		counselor.setName(updateCounselor.getName());
-		counselor.setPhoneNumber(updateCounselor.getPhoneNumber());
-		counselor.setProfile(updateCounselor.getProfile());
-		counselor.setShortIntroduction(updateCounselor.getShortIntroduction());
-		counselor.setContactStartTime(updateCounselor.getContactStartTime());
-		counselor.setContactEndTime(updateCounselor.getContactEndTime());
-		counselor.setCareer(updateCounselor.getCareer());
-		counselor.setLongIntroduction(updateCounselor.getLongIntroduction());
-		counselor.setReserveStartTime(updateCounselor.getReserveStartTime());
-		counselor.setReserveEndTime(updateCounselor.getContactEndTime());
-		counselor.setConsultTarget(updateCounselor.getConsultTarget());
-		counselor.setPrice(updateCounselor.getPrice());
-		counselor.setConsultNumber(updateCounselor.getConsultNumber());
-		counselor.setHoliday(updateCounselor.getHoliday());
+	public Counselor updateCounselor(CounselorUpdateReq updateCounselorInfo) { 
+		Counselor counselor = counselorRepository.findByCounselorId(updateCounselorInfo.getCounselorId()).get();
+		// 비밀번호를 제외한 모든 정보 수정 가능한 버전
+		counselor.setName(updateCounselorInfo.getName());
+		counselor.setPhoneNumber(updateCounselorInfo.getPhoneNumber());
+		counselor.setProfile(updateCounselorInfo.getProfile());
+		counselor.setShortIntroduction(updateCounselorInfo.getShortIntroduction());
+		counselor.setContactStartTime(updateCounselorInfo.getContactStartTime());
+		counselor.setContactEndTime(updateCounselorInfo.getContactEndTime());
+		counselor.setCareer(updateCounselorInfo.getCareer());
+		counselor.setLongIntroduction(updateCounselorInfo.getLongIntroduction());
+		counselor.setReserveStartTime(updateCounselorInfo.getReserveStartTime());
+		counselor.setReserveEndTime(updateCounselorInfo.getContactEndTime());
+		counselor.setConsultTarget(updateCounselorInfo.getConsultTarget());
+		counselor.setPrice(updateCounselorInfo.getPrice());
+		counselor.setConsultNumber(updateCounselorInfo.getConsultNumber());
+		counselor.setHoliday(updateCounselorInfo.getHoliday());
 		
 		return counselorRepository.save(counselor);
 	}
 
+	@Override
+	public Counselor updatePassword(PasswordUpdateReq passwordUpdateInfo) {
+		Counselor counselor = counselorRepository.findByCounselorId(passwordUpdateInfo.getId()).get();
+		// counselor가 null이거나 현재 비밀번호가 틀렸을 때 null 리턴
+		if(counselor == null || !passwordEncoder.matches(passwordUpdateInfo.getPassword(), counselor.getPassword()))
+			return null;
+		// 비밀번호만 수정
+		counselor.setPassword(passwordEncoder.encode(passwordUpdateInfo.getNewPassword()));
+		return counselorRepository.save(counselor);
+	}
+	
 	@Override
 	public void deleteCounselor(String counselorId) {
 		counselorRepository.deleteByCounselorId(counselorId);
