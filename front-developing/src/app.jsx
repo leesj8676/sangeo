@@ -14,6 +14,7 @@ import NavigationBar from './components/header/Navbar';
 
 // CSS
 import './app.css';
+import DoneCounselPage from './pages/DoneCounselPage';
 //import styles from './app.module.css';
 
 
@@ -31,13 +32,15 @@ function App({authService}) {
           <Route path="/counselorlist" element = {<CounListPage authService={authService}/>}/>
         
         
-         {/* 회원관리 경로 */}
+        {/* 회원관리 경로 */}
           <Route path="/sign_in" element={<LoginPage authService={authService}/>} />
           <Route path="/sign_up" element={<RegisterPage />} />
           <Route path="/sign_up/counselor" element={<RegisterCounselorPage />} />
           <Route path="/mypage/:id" element={<UserMyPage authService={authService}/>} />
-
-       
+        
+        {/* 상담관리 */}
+        <Route path="/donecounsel" element={<DoneCounselPage authService={authService}/>} />
+   
         </Routes>
       </BrowserRouter>
 
