@@ -104,7 +104,7 @@ useEffect(() => {
           <button
             type="submit"
             onClick={(event) => {onSubmit(false, event)}}
-            className="loginregister__button"
+            className="loginregister__button w-btn-gra-anim"
           >
             상담사 로그인
           </button>

@@ -13,7 +13,7 @@ import UserMyPage from './pages/UserMyPage'
 import NavigationBar from './components/header/Navbar';
 
 // CSS
-import './App.css';
+import './app.css';
 //import styles from './app.module.css';
 
 
