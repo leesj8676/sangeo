@@ -31,6 +31,8 @@ function RegisterPage() {
     setTel(event.currentTarget.value);
   };
 
+  const navigate = useNavigate();
+
   function checkInput(){
     if(!name || !userId || !password || !confirmPassword || !Tel){
       alert("모든 값을 입력해주세요.");
@@ -52,7 +54,7 @@ function RegisterPage() {
     }
 
     const url = 'users'
-    axios.post(url, {
+    axios.post(process.env.REACT_APP_DB_HOST+url, {
       userId : userId,
       password : password,
       name: name,
@@ -61,6 +63,8 @@ function RegisterPage() {
     })
     .then(function(result){
       alert(result.data.userId+"님 가입을 축하드립니다.");
+      // 로그인 페이지로 이동하게 수정
+      navigate('../sign_in');
       
     }).catch(function(err){
       if(err.response.status===401){
@@ -71,8 +75,6 @@ function RegisterPage() {
       }
     })
   };
-
-  const navigate = useNavigate();
 
   function onClickCounselor(event){ // 상담사 회원가입을 위해 페이지 이동
     event.preventDefault();

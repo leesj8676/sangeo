@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.api.mapping.CounselorMapping;
 import com.ssafy.api.request.CounselorRegisterPostReq;
 import com.ssafy.api.response.CounselorRes;
 import com.ssafy.api.service.CounselorService;
@@ -33,6 +35,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(value = "상담사 API", tags = { "Counselor" })
 @RestController
 @RequestMapping("/api/v1/counselors")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CounselorController {
 	
 	@Autowired
@@ -42,22 +45,19 @@ public class CounselorController {
 	@ApiOperation(value = "상담사 정보 조회", notes = "<strong>아이디</strong>를 통해 상담사 정보를 조회한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "상담사 없음"), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<Counselor> search(
+	public ResponseEntity<CounselorRes> search(
 			@PathVariable("counselorId") @ApiParam(value = "조회할 상담사 아이디", required = true) String counselorId) {
 		Counselor counselor = counselorService.getCounselorByCounselorId(counselorId);
-		System.out.println(counselor.toString());
-		return ResponseEntity.status(200).body(counselor);
-
+		return ResponseEntity.status(200).body(CounselorRes.of(counselor));
 	}
 	
 	@GetMapping("")
 	@ApiOperation(value = "전체 상담사 정보 조회", notes = "전체 상담사 정보를 조회한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "상담사 없음"), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<List<Counselor>> searchAll() {
-		List<Counselor> clist = counselorService.getAllCounselor();
+	public ResponseEntity<List<CounselorMapping>> searchAll() {
+		List<CounselorMapping> clist = counselorService.getAllCounselor();
 		return ResponseEntity.status(200).body(clist);
-
 	}
 
 	@PostMapping()
@@ -83,8 +83,8 @@ public class CounselorController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "상담사 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<Counselor> update(
-			@RequestBody @ApiParam(value = "수정할 상담사 정보", required = true) CounselorRegisterPostReq registerInfo) {
-		Counselor counselor = counselorService.updateCounselor(registerInfo);
+			@RequestBody @ApiParam(value = "수정할 상담사 정보", required = true) Counselor updateCounselor) {
+		Counselor counselor = counselorService.updateCounselor(updateCounselor);
 		return ResponseEntity.status(200).body(counselor);
 	}
 
@@ -103,7 +103,7 @@ public class CounselorController {
 	@ApiOperation(value = "상담사 본인 정보 조회", notes = "로그인한 상담사 본인의 정보를 응답한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "상담사 없음"), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<CounselorRes> getUserInfo(@ApiIgnore Authentication authentication) {
+	public ResponseEntity<Counselor> getUserInfo(@ApiIgnore Authentication authentication) {
 		/**
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
@@ -113,7 +113,7 @@ public class CounselorController {
 		String counselorId = counselorDetails.getUsername();
 		Counselor counselor = counselorService.getCounselorByCounselorId(counselorId);
 		System.out.println(counselorId+" 본인 인증 성공");
-		return ResponseEntity.status(200).body(CounselorRes.of(counselor));
+		return ResponseEntity.status(200).body(counselor);
 	}
 
 }
