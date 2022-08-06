@@ -40,7 +40,7 @@ const Review = ({userId}) => {
       },
     {
       reviewId: 4,
-      counselorId:2,
+      counselorId:4,
       counselorName: '김준기',
       customerId: 7,
       customerName: '선팡기',

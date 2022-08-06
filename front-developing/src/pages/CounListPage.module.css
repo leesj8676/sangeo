@@ -6,7 +6,27 @@
 }
 
 .container {
-  flex: 1;
+  /* flex: 1; */
 
+}
+
+
+.sort {
+  position: absolute;
+  right: 3px;
+
+}
+
+.btn {
+  position: relative;
+  padding: 5px 10px;
+  border-radius: 15px;
+  /* font-family: "paybooc-Light", sans-serif; */
+  margin: 3px;
+  text-decoration: none;
+  transition: 0.25s;
+
+  border: 3px  #6aafe6;
+  color: #6e6e6e;
 }
 
