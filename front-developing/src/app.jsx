@@ -11,12 +11,14 @@ import CounListPage from './pages/CounListPage';
 import CounDetailPage from './pages/CounDetailPage';
 import UserInfoChangePage from './pages/UserInfoChangePage';
 import UserMyPage from './pages/UserMyPage'
-
+import DoneCounselPage from './pages/DoneCounselPage';
+import ManageDoneCounselPage from './pages/ManageDoneCounselPage';
 // 컴포넌트
 import NavigationBar from './components/header/Navbar';
 
 // CSS
-import './App.css';
+import './app.css';
+
 //import styles from './app.module.css';
 
 
@@ -45,6 +47,11 @@ function App({authService}) {
           {/* 예약하기 경로 */}
           <Route path="/reservation" element={<ReservationPage/>}></Route>
        
+        
+        {/* 상담관리 */}
+        <Route path="/donecounsel" element={<DoneCounselPage authService={authService}/>} />
+        <Route path="/managedonecounsel" element={<ManageDoneCounselPage authService={authService}/>} />
+   
         </Routes>
       </BrowserRouter>
 
