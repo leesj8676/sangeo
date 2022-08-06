@@ -1,5 +1,6 @@
 package com.ssafy.db.entity;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 
 import javax.persistence.Entity;
@@ -19,7 +20,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Counselor extends BaseEntity {
+public class Counselor extends BaseEntity implements Serializable{
 	@NotNull
 	String counselorId;
 	@NotNull

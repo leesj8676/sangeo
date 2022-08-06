@@ -43,7 +43,7 @@ function NavigationBar({authService}) {
     <Navbar key="lg" expand="lg" className="mb-3">
     <Container fluid>
       <Navbar.Brand className="col-4 ps-3" href="/">
-      <img src="http://localhost:3000/sangeo_log.png" width="250" height="100"></img>
+      <img src="http://localhost:3000/sangeo_log.png" width="250" height="100" alt="logo"></img>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} />
       <Navbar.Offcanvas
@@ -83,8 +83,8 @@ function NavigationBar({authService}) {
            { isLogin ? 
             (
               <div className="text-center">
-                <img src={user.profile} className={styles.profileImg+" me-1"} width="50" height="50" alt="profile"></img>
-                { user.isUser ?  (<a href="/">{user.name}님</a>) : (<>상담사 <a href="/">{user.name}님</a></>)}
+                <img src={"http://localhost:3000/"+user.profile} className={styles.profileImg+" me-1"} width="50" height="50" alt="profile"></img>
+                { user.isUser ?  (<a href={"/mypage/"+user.id}>{user.name}님</a>) : (<>상담사 <a href={"/mypage/"+user.id}>{user.name}님</a></>)}
               </div>
               )
             :(

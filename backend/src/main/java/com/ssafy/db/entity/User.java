@@ -7,6 +7,8 @@ import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 
 /**
@@ -15,7 +17,7 @@ import javax.persistence.Entity;
 @Entity
 @Getter
 @Setter
-public class User extends BaseEntity{
+public class User extends BaseEntity implements Serializable{
 	@NotNull
 	String userId;
 	@NotNull
