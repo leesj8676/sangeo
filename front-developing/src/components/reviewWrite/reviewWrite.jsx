@@ -7,7 +7,7 @@ import axios from "axios";
 function ReviewWrite() {
     const [review, setReview] = useState();
     const [star, setStar] = useState();
-    const [entire, setEntire] = useState({review: '', star: 3});
+
 
     const onSetData = (data) => {
         setReview(data);
@@ -27,7 +27,6 @@ function ReviewWrite() {
     const onStarData = (data) => {
         setStar(data);
     }
-
 
   return (
     <div>
