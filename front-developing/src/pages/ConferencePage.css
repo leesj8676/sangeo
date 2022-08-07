@@ -145,6 +145,14 @@ a:hover .demo-logo {
   border-bottom-right-radius: 4px;
 }
 
+.paint-container {
+  border: 3px solid red;
+}
+
+/* #canvas-container {
+  z-index: 100;
+} */
+
 /*video {
 	width: 100%;
 	height: auto;

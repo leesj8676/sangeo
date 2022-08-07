@@ -1,3 +1,6 @@
+//https://stackoverflow.com/questions/30115324/pass-props-in-link-react-router 리액터 라우터 연결하기
+// 내비게이션바도 빼기!!
+
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import React, { Component } from 'react';
@@ -5,6 +8,7 @@ import './ConferencePage.css';
 import UserVideoComponent from '../components/conference/UserVideoComponent';
 import ChatComponent from '../components/conference//ChatComponent';
 import UserModel from '../components/conference//user-model';
+import Paint from '../components/conference/Paint';
 
 //MUI 
 import IconButton from '@material-ui/core/IconButton';
@@ -30,7 +34,6 @@ var localUser = new UserModel();
 
 const OPENVIDU_SERVER_URL = 'https://i7e207.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
-
 
 class App extends Component {
     constructor(props) {
@@ -63,7 +66,7 @@ class App extends Component {
 
     componentDidMount() {
         window.addEventListener('beforeunload', this.onbeforeunload);
-        this.joinSession();
+        // this.joinSession();
     }
 
     componentWillUnmount() {
@@ -120,8 +123,8 @@ class App extends Component {
     joinSession() {
         // --- 상담실 입장 버튼으로 바로 입장 ---
         // props로 세션이름(상담사 id), 이름 받아옴
-        this.setSessionId("SessionB");
-        this.setUserName('Participant' + Math.floor(Math.random() * 10),);
+        // this.setSessionId("SessionB");
+        // this.setUserName('Participant' + Math.floor(Math.random() * 10),);
         // this.setSessionId("Session" + this.props.counselorid);
         // this.setUserName(this.props.nickname);
 
@@ -322,7 +325,7 @@ class App extends Component {
         const myUserName = this.state.myUserName;
         const localUser = this.state.localUser;
         var chatDisplay = { display: this.state.chatDisplay };
-        
+
         return (
             <div className="container">
                 {this.state.session === undefined ? (
@@ -405,9 +408,9 @@ class App extends Component {
                                     ) : null}
                                 </div>
                             </div>
-                            <div className='col-md-9 col-xs-9'>
-                                <div id="paint-container" >
-                                    <h1>그림판 놓을 자리</h1>
+                            <div className='col-md-9 col-xs-9 paint-container'>
+                                <div id="canvas-container" >
+                                    <Paint></Paint>
                                 </div>
                                 <div id="chat-container">
                                     {localUser !== undefined && localUser.getStreamManager() !== undefined && (
