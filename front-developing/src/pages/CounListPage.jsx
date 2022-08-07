@@ -13,7 +13,9 @@ import { useEffect, useState } from 'react';
 
 
 
+
 const CounListPage = () => {
+   
 
     const [cards, setCards] = useState([
         // {
@@ -99,10 +101,21 @@ const CounListPage = () => {
 
         // },
     ]);
+  
 
 
+    const getCounList = () => {
+        console.log("ccccc")
+        axios.get("http://localhost:8080/api/v1/counselors")
+          .then((list) => {
+            setCards(list.data)
+          }
+          ).catch(function(err){
+            alert(err);
+          })
+      
+    }
 
-    
     const [sortPrice, setsortPrice] = useState();
     const onSortPrice = () => {
         const sortPrice = [...cards];
@@ -116,23 +129,12 @@ const CounListPage = () => {
         setCards(cards=> sortScore.sort((a,b) => {
             return a.score - b.score;
     }))}
-
-    const getCounList = () => {
-        console.log("ccccc")
-        axios.get("http://localhost:8080/api/v1/counselors")
-          .then((list) => {
-            setCards(list.data)
-          }
-          ).catch(function(err){
-            alert(err);
-          })
-      
-    }
     
 
     useEffect( ()=> {}, [setsortPrice]);
     useEffect( ()=> {}, [setsortScore]);
-    useEffect(getCounList, [])
+    useEffect(getCounList, []);
+    
     useEffect(() => {
 console.log("card",cards)
     }, [cards])
