@@ -6,6 +6,26 @@ import UserVideoComponent from '../components/conference/UserVideoComponent';
 import ChatComponent from '../components/conference//ChatComponent';
 import UserModel from '../components/conference//user-model';
 
+//MUI 
+import IconButton from '@material-ui/core/IconButton';
+import VideocamRoundedIcon from '@mui/icons-material/VideocamRounded';
+import VideocamOffRoundedIcon from '@mui/icons-material/VideocamOffRounded';
+import MicRoundedIcon from '@mui/icons-material/MicRounded';
+import MicOffRoundedIcon from '@mui/icons-material/MicOffRounded';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+//set theme color '62AAFF'
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#62AAFF',
+        },
+    },
+});
+
+
 var localUser = new UserModel();
 
 const OPENVIDU_SERVER_URL = 'https://i7e207.p.ssafy.io:8443';
@@ -182,21 +202,13 @@ class App extends Component {
 
     toggleCamera() {
         var publisher = this.state.publisher;
-        var buttonToggleCamera = document.getElementById("buttonToggleCamera");
-        if (this.state.publisher.stream.videoActive)
-            buttonToggleCamera.value = '카메라 켜기';
-        else
-            buttonToggleCamera.value = '카메라 끄기';
         publisher.publishVideo(!this.state.publisher.stream.videoActive);
+        this.setState({ publisher: publisher });
     }
     toggleMic() {
         var publisher = this.state.publisher;
-        var buttonToggleMic = document.getElementById("buttonToggleMic");
-        if (this.state.publisher.stream.audioActive)
-            buttonToggleMic.value = '마이크 켜기';
-        else
-            buttonToggleMic.value = '마이크 끄기';
         publisher.publishAudio(!this.state.publisher.stream.audioActive);
+        this.setState({ publisher: publisher });
     }
 
     toggleChat() {
@@ -290,7 +302,6 @@ class App extends Component {
         const myUserName = this.state.myUserName;
         const localUser = this.state.localUser;
         var chatDisplay = { display: this.state.chatDisplay };
-
         return (
             <div className="container">
                 {this.state.session === undefined ? (
@@ -334,29 +345,26 @@ class App extends Component {
                 {this.state.session !== undefined ? (
                     <div id="session">
                         <div id="session-header">
-                            <img src="resources/images/openvidu_grey_bg_transp_cropped.png" alt="OpenVidu logo" />
-
-                            <input
-                                className="btn btn-large btn-danger"
-                                type="button"
-                                id="buttonLeaveSession"
-                                onClick={this.leaveSession}
-                                value="세션 나가기"
-                            />
-                            <input
-                                className="btn btn-large btn-secondary"
-                                type="button"
-                                id="buttonToggleCamera"
-                                onClick={this.toggleCamera}
-                                value="카메라 끄기"
-                            />
-                            <input
-                                className="btn btn-large btn-primary"
-                                type="button"
-                                id="buttonToggleMic"
-                                onClick={this.toggleMic}
-                                value="마이크 끄기"
-                            />
+                            <img src="sangeo_log.png" alt="상어 로고" />
+                            <div id="session-tools">
+                                {this.state.publisher !== undefined && this.state.publisher.stream.videoActive ? (
+                                    <IconButton id="buttonToggleCamera" onClick={this.toggleCamera}>
+                                        <VideocamRoundedIcon />
+                                    </IconButton>
+                                ) : <IconButton id="buttonToggleCamera" onClick={this.toggleCamera}>
+                                    <VideocamOffRoundedIcon />
+                                </IconButton>}
+                                {this.state.publisher !== undefined && this.state.publisher.stream.audioActive ? (
+                                    <IconButton id="buttonToggleMic" onClick={this.toggleMic}>
+                                        <MicRoundedIcon />
+                                    </IconButton>
+                                ) : <IconButton id="buttonToggleMic" onClick={this.toggleMic}>
+                                    <MicOffRoundedIcon />
+                                </IconButton>}
+                                <IconButton id="buttonLeaveSession" onClick={this.leaveSession}>
+                                    <LogoutRoundedIcon />
+                                </IconButton>
+                            </div>
                         </div>
                         <div className='session-body'>
                             <div id="video-container" className='col-md-3 col-xs-3'>
@@ -383,7 +391,7 @@ class App extends Component {
                                 <div id="chat-container">
                                     {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                                         <div>
-                                            <div className="OT_root OT_publisher custom-class row" style={chatDisplay}>
+                                            <div className="OT_root OT_publisher custom-class row chatbox" style={chatDisplay}>
                                                 <ChatComponent
                                                     user={localUser}
                                                     chatDisplay={this.state.chatDisplay}
@@ -391,13 +399,11 @@ class App extends Component {
                                                     messageReceived={this.checkNotification}
                                                 />
                                             </div>
-                                            <input
-                                                className="btn btn-large btn-info"
-                                                type="button"
-                                                id="buttonToggleChat"
-                                                onClick={this.toggleChat}
-                                                value="채팅 토글"
-                                            />
+                                            <ThemeProvider theme={theme}>
+                                                <IconButton id="buttonToggleChat" onClick={this.toggleChat}>
+                                                    <ChatRoundedIcon color="primary" size="large" />
+                                                </IconButton>
+                                            </ThemeProvider>
                                         </div>
                                     )}
                                 </div>
