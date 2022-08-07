@@ -63,6 +63,7 @@ class App extends Component {
 
     componentDidMount() {
         window.addEventListener('beforeunload', this.onbeforeunload);
+        this.joinSession();
     }
 
     componentWillUnmount() {
@@ -82,6 +83,18 @@ class App extends Component {
     handleChangeUserName(e) {
         this.setState({
             myUserName: e.target.value,
+        });
+    }
+
+    setSessionId(id) {
+        this.setState({
+            mySessionId: id,
+        });
+    }
+
+    setUserName(name) {
+        this.setState({
+            myUserName: name,
         });
     }
 
@@ -105,6 +118,13 @@ class App extends Component {
     }
 
     joinSession() {
+        // --- 상담실 입장 버튼으로 바로 입장 ---
+        // props로 세션이름(상담사 id), 이름 받아옴
+        this.setSessionId("SessionB");
+        this.setUserName('Participant' + Math.floor(Math.random() * 10),);
+        // this.setSessionId("Session" + this.props.counselorid);
+        // this.setUserName(this.props.nickname);
+
         // --- 1) Get an OpenVidu object ---
 
         this.OV = new OpenVidu();
@@ -302,6 +322,7 @@ class App extends Component {
         const myUserName = this.state.myUserName;
         const localUser = this.state.localUser;
         var chatDisplay = { display: this.state.chatDisplay };
+        
         return (
             <div className="container">
                 {this.state.session === undefined ? (
