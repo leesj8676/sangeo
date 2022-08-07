@@ -3,22 +3,28 @@ import { OpenVidu } from 'openvidu-browser';
 import React, { Component } from 'react';
 import './ConferencePage.css';
 import UserVideoComponent from '../components/conference/UserVideoComponent';
+import ChatComponent from '../components/conference//ChatComponent';
+import UserModel from '../components/conference//user-model';
+
+var localUser = new UserModel();
 
 const OPENVIDU_SERVER_URL = 'https://i7e207.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
 
-class ConferencePage extends Component {
+class App extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             mySessionId: 'SessionA',
-            myUserName: 'Participant' + Math.floor(Math.random() * 100),
+            myUserName: 'Participant' + Math.floor(Math.random() * 10),
             session: undefined,
             mainStreamManager: undefined,
             publisher: undefined,
             subscribers: [],
+            localUser: undefined,
+            chatDisplay: 'none',
         };
 
         this.joinSession = this.joinSession.bind(this);
@@ -28,6 +34,11 @@ class ConferencePage extends Component {
         this.handleChangeUserName = this.handleChangeUserName.bind(this);
         this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
         this.onbeforeunload = this.onbeforeunload.bind(this);
+        this.toggleCamera = this.toggleCamera.bind(this);
+        this.toggleMic = this.toggleMic.bind(this);
+        this.toggleChat = this.toggleChat.bind(this);
+        this.checkNotification = this.checkNotification.bind(this);
+        this.checkSize = this.checkSize.bind(this);
     }
 
     componentDidMount() {
@@ -150,11 +161,15 @@ class ConferencePage extends Component {
 
                             mySession.publish(publisher);
 
+                            localUser.setConnectionId(publisher.session.connection.connectionId);
+                            localUser.setStreamManager(publisher);
+                            localUser.setNickname(this.state.myUserName);
                             // Set the main video in the page to display our webcam and store our Publisher
                             this.setState({
                                 currentVideoDevice: videoDevices[0],
                                 mainStreamManager: publisher,
                                 publisher: publisher,
+                                localUser: localUser
                             });
                         })
                         .catch((error) => {
@@ -163,6 +178,53 @@ class ConferencePage extends Component {
                 });
             },
         );
+    }
+
+    toggleCamera() {
+        var publisher = this.state.publisher;
+        var buttonToggleCamera = document.getElementById("buttonToggleCamera");
+        if (this.state.publisher.stream.videoActive)
+            buttonToggleCamera.value = '카메라 켜기';
+        else
+            buttonToggleCamera.value = '카메라 끄기';
+        publisher.publishVideo(!this.state.publisher.stream.videoActive);
+    }
+    toggleMic() {
+        var publisher = this.state.publisher;
+        var buttonToggleMic = document.getElementById("buttonToggleMic");
+        if (this.state.publisher.stream.audioActive)
+            buttonToggleMic.value = '마이크 켜기';
+        else
+            buttonToggleMic.value = '마이크 끄기';
+        publisher.publishAudio(!this.state.publisher.stream.audioActive);
+    }
+
+    toggleChat() {
+        let display = this.state.chatDisplay;
+        if (display === 'block') {
+            display = 'none';
+            this.setState({ chatDisplay: display });
+        } else {
+            display = 'block';
+            console.log('chat', display);
+            this.setState({ chatDisplay: display, messageReceived: false });
+        }
+        //this.updateLayout();
+    }
+
+    checkNotification(event) {
+        this.setState({
+            messageReceived: this.state.chatDisplay === 'none',
+        });
+    }
+    checkSize() {
+        if (document.getElementById('layout').offsetWidth <= 700 && !this.hasBeenUpdated) {
+            this.toggleChat('none');
+            this.hasBeenUpdated = true;
+        }
+        if (document.getElementById('layout').offsetWidth > 700 && this.hasBeenUpdated) {
+            this.hasBeenUpdated = false;
+        }
     }
 
     leaveSession() {
@@ -188,15 +250,15 @@ class ConferencePage extends Component {
     }
 
     async switchCamera() {
-        try{
+        try {
             const devices = await this.OV.getDevices()
             var videoDevices = devices.filter(device => device.kind === 'videoinput');
 
-            if(videoDevices && videoDevices.length > 1) {
+            if (videoDevices && videoDevices.length > 1) {
 
                 var newVideoDevice = videoDevices.filter(device => device.deviceId !== this.state.currentVideoDevice.deviceId)
 
-                if (newVideoDevice.length > 0){
+                if (newVideoDevice.length > 0) {
                     // Creating a new publisher with specific videoSource
                     // In mobile devices the default and first camera is the front one
                     var newPublisher = this.OV.initPublisher(undefined, {
@@ -214,17 +276,20 @@ class ConferencePage extends Component {
                         currentVideoDevice: newVideoDevice,
                         mainStreamManager: newPublisher,
                         publisher: newPublisher,
+                        localUser: localUser,
                     });
                 }
             }
-          } catch (e) {
+        } catch (e) {
             console.error(e);
-          }
+        }
     }
 
     render() {
         const mySessionId = this.state.mySessionId;
         const myUserName = this.state.myUserName;
+        const localUser = this.state.localUser;
+        var chatDisplay = { display: this.state.chatDisplay };
 
         return (
             <div className="container">
@@ -269,40 +334,74 @@ class ConferencePage extends Component {
                 {this.state.session !== undefined ? (
                     <div id="session">
                         <div id="session-header">
-                            <h1 id="session-title">{mySessionId}</h1>
+                            <img src="resources/images/openvidu_grey_bg_transp_cropped.png" alt="OpenVidu logo" />
+
                             <input
                                 className="btn btn-large btn-danger"
                                 type="button"
                                 id="buttonLeaveSession"
                                 onClick={this.leaveSession}
-                                value="Leave session"
+                                value="세션 나가기"
+                            />
+                            <input
+                                className="btn btn-large btn-secondary"
+                                type="button"
+                                id="buttonToggleCamera"
+                                onClick={this.toggleCamera}
+                                value="카메라 끄기"
+                            />
+                            <input
+                                className="btn btn-large btn-primary"
+                                type="button"
+                                id="buttonToggleMic"
+                                onClick={this.toggleMic}
+                                value="마이크 끄기"
                             />
                         </div>
-
-                        {/* {this.state.mainStreamManager !== undefined ? (
-                            <div id="main-video" className="col-md-6">
-                                <UserVideoComponent streamManager={this.state.mainStreamManager} />
-                                <input
-                                    className="btn btn-large btn-success"
-                                    type="button"
-                                    id="buttonSwitchCamera"
-                                    onClick={this.switchCamera}
-                                    value="Switch Camera"
-                                />
+                        <div className='session-body'>
+                            <div id="video-container" className='col-md-3 col-xs-3'>
+                                <div className="row">
+                                    {this.state.subscribers.map((sub, i) => (
+                                        <div key={i} className="stream-container">
+                                            <UserVideoComponent streamManager={sub} />
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="row">
+                                    {this.state.publisher !== undefined ? (
+                                        <div className="stream-container">
+                                            <UserVideoComponent
+                                                streamManager={this.state.publisher} />
+                                        </div>
+                                    ) : null}
+                                </div>
                             </div>
-                        ) : null} */}
-                        <div id="video-container" className="col-md-6">
-                            {this.state.publisher !== undefined ? (
-                                <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                                    <UserVideoComponent
-                                        streamManager={this.state.publisher} />
+                            <div className='col-md-9 col-xs-9'>
+                                <div id="paint-container" >
+                                    <h1>그림판 놓을 자리</h1>
                                 </div>
-                            ) : null}
-                            {this.state.subscribers.map((sub, i) => (
-                                <div key={i} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
-                                    <UserVideoComponent streamManager={sub} />
+                                <div id="chat-container">
+                                    {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                                        <div>
+                                            <div className="OT_root OT_publisher custom-class row" style={chatDisplay}>
+                                                <ChatComponent
+                                                    user={localUser}
+                                                    chatDisplay={this.state.chatDisplay}
+                                                    close={this.toggleChat}
+                                                    messageReceived={this.checkNotification}
+                                                />
+                                            </div>
+                                            <input
+                                                className="btn btn-large btn-info"
+                                                type="button"
+                                                id="buttonToggleChat"
+                                                onClick={this.toggleChat}
+                                                value="채팅 토글"
+                                            />
+                                        </div>
+                                    )}
                                 </div>
-                            ))}
+                            </div>
                         </div>
                     </div>
                 ) : null}
@@ -386,4 +485,4 @@ class ConferencePage extends Component {
     }
 }
 
-export default ConferencePage;
+export default App;
