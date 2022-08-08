@@ -142,13 +142,8 @@ console.log("card",cards)
     return (
         <section className={styles.maker}>
             <div className={styles.container} >
-                <p className={styles.p}>
-                    <button className={styles.sort} onClick={onSortPrice}>가격순</button>
-                    <button className={styles.sort} onClick={onSortScore}>평점순</button>
-
-                </p>
-                    <CounselorList cards={cards}/>
-
+                <CounselorList cards={cards}/>
+            
             </div>
 
             <Footer />

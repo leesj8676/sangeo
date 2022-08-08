@@ -3,7 +3,6 @@ import {useParams, Link} from 'react-router-dom'
 import Conferences from './Conferences'
 import axios from 'axios';
 import Pagination from 'react-js-pagination';
-
 export default function ScheduleBox (){
     //본인인경우 아니면 오류페이지로
  

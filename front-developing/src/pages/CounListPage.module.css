@@ -9,20 +9,3 @@
   flex: 1;
 
 }
-
-.p {
-  position: absolute;
-  right:10px;
-}
-
-.sort {
-  margin : 3px;
-  padding: 5px 10px;
-  border-radius: 10px;
-  border-style: none;
-  text-decoration: none;
-  color: #6e6e6e;
-
-
-
-}
