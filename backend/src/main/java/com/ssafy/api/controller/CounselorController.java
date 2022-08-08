@@ -51,6 +51,8 @@ public class CounselorController {
 	public ResponseEntity<CounselorRes> search(
 			@PathVariable("counselorId") @ApiParam(value = "조회할 상담사 아이디", required = true) String counselorId) {
 		Counselor counselor = counselorService.getCounselorByCounselorId(counselorId);
+		if(counselor == null) 
+			return ResponseEntity.status(404).body(null);
 		return ResponseEntity.status(200).body(CounselorRes.of(counselor));
 	}
 	
