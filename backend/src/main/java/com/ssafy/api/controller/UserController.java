@@ -47,7 +47,8 @@ public class UserController {
 	public ResponseEntity<User> search(
 			@PathVariable("userId") @ApiParam(value = "조회할 회원 아이디", required = true) String userId) {
 		User user = userService.getUserByUserId(userId);
-		System.out.println(user.toString());
+		if(user == null)
+			return ResponseEntity.status(404).body(null);
 		return ResponseEntity.status(200).body(user);
 
 	}
