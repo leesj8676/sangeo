@@ -17,7 +17,8 @@ const CounDetailPage = ({card}) => {
     return (
         <section >
             <div className={styles.card}>
-                <img className={styles.avatar} src={Councard.fileURL} alt ="profile photo" />
+                {/*src에 전체 url을 적거나 항상 루트 폴더를 같게 지정해야 함*/}
+                <img className={styles.avatar} src={"http://localhost:3000/"+Councard.profile} alt ="profile photo" />
                 
                
             <div className={styles.info}>

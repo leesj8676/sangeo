@@ -1,13 +1,12 @@
 import React from 'react';
 import { useNavigate , Link} from 'react-router-dom';
-import CounselorDetail from '../../pages/CounDetailPage';
 import styles from './counselorcard.module.css';
 
 
 const DEFAULT_IMAGE = '/images/default_logo.png';
 const CounselorCard = ({card}) => {
-    const {counselorId, name, email, shortIntroduction, price, score, theme, fileName, fileURL} = card;
-    const url = fileURL || DEFAULT_IMAGE;
+    const {counselorId, name, email, shortIntroduction, price, avgScore, profile} = card;
+    const url = profile || DEFAULT_IMAGE;
     const navigate = useNavigate();
 
 
@@ -22,7 +21,7 @@ const CounselorCard = ({card}) => {
                 <h1 className={styles.name}>{name}</h1>
                 <p className={styles.email}>{email}</p>
                 <p className={styles.email}>가격 : {price}</p>
-                <p className={styles.email}>평점 : {score}</p>
+                <p className={styles.email}>평점 : {avgScore ? avgScore : "후기 없음"}</p>
                 <p className={styles.message}>{shortIntroduction}</p>
             </div>
   

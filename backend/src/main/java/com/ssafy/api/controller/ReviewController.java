@@ -84,13 +84,6 @@ public class ReviewController {
 			return ResponseEntity.status(400).body(null);
 		
 		List<Review> reviewList = reviewService.getReviewByCounselorId(counselor.getId());
-		// for문으로 ReviewRes로 형식 맞출것인지,,,,
-		/*
-		 List<ReviewRes> reviewList = new List<>();
-		 for(Review review : reviewService.getReviewByCounselorId(counselor.getId())){
-		 	reviewList.add(ReviewRes.of(review));
-		 }
-		 */
 		return ResponseEntity.status(200).body(reviewList);
 	}
 	
@@ -104,13 +97,6 @@ public class ReviewController {
 			return ResponseEntity.status(400).body(null);
 		
 		List<Review> reviewList = reviewService.getReviewByUserId(user.getId());
-		// for문으로 ReviewRes로 형식 맞출것인지,,,,
-		/*
-		 List<ReviewRes> reviewList = new List<>();
-		 for(Review review : reviewService.getReviewByUserId(user.getId())){
-		 	reviewList.add(ReviewRes.of(review));
-		 }
-		 */
 		return ResponseEntity.status(200).body(reviewList);
 	}
 	
