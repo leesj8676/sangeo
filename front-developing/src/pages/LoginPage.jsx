@@ -10,6 +10,8 @@ const LoginPage = ({authService}) =>{
   const [userid, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
+  authService.logout();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

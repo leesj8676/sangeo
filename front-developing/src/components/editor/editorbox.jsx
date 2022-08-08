@@ -20,7 +20,7 @@ function EditorBox ({onPost}){
 
     async function handleEditor(e) {
         const editorBody = editorRef.current.getInstance().getHTML();
-        console.log(editorBody);
+        //console.log(editorBody);
         onPost();
 
         const data = await fetch("/test", {
@@ -28,6 +28,10 @@ function EditorBox ({onPost}){
             headers : { "Content-Type" : "application/json"},
             body: JSON.stringify({editorBody})
         });
+    }
+
+    const onUploadImage = async (blob, callback) => {
+        console.log(blob);
     }
 
     return (
@@ -43,9 +47,7 @@ function EditorBox ({onPost}){
                 language = "ko-KR"
                 ref={editorRef}
                 hooks = {{
-                    addImageBlobHook : async (blob, callback) => {
-                        console.log(blob);
-                    }
+                    addImageBlobHook : onUploadImage
                 }}
             />
 

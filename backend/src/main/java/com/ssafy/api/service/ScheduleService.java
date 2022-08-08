@@ -17,6 +17,7 @@ public interface ScheduleService {
 	void createBreak(Counselor counselor, User user, String date) throws ParseException;
 	List<ScheduleMapping> getSchedulesByCounselor(Counselor counselor);
 	List<ScheduleMapping> getSchedulesByUser(User user);
+	Schedule getScheduleById(Long id);
 	Schedule getSchedulesByCounselorIdAndStartTime(Long counselorId, String startTime) throws ParseException;
 	Schedule getSchedulesByUserIdAndStartTime(Long userId, String startTime) throws ParseException;
 	Schedule updateSchedule(Schedule schedule, String afterStartTime) throws ParseException;
