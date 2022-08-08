@@ -16,7 +16,7 @@ const LoginPage = ({authService}) =>{
   let localStorage = window.localStorage;
   const goToCunslList = (userId) => {
     navigate({
-      pathname: '/maker',
+      pathname: '/',
       state: {id: userId},
   });
 }
