@@ -10,6 +10,7 @@ import ReduxThunk from "redux-thunk";
 import AuthService from './service/auth_service';
 import setAuthorizationToken from "./utils/setAuthorizationToken";
 import jwtDecode from "jwt-decode";
+import registerServiceWorker from './registerServiceWorker';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const authService = new AuthService();
@@ -33,3 +34,4 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+registerServiceWorker();
