@@ -13,6 +13,8 @@ import UserInfoChangePage from './pages/UserInfoChangePage';
 import UserMyPage from './pages/UserMyPage'
 import DoneCounselPage from './pages/DoneCounselPage';
 import ManageDoneCounselPage from './pages/ManageDoneCounselPage';
+import ConferencePage from './pages/ConferencePage';
+
 // 컴포넌트
 import NavigationBar from './components/header/Navbar';
 
@@ -53,7 +55,10 @@ function App({authService}) {
         {/* 상담관리 */}
         <Route path="/donecounsel" element={<DoneCounselPage authService={authService}/>} />
         <Route path="/managedonecounsel" element={<ManageDoneCounselPage authService={authService}/>} />
-   
+
+        {/* 컨퍼런스 */}
+        {/* 세션 아이디와 입장자, authService 확인 */}
+        <Route path="/conference/:id" element={<ConferencePage />} />
         </Routes>
       </BrowserRouter>
 

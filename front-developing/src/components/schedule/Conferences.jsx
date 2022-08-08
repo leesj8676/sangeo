@@ -12,7 +12,7 @@ export default function Conference(props) {
             <Link to={`../counselordetail/${props.name}`}>{props.name} 상담사</Link>
             <span>{date}</span>
             <a href="">사전질문 연결</a>
-            <Link to="/conference:id">상담실링크</Link>
+            <Link to={`../conference/${props.name}`}>상담실링크</Link>
         </nav>
     </div>
         );
