@@ -2,8 +2,12 @@ package com.ssafy.db.entity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,16 +40,15 @@ public class Schedule extends BaseEntity {
 	@JoinColumn(name = "USER_ID")
 	private User user;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
-	private Date startTime;
+	private LocalDateTime startTime;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
-	private Date endTime;
+	private LocalDateTime endTime;
 
 	private boolean isComplete = false;
 	private boolean isHoliday = false;
+	private boolean isConfirmed = false;
 
 	public Schedule() {
 		super();
@@ -63,18 +66,24 @@ public class Schedule extends BaseEntity {
 		this.user = user;
 		this.isComplete = isComplete;
 		this.isHoliday = isHoliday;
-
-		// 휴일인 경우
+		// 휴일인 경우 0시 0분 부터 23시 59분 까지 스케줄 생성
 		if (isHoliday == true) {
-			SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
-			Date date = dateformatter.parse(startTime);
-			this.startTime = date;
-			this.endTime = DateUtils.addMinutes(date, 1439);
+			LocalDate holiday = LocalDate.parse(startTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			LocalDateTime start = holiday.atStartOfDay();
+			this.startTime = start;
+			this.endTime = start.plusMinutes(1439);
 		} else {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA);
-			this.startTime = formatter.parse(startTime);
-			this.endTime = DateUtils.addHours(this.startTime, 1);
+			LocalDateTime start = LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+			this.startTime = start; 
+			this.endTime = start.plusHours(1);
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "Schedule [counselor=" + counselor + ", endTime=" + endTime + ", isComplete=" + isComplete
+				+ ", isConfirmed=" + isConfirmed + ", isHoliday=" + isHoliday + ", startTime=" + startTime + ", user="
+				+ user + "]";
 	}
 
 }
