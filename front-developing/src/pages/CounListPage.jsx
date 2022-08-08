@@ -2,7 +2,8 @@ import React from 'react';
 import styles from './CounListPage.module.css';
 import Footer from  '../components/footer/footer';
 import CounselorList from '../components/counselorlist/counselorlist';
-import axios from "axios";
+import axios from 'axios';
+
 
 
 import CounselorDetail  from './CounDetailPage';
@@ -132,7 +133,8 @@ const CounListPage = () => {
 
     useEffect( ()=> {}, [setsortPrice]);
     useEffect( ()=> {}, [setsortScore]);
-    useEffect(getCounList, [])
+    useEffect(getCounList, []);
+    
     useEffect(() => {
 console.log("card",cards)
     }, [cards])
@@ -140,15 +142,23 @@ console.log("card",cards)
     
   
     return (
-        <section className={styles.maker}>
+        <section className={styles.list}>
+            
             <div className={styles.container} >
-                <p className={styles.p}>
+                {/* <p className={styles.p}>
                     <button className={styles.sort} onClick={onSortPrice}>가격순</button>
                     <button className={styles.sort} onClick={onSortScore}>평점순</button>
 
                 </p>
-                    <CounselorList cards={cards}/>
+                    <CounselorList cards={cards}/> */}
 
+                <p className={styles.sort}>
+                    <button className={styles.btn} onClick={onSortPrice}> 가격순</button>
+                    <button className={styles.btn} onClick={onSortScore}> 평점순</button>
+                </p>
+            
+            <CounselorList cards={cards}/>
+            
             </div>
 
             <Footer />

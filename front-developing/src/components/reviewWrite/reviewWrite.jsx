@@ -15,14 +15,13 @@ function ReviewWrite() {
         axios.post('http://localhost:8080/api/v1/reviews', {
             score : star,
             content: review,
-        })
-        .then(function(result){
+          })
+          .then(function(result){
             alert(result.data.message);
     
-        })
-        .catch(function(err){
+          }).catch(function(err){
             alert(err);
-        })
+          })
     }
 
     const onStarData = (data) => {
