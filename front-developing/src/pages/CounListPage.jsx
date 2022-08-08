@@ -101,12 +101,10 @@ const CounListPage = () => {
 
         // },
     ]);
-  
-
 
     const getCounList = () => {
         console.log("ccccc")
-        axios.get("http://localhost:8080/api/v1/counselors")
+        axios.get("/counselors")
           .then((list) => {
             setCards(list.data)
           }

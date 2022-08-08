@@ -6,7 +6,6 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import RegisterCounselorPage from './pages/RegisterCounselorPage';
-import ReservationPage from './pages/ReservationPage';
 import CounListPage from './pages/CounListPage';
 import CounDetailPage from './pages/CounDetailPage';
 import UserInfoChangePage from './pages/UserInfoChangePage';
@@ -46,10 +45,6 @@ function App({authService}) {
         
         {/* 상담관리 */}
           <Route path="/donecounsel" element={<DoneCounselPage authService={authService}/>} />
-         
-
-          {/* 예약하기 경로 */}
-          <Route path="/reservation" element={<ReservationPage/>}></Route>
        
         
         {/* 상담관리 */}

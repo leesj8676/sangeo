@@ -58,6 +58,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 		List<ScheduleMapping> list = scheduleRepository.findByUser_Id(user.getId());
 		return list;
 	}
+	
+	@Override
+	public Schedule getScheduleById(Long id) {
+		return scheduleRepository.findById(id).get();
+	}
 
 	@Override
 	public Schedule getSchedulesByCounselorIdAndStartTime(Long counselorId, String startTime) throws ParseException {

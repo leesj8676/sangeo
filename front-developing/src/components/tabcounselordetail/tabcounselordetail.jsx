@@ -9,15 +9,16 @@ import { useLocation} from "react-router-dom";
 
 const Tabcounselordetail = ({card}) => {
   //console.log("tabdetail    "+ card.name);
+  console.log(card);
   const[tab, setTab] = useState(0);
  
   function TabContent(props) {
     if(props.tab === 0){
       return <div> 저 상담 진짜 잘해요</div>
     }else if(props.tab === 1) {
-      return <div><Reservation/></div>
+      return <div><Reservation counselorId = {card.counselorId} rst = {card.reserveStartTime} ret = {card.reserveEndTime}/></div>
     }else if(props.tab === 2){
-      return <div><Review userId = {card.id} /></div>
+      return <div><Review counselorId = {card.counselorId} /></div>
     }
   }
 

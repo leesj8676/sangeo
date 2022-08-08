@@ -10,7 +10,7 @@ function DoneCounselPage() {
     <div>
    
    {/* 리뷰작성 */}
-    <ReviewWrite/>  
+    <ReviewWrite scheduleId = {"1"}/>  
   
      
 

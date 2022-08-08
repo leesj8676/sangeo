@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.interfaces.DecodedJWT;
+import com.ssafy.api.request.PasswordUpdateReq;
 import com.ssafy.api.request.UserRegisterPostReq;
+import com.ssafy.api.request.UserUpdateReq;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
-import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.User;
 
 import io.swagger.annotations.Api;
@@ -48,7 +47,8 @@ public class UserController {
 	public ResponseEntity<User> search(
 			@PathVariable("userId") @ApiParam(value = "조회할 회원 아이디", required = true) String userId) {
 		User user = userService.getUserByUserId(userId);
-		System.out.println(user.toString());
+		if(user == null)
+			return ResponseEntity.status(404).body(null);
 		return ResponseEntity.status(200).body(user);
 
 	}
@@ -71,15 +71,30 @@ public class UserController {
 		}
 	}
 
+	// 비밀번호 없는 버전
 	@PutMapping()
-	@ApiOperation(value = "회원 정보 수정", notes = "<strong>패스워드, 이름, 전화번호, 프로필</strong>을 통해 회원 정보를 수정한다.")
+	@ApiOperation(value = "회원 정보 수정", notes = "<strong>이름, 전화번호, 프로필</strong>을 통해 회원 정보를 수정한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<User> update(
-			@RequestBody @ApiParam(value = "수정할 회원 정보", required = true) UserRegisterPostReq registerInfo) {
-		User user = userService.updateUser(registerInfo);
+	public ResponseEntity<User> updateUserInfo(
+			@RequestBody @ApiParam(value = "수정할 회원 정보", required = true) UserUpdateReq updateInfo) {
+		User user = userService.updateUser(updateInfo);
 		return ResponseEntity.status(200).body(user);
 	}
+	
+	// 비밀번호 수정 버전
+	@PutMapping("/password")
+	@ApiOperation(value = "회원 비밀번호 수정", notes = "<strong>비밀번호</strong>를 수정한다.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<User> updatePassword(
+			@RequestBody @ApiParam(value = "수정할 회원 비밀번호 정보", required = true) PasswordUpdateReq passwordUpdateInfo) {
+		User user = userService.updatePassword(passwordUpdateInfo);
+		if(user == null)
+			return ResponseEntity.status(400).body(null);
+		return ResponseEntity.status(200).body(user);
+	}
+	
 
 	@DeleteMapping("/{userId}")
 	@ApiOperation(value = "회원 정보 삭제", notes = "<strong>아이디</strong>를 통해 회원 정보를 삭제한다.")

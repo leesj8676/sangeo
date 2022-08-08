@@ -4,29 +4,32 @@ import ReviewContent from '../reviewcontent/reviewcontent';
 import axios from "axios";
 
 
-function ReviewWrite() {
+function ReviewWrite({scheduleId}) {
     const [review, setReview] = useState();
     const [star, setStar] = useState();
 
-
     const onSetData = (data) => {
         setReview(data);
-
-        axios.post('http://localhost:8080/api/v1/reviews', {
-            score : star,
-            content: review,
-          })
-          .then(function(result){
-            alert(result.data.message);
-    
-          }).catch(function(err){
-            alert(err);
-          })
     }
 
     const onStarData = (data) => {
         setStar(data);
     }
+
+    const onSubmit = () => {
+        console.log(scheduleId+" "+star+" "+review);
+        axios.post('/reviews', {
+            scheduleId : scheduleId,
+            score : star,
+            content: review,
+          })
+          .then(function(result){
+            console.log(result);
+            alert("후기가 작성되었습니다!");
+          }).catch(function(err){
+            alert(err);
+          })
+      }
 
   return (
     <div>
@@ -34,6 +37,7 @@ function ReviewWrite() {
 
         <StarScore onStarData = {onStarData}  />
         <ReviewContent onSetData={onSetData}/>
+        <button onClick = {onSubmit}> 작성완료 </button>
         <p> 후기 : <b>{star}  </b> <b>{review}</b></p>
 
   </div>

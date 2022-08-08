@@ -72,7 +72,7 @@ function NavigationBar({authService}) {
             (
               <div>
               <Nav.Link className="me-1 text-center align-self-center" onClick={onClickLogout}>로그아웃</Nav.Link>
-              <Button className="point_bgcolor" onClick={onLogout}>구글로그아웃</Button>
+              {/* <Button className="point_bgcolor" onClick={onLogout}>구글로그아웃</Button> */}
               </div>
             )
             :

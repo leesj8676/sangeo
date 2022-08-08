@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 유저 회원가입 API ([POST] /api/v1/counselors) 요청에 필요한 리퀘스트 바디 정의.
+ * 상담사 회원가입 API ([POST] /api/v1/counselors) 요청에 필요한 리퀘스트 바디 정의.
  */
 @Getter
 @Setter
@@ -22,9 +22,9 @@ public class CounselorRegisterPostReq {
 	String password;
 	@ApiModelProperty(name="상담사 Name", example="박상담")
 	String name;
-	@ApiModelProperty(name="상담사 PhoneNumber", example="010-1234-5678")
+	@ApiModelProperty(name="상담사 PhoneNumber", example="01012345678")
 	String phoneNumber;
-	@ApiModelProperty(name="상담사 Profile", example="이미지 경로")
+	@ApiModelProperty(name="상담사 Profile", example="basic.png")
 	String profile;
 	@ApiModelProperty(name="상담사 한줄 자기소개", example="안녕하세요. 저는 경력 5년의 미술 심리 상담사입니다.")
 	String shortIntroduction;

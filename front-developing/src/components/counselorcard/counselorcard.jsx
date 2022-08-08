@@ -6,8 +6,7 @@ import styles from './counselorcard.module.css';
 
 const DEFAULT_IMAGE = '/images/default_logo.png';
 const CounselorCard = ({card}) => {
-    
-    const {cardId, name, email, shortIntroduction, price, score, theme, fileName, fileURL} = card;
+    const {counselorId, name, email, shortIntroduction, price, score, theme, fileName, fileURL} = card;
     const url = fileURL || DEFAULT_IMAGE;
     const navigate = useNavigate();
 
@@ -15,7 +14,7 @@ const CounselorCard = ({card}) => {
     return (
         
         <li className={`${styles.card}`}>
-            <Link to= {`/counselordetail/${name}`} 
+            <Link to= {`/counselordetail/${counselorId}`} 
             state = {{card}}>
             <img className={styles.avatar} src={url} alt ="profile photo" />
             </Link>

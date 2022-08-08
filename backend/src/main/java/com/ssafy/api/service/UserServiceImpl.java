@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.api.request.PasswordUpdateReq;
 import com.ssafy.api.request.UserRegisterPostReq;
+import com.ssafy.api.request.UserUpdateReq;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRepository;
 
@@ -47,15 +49,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateUser(UserRegisterPostReq userRegisterInfo) {
-		User user = userRepository.findByUserId(userRegisterInfo.getUserId()).get();
-		//User user = userRepositorySupport.findUserByUserId(userRegisterInfo.getUserId()).get();
-		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
-		user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
-		user.setName(userRegisterInfo.getName());
-		user.setPhoneNumber(userRegisterInfo.getPhoneNumber());
-		user.setProfile(userRegisterInfo.getProfile());
+	public User updateUser(UserUpdateReq userUpdateInfo) {
+		User user = userRepository.findByUserId(userUpdateInfo.getUserId()).get();
+		// 비밀번호는 제외하고 수정
+		user.setName(userUpdateInfo.getName());
+		user.setPhoneNumber(userUpdateInfo.getPhoneNumber());
+		user.setProfile(userUpdateInfo.getProfile());
 
+		return userRepository.save(user);
+	}
+	
+	@Override
+	public User updatePassword(PasswordUpdateReq passwordUpdateInfo) {
+		User user = userRepository.findByUserId(passwordUpdateInfo.getId()).get();
+		// user가 null이거나 현재 비밀번호가 틀렸을 때 null 리턴
+		if(user == null || !passwordEncoder.matches(passwordUpdateInfo.getPassword(), user.getPassword()))
+			return null;
+		// 비밀번호만 수정
+		user.setPassword(passwordEncoder.encode(passwordUpdateInfo.getNewPassword()));
 		return userRepository.save(user);
 	}
 
