@@ -1,0 +1,13 @@
+.box {
+    box-sizing: border-box;
+    width: 1121px;
+    height: 80px;
+    left: 50px;
+    top: 860px;
+    background: #FFFFFF;
+    border: 1px solid #62AAFF;
+}
+
+.state {
+    bottom: 40px;
+}

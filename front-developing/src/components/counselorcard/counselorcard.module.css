@@ -1,0 +1,64 @@
+@value makerShadow, makerColorful from '../../common/colors.css';
+
+
+.card {
+    display: flex;
+    align-items: center;
+    border-radius: 1em;
+    background-color: rgb(168, 219, 210);
+    padding: 1em;
+    margin-bottom: 0.5em;
+    box-shadow: 6px 6px 8px 8px makerShadow ;
+    max-width: 30rem;
+    margin: 1em;
+}
+
+.card.dark{
+    background-color: rgb(72, 112, 75);
+    color: white;
+}
+
+.card.light {
+    background-color: rgb(195, 231, 95);
+}
+
+.card.colorful {
+    background: makerColorful;
+}
+
+
+.avatar {
+    width : 10em;
+    height: 10em;
+    padding : 1em;
+    margin-left: 0.5em;
+    margin-right: 1em;
+    border-radius: 50%;
+}
+
+.info{
+    width: 100%;
+}
+
+.name, 
+.email, 
+.message {
+    margin: 0;
+    font-size: 0.8rem;
+    margin-bottom: 0.2em;
+
+}
+
+.name{
+    font-size : 1.2rem;
+    margin-bottom: 1em;
+}
+
+.name::after {
+    content : '';
+    display : block;
+    width : 90%;
+    height: 2px;
+    transform: translateY(0.5em);
+    background-color: black;
+}
