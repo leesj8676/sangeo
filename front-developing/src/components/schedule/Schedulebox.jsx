@@ -12,13 +12,13 @@ export default function ScheduleBox (){
     const [list,setList] = useState([])
     const [page, setPage] = useState(1);
 
-    const URL = `schedules/users/${useParams().id}`
+    const URL = process.env.REACT_APP_DB_HOST + `schedules/users/${useParams().id}`
     
     const [first,setFirst] = useState(1)//최초렌더링시 입력값이 반영안되는 문제 해결
 
     useEffect(()=>{
     //console.log(process.env.REACT_APP_DB_HOST//+URL)
-    axios.get("http://localhost:8080/api/v1/"+URL)
+    axios.get(URL)
     .then(function (response) {
             console.log(response.data)
             setConference(conference=>response.data)
