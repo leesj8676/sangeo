@@ -21,7 +21,7 @@ function ReservationTime(props) {
     useEffect(() => {
         async function fetchData() {
             try{
-                const result = await axios.get(process.env.REACT_APP_DB_HOST+`schedules/counselors/date/${props.counselorId}/${YMD}`);
+                const result = await axios.get(process.env.REACT_APP_DB_HOST+`/schedules/counselors/date/${props.counselorId}/${YMD}`);
                 setRsvTimeArr(result.data);
             }
             catch(error){
@@ -69,7 +69,7 @@ function ReservationTime(props) {
 
         if (isLogin && user.isUser) {
             console.log(user.id);
-            axios.post(process.env.REACT_APP_DB_HOST + "schedules", {
+            axios.post(process.env.REACT_APP_DB_HOST + "/schedules", {
                 counselorId: props.counselorId,
                 startTime: YMD + " " + selectedTime,
                 userId: user.id
@@ -141,7 +141,7 @@ function ReservationTime(props) {
                             { time_label: true },
                             { reserved: checkThirty }
                         )}>
-                        <input type="radio" name="time" value={`${i}:30`} onChange={handleChange}
+                        <input type="radio" name="time" value={`${i}:30` || ''} onChange={handleChange}
                             {...(checkThirty ? { disabled: true, checked: false } : {})} />
                         <span>{i < 10 ? `0${i}:30`:`${i}:30`}</span>
                     </label>
@@ -154,7 +154,7 @@ function ReservationTime(props) {
                             { time_label: true },
                             { reserved: checkZero }
                         )}>
-                        <input type="radio" name="time" value={`${i}:00`} onChange={handleChange}
+                        <input type="radio" name="time" value={`${i}:00` || ''} onChange={handleChange}
                             {...(checkZero ? { disabled: true, checked: false } : {})} />
                         <span>{i < 10 ? `0${i}:00`:`${i}:00`}</span>
                     </label>
@@ -167,7 +167,7 @@ function ReservationTime(props) {
                             { time_label: true },
                             { reserved: checkZero }
                         )}>
-                        <input type="radio" name="time" value={`${i}:00`} onChange={handleChange}
+                        <input type="radio" name="time" value={`${i}:00` || ''} onChange={handleChange}
                             {...(checkZero ? { disabled: true, checked: false } : {})} />
                         <span>{i < 10 ? `0${i}:00`:`${i}:00`}</span>
                     </label>
@@ -178,7 +178,7 @@ function ReservationTime(props) {
                             { time_label: true },
                             { reserved: checkThirty }
                         )}>
-                        <input type="radio" name="time" value={`${i}:30`} onChange={handleChange}
+                        <input type="radio" name="time" value={`${i}:30` || ''} onChange={handleChange}
                             {...(checkThirty ? { disabled: true, checked: false } : {})} />
                         <span>{i < 10 ? `0${i}:30`:`${i}:30`}</span>
                     </label>

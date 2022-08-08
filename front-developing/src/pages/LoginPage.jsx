@@ -10,13 +10,15 @@ const LoginPage = ({authService}) =>{
   const [userid, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
+  authService.logout();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   let localStorage = window.localStorage;
   const goToCunslList = (userId) => {
     navigate({
-      pathname: '/maker',
+      pathname: '/counselorlist',
       state: {id: userId},
   });
 }
@@ -107,7 +109,7 @@ useEffect(() => {
           <button
             type="submit"
             onClick={(event) => {onSubmit(false, event)}}
-            className="loginregister__button"
+            className="loginregister__button w-btn-gra-anim"
           >
             상담사 로그인
           </button>
