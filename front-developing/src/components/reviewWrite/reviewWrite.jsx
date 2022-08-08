@@ -18,7 +18,7 @@ function ReviewWrite({scheduleId}) {
 
     const onSubmit = () => {
         console.log(scheduleId+" "+star+" "+review);
-        axios.post('/reviews', {
+        axios.post(process.env.REACT_APP_DB_HOST+'/reviews', {
             scheduleId : scheduleId,
             score : star,
             content: review,

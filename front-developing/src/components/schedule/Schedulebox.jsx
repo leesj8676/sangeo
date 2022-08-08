@@ -12,7 +12,7 @@ export default function ScheduleBox (){
     const [list,setList] = useState([])
     const [page, setPage] = useState(1);
 
-    const URL = process.env.REACT_APP_DB_HOST + `schedules/users/${useParams().id}`
+    const URL = process.env.REACT_APP_DB_HOST + `/schedules/users/${useParams().id}`
     
     const [first,setFirst] = useState(1)//최초렌더링시 입력값이 반영안되는 문제 해결
 

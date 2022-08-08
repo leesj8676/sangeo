@@ -104,7 +104,7 @@ const CounListPage = () => {
 
     const getCounList = () => {
         console.log("ccccc")
-        axios.get("/counselors")
+        axios.get(process.env.REACT_APP_DB_HOST+"/counselors")
           .then((list) => {
             setCards(list.data)
           }

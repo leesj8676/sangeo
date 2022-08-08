@@ -36,9 +36,9 @@ const LoginPage = ({authService}) =>{
   const onSubmit = (isUser, event) => { // isUser가 true이면 user, false이면 counselor
     event.preventDefault();
  
-    let url = "auth/user/login";
+    let url = "/auth/user/login";
     if(!isUser){
-      url = "auth/counselor/login"
+      url = "/auth/counselor/login"
     }
 
     axios.post(process.env.REACT_APP_DB_HOST+url, {
