@@ -7,6 +7,7 @@ import com.ssafy.db.entity.User;
 
 public class ScheduleMapping {
 
+	private Long id;
 	private Counselor counselor;
 	private User user;
 	private LocalDateTime startTime;
@@ -14,9 +15,10 @@ public class ScheduleMapping {
 	private boolean isConfirmed;
 	private boolean isComplete;
 
-	public ScheduleMapping(Counselor counselor, User user, LocalDateTime startTime, LocalDateTime endTime,
+	public ScheduleMapping(Long id, Counselor counselor, User user, LocalDateTime startTime, LocalDateTime endTime,
 			boolean isConfirmed, boolean isComplete) {
 		super();
+		this.id = id;
 		this.counselor = counselor;
 		this.user = user;
 		this.startTime = startTime;
@@ -25,10 +27,14 @@ public class ScheduleMapping {
 		this.isComplete = isComplete;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
 	public String getCounselorId() {
 		return counselor.getCounselorId();
 	}
-	
+
 	public String getCounselorName() {
 		return counselor.getName();
 	}
@@ -36,7 +42,7 @@ public class ScheduleMapping {
 	public String getUserId() {
 		return user.getUserId();
 	}
-	
+
 	public String getUserName() {
 		return user.getName();
 	}
@@ -56,7 +62,5 @@ public class ScheduleMapping {
 	public boolean isComplete() {
 		return isComplete;
 	}
-	
-	
-	
+
 }
