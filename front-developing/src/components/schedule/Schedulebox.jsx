@@ -7,33 +7,41 @@ import Pagination from 'react-js-pagination';
 export default function ScheduleBox (){
     //본인인경우 아니면 오류페이지로
  
-    const [conference,setConference] = useState([])
+    const [conference,setConference] = useState([]) //리스트들
     const [onoff,setOnoff] = useState("오래된")
-    const [list,setList] = useState([])
+    const [list,setList] = useState([]) //컨퍼런스 복사한 리스트
     const [page, setPage] = useState(1);
 
-    const URL = process.env.REACT_APP_DB_HOST + `schedules/users/${useParams().id}`
+    const URL = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/users/${useParams().id}`
     
-    const [first,setFirst] = useState(1)//최초렌더링시 입력값이 반영안되는 문제 해결
 
     useEffect(()=>{
     //console.log(process.env.REACT_APP_DB_HOST//+URL)
     axios.get(URL)
     .then(function (response) {
-            console.log(response.data)
-            setConference(conference=>response.data)
-            setList(list=>conference)
-            if (first === 1){setFirst(0)}//최초렌더링시 입력값이 반영안되는 문제 해결
+            console.log(response.data,'data')
+            setConference(response.data)
     });    
-    },[first])
-    let conferenceList = list.map((x)=>(<Conferences className="conference" complete={x.complete} name={x.counselorName} date={x.startTime}/>))
+    },[])
+    
+    useEffect(()=>{
+        //console.log(process.env.REACT_APP_DB_HOST//+URL)
+        axios.get(URL)
+        .then(function (response) {
+            console.log(conference,'con')
+            if (conference.length>0){setList(conference.map((x)=>(<Conferences props={x}/>)))}}
+        );},[conference])  
+    
+
+
     function clickButton(){
         console.log("버튼")
         setList(list.reverse())
         if (onoff === "최신순"){setOnoff(onoff=>"오래된")}
         else {setOnoff(onoff=>"최신순")}
-        conferenceList = list.map((x)=>(<Conferences complete={x.complete} name={x.counselorName} date={x.startTime}/>))
-    }
+        if (conference.length>0){setList(conference.map((x)=>(<Conferences props={x}/>)))}
+            }
+    
     function changeSee(e){
         console.log(e.target.value)
         setPage(page=>1)
@@ -42,8 +50,9 @@ export default function ScheduleBox (){
         else if (e.target.value==="완료"){setList(list=>list.filter(c => c.complete===false)); console.log("완료", list)}
         else {setList(list=>list.filter(c => c.complete===true)); console.log("예정", list)}
         console.log(list)
-        conferenceList = list.map((x)=>(<Conferences complete={x.complete} name={x.counselorName} date={x.startTime}/>))
-    }                    
+        if (conference.length>0){setList(conference.map((x)=>(<Conferences props={x}/>)))}        
+    } 
+
     const handlePageChange = page => {
         setPage(page);
         console.log(page)
@@ -61,15 +70,15 @@ export default function ScheduleBox (){
         </label>
         <div>
             <button className="button" onClick={clickButton}>{onoff}</button>
-            <div>{conferenceList.slice((page-1)*10,(page-1)*10+10)}</div>
-            <div>총 {conferenceList.length} 개</div>
+            <div>{list.slice((page-1)*10,(page-1)*10+10)}</div>
+            <div>총 {list.length} 개</div>
         </div>
         <div>
         <Pagination
             activePage={page}//현재 페이지
-            itemsCountPerPage={parseInt((conferenceList.length-1)/10)+1}
-            totalItemsCount={conferenceList.length}//전체 아이템 개수
-            pageRangeDisplayed={parseInt((conferenceList.length-1)/10)+1}
+            itemsCountPerPage={parseInt((list.length-1)/10)+1}
+            totalItemsCount={list.length}//전체 아이템 개수
+            pageRangeDisplayed={parseInt((list.length-1)/10)+1}
             prevPageText="‹"
             nextPageText="›"
             onChange={handlePageChange}
