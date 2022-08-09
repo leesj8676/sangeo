@@ -25,15 +25,6 @@
     width: 100%;
 }
 
-.name, 
-.email, 
-.message {
-    margin: 0;
-    font-size: 0.8rem;
-    margin-bottom: 0.2em;
-
-}
-
 .name{
     font-size : 1.2rem;
     margin-bottom: 1em;
@@ -48,12 +39,23 @@
     background-color: gray;
 }
 
+.detail,
+.score {
+    margin: 0;
+    font-size: 0.8rem;
+    margin-bottom: 0.2em;
+}
+
+.score{
+    color: hotpink;
+}
+
 .tab{
     margin: 1em;
 }
 
 .wbtn {
-    position: relative;
+    float: right;
     border: none;
     min-width: 100px;
     min-height: 40px;

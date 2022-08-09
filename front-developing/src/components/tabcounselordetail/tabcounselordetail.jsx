@@ -1,10 +1,10 @@
 import React, { Component, useEffect } from "react";
 import Review from "../review/review";
 import Reservation from "../reservation/reservation";
+import CounselorDetailInfo from "../counselordetailinfo/counselordetailinfo";
 import { useState } from "react";
 import {Nav, TabContent} from 'react-bootstrap';
 import styles from './tabcounselordetail.module.css';
-import { useLocation} from "react-router-dom";
 
 
 const Tabcounselordetail = ({card}) => {
@@ -14,7 +14,7 @@ const Tabcounselordetail = ({card}) => {
  
   function TabContent(props) {
     if(props.tab === 0){
-      return <div> 저 상담 진짜 잘해요</div>
+      return <div><CounselorDetailInfo card = {card}></CounselorDetailInfo></div>
     }else if(props.tab === 1) {
       return <div><Reservation counselorId = {card.counselorId} rst = {card.reserveStartTime} ret = {card.reserveEndTime}/></div>
     }else if(props.tab === 2){

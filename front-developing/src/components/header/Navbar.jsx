@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from './Navbar.module.css';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -19,6 +19,19 @@ function NavigationBar({authService}) {
 
   const user = useSelector(state => state.user.user);
   const isLogin = useSelector(state => state.user.isLogin);
+
+  const [searchWord, setSearchWord] = useState("");
+
+  const onSearchWordHandler = (event) => {
+    setSearchWord(event.currentTarget.value);
+  };
+
+  const onClickSearch = () => {
+    navigate({
+      pathname: '/counselorlist',
+      search: `?searchWord=${searchWord}`
+    });
+  }
 
   const onClickRegister = () => {
     navigate('sign_up');
@@ -63,8 +76,9 @@ function NavigationBar({authService}) {
             placeholder="상담사 이름으로 검색하세요!"
             className="me-2"
             aria-label="Search"
+            onChange={onSearchWordHandler}
           />
-          <FaSearch className="align-self-center"/>
+          <FaSearch className="align-self-center" onClick={onClickSearch}/>
         </Form>
           <Nav className="justify-content-end flex-grow-1 pe-3">
           <Nav.Link className="me-1 text-center align-self-center" href="/counselorlist">상담사 찾기</Nav.Link>

@@ -1,17 +1,14 @@
 @value makerShadow, makerColorful, mainBlue from '../../common/colors.css';
 
-
 .card {
-    display: flex;
-    align-items: center;
+    list-style-type: none;
     border-radius: 1em;
-   
     padding: 1em;
     margin-bottom: 0.5em;
     box-shadow: 6px 6px 8px 8px makerShadow ;
-    max-width: 30rem;
+    height: 24rem;
     margin: 1em;
-    background-color: #62abffa5;;
+    background-color: #62abffa5;
 }
 
 .card.dark{
@@ -40,26 +37,33 @@
 .info{
     width: 100%;
 }
-
-.name, 
-.email, 
-.message {
-    margin: 0;
-    font-size: 0.8rem;
-    margin-bottom: 0.2em;
-
-}
-
+ 
 .name{
     font-size : 1.2rem;
     margin-bottom: 1em;
 }
 
+.details{
+    height: 6rem;
+}
+
+.detail {
+    margin: 0;
+    font-size: 0.9rem;
+    margin-bottom: 0.2em;
+    text-align: left;
+}
+
 .name::after {
     content : '';
     display : block;
-    width : 90%;
+    width : 100%;
     height: 2px;
     transform: translateY(0.5em);
     background-color: black;
+}
+
+.score{
+    font-size: 1rem;
+    color: hotpink;
 }
