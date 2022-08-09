@@ -1,27 +1,17 @@
 import React from 'react';
 import styles from './CounListPage.module.css';
 import Footer from  '../components/footer/footer';
-import CounselorList from '../components/counselorlist/counselorlist';
 import Card from '../components/counselorcard/counselorcard'
 import axios from 'axios';
-import CounselorDetail  from './CounDetailPage';
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
-
-
-
 
 const CounListPage = () => {
    
-
     const [cards, setCards] = useState([]); //카드목록
     const [cardList, setCardList] = useState([]);
-    const [sortPrice, setsortPrice] = useState(); //가격으로 정
-    const [sortScore, setsortScore] = useState();
 
     useEffect(()=>{
-        axios.get("https://i7e207.p.ssafy.io:8080/api/v1/counselors")
+        axios.get(process.env.REACT_APP_DB_HOST+"/counselors")
         .then(function (response){
             console.log(response.data,'데이터')
             setCards(response.data)} //카드에 받아온 값 넣음           
@@ -33,22 +23,22 @@ const CounListPage = () => {
 
     useEffect(()=> {
         console.log(cards,"카드변경")
-        if(cards.length > 0){setCardList(cards.map((card)=><Card props={card}/>))}}
+        if(cards.length > 0){setCardList(cards.map((card)=><Card card={card}/>))}}
         ,[cards])
     
 
-
+    // 가격 오름차순 정렬    
     const onSortPrice = () => {
         const sortPrice = [...cards];
         setCards(sortPrice.sort((a,b) => {
             return a.price - b.price;
     }))}
 
-    
+    // 후기 오름차순 정렬    
     const onSortScore = () => {
         const sortScore = [...cards];
         setCards(sortScore.sort((a,b) => {
-            return a.score - b.score;
+            return a.avgScore - b.avgScore;
     }))}
 
 
