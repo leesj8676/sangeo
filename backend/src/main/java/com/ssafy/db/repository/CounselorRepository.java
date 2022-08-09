@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.ssafy.api.mapping.CounselorMapping;
 import com.ssafy.db.entity.Counselor;
@@ -29,6 +30,7 @@ public interface CounselorRepository extends JpaRepository<Counselor, Long>{ // 
     		+ "cs.reserve_start_time as reservestarttime, cs.reserve_end_time as reserveendtime, cs.consult_target as consulttarget, cs.price as price, cs.consult_number as consultnumber, cs.holiday as holiday, avg(rv.score) as avgscore "
     		+ "from counselor cs left outer join review rv "
     		+ "on cs.id = rv.counselor_id "
+    		+ "where cs.name like :search_word "
     		+ "group by cs.id", nativeQuery = true)
-    List<CounselorMapping> getCounselorAndScoreList();
+    List<CounselorMapping> getCounselorAndScoreList(@Param(value = "search_word") String searchWord);
 }

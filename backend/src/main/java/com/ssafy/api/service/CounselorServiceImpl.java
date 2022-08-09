@@ -52,8 +52,9 @@ public class CounselorServiceImpl implements CounselorService{
 	}
 	
 	@Override
-	public List<CounselorMapping> getAllCounselor() {
-		List<CounselorMapping> clist = counselorRepository.getCounselorAndScoreList();
+	public List<CounselorMapping> getAllCounselor(String searchWord) {
+		System.out.println("search word : "+searchWord);
+		List<CounselorMapping> clist = counselorRepository.getCounselorAndScoreList(searchWord);
 		//List<CounselorMapping> clist = counselorRepository.findAllBy();
 		return clist;
 	}

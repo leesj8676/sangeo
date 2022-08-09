@@ -1,5 +1,7 @@
 package com.ssafy.api.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.api.mapping.CounselorMapping;
@@ -23,7 +26,6 @@ import com.ssafy.api.response.CounselorRes;
 import com.ssafy.api.service.CounselorService;
 import com.ssafy.common.auth.CounselorDetails;
 import com.ssafy.db.entity.Counselor;
-import com.ssafy.db.entity.User;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -61,7 +63,20 @@ public class CounselorController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "상담사 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<List<CounselorMapping>> searchAll() {
-		List<CounselorMapping> clist = counselorService.getAllCounselor();
+		// 검색어 없이 전체 조회
+		System.out.println("전체 조회");
+		List<CounselorMapping> clist = counselorService.getAllCounselor("%");
+		return ResponseEntity.status(200).body(clist);
+	}
+	
+	@GetMapping(value = "/search")
+	@ApiOperation(value = "검색어로 상담사 정보 조회", notes = "이름 검색으로 상담사 정보를 조회한다.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "상담사 없음"), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<List<CounselorMapping>> searchCondition(@RequestParam @ApiParam(value = "조회할 검색어", required = true) String searchWord) {
+		// 검색어로 조회
+		System.out.println(searchWord);
+		List<CounselorMapping> clist = counselorService.getAllCounselor("%"+searchWord+"%");
 		return ResponseEntity.status(200).body(clist);
 	}
 

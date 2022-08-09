@@ -11,7 +11,7 @@ import com.ssafy.db.entity.Counselor;
 public interface CounselorService {
 	Counselor createCounselor(CounselorRegisterPostReq counselorRegisterInfo);
 	Counselor getCounselorByCounselorId(String counselorId);
-	List<CounselorMapping> getAllCounselor();
+	List<CounselorMapping> getAllCounselor(String searchWord);
 	Counselor updateCounselor(CounselorUpdateReq updateCounselorInfo);
 	Counselor updatePassword(PasswordUpdateReq passwordUpdateInfo);
 	void deleteCounselor(String counselorId);
