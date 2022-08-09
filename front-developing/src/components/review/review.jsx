@@ -11,7 +11,7 @@ const Review = ({counselorId}) => {
     console.log("useEffect()");
     async function fetchData() {
         try{
-            const result = await axios.get(`/reviews/counselor/${counselorId}`);
+            const result = await axios.get(process.env.REACT_APP_DB_HOST+`/reviews/counselor/${counselorId}`);
             console.log(result.data);
             setreviewList(result.data);
         }

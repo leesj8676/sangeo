@@ -20,7 +20,7 @@ export default function UserInfoChange(){
 
     useEffect(()=>{
     //console.log(process.env.REACT_APP_DB_HOST//+URL)
-    axios.get("http://localhost:8080/api/v1/"+URL)
+    axios.get(process.env.REACT_APP_DB_HOST+URL)
     .then(function (response) {
             setInfo(response.data)
             setId(info.userId)
@@ -69,7 +69,7 @@ export default function UserInfoChange(){
     function idCheck(){
         console.log("아이디 중복확인")
         console.log(newid)
-        axios.get(`http://localhost:8080/api/v1/users/${newid}`)
+        axios.get(process.env.REACT_APP_DB_HOST+`/${newid}`)
         .then((response)=>{console.log("있음")
                             setMsg('이미 존재하는 아이디 입니다')},
                 (error)=>{

@@ -53,7 +53,7 @@ function RegisterPage() {
       return alert("비밀번호와 비밀번호확인은 같아야 합니다.");
     }
 
-    const url = 'users'
+    const url = '/users'
     axios.post(process.env.REACT_APP_DB_HOST+url, {
       userId : userId,
       password : password,

@@ -1,18 +1,13 @@
-//https://stackoverflow.com/questions/30115324/pass-props-in-link-react-router 리액터 라우터 연결하기
-// 내비게이션바도 빼기!!
-
-
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import React, { Component } from 'react';
+import { useParams } from "react-router-dom";
+
 import './ConferencePage.css';
 import UserVideoComponent from '../components/conference/UserVideoComponent';
 import ChatComponent from '../components/conference//ChatComponent';
 import UserModel from '../components/conference//user-model';
 import Paint from '../components/conference/Paint';
-
-import { useParams } from "react-router-dom";
-
 
 //MUI 
 import IconButton from '@material-ui/core/IconButton';
@@ -24,7 +19,7 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-//set theme color '62AAFF'
+//set 상어 Theme Color
 const theme = createTheme({
     palette: {
         primary: {
@@ -33,12 +28,9 @@ const theme = createTheme({
     },
 });
 
-
-
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
 }
-
 
 var localUser = new UserModel();
 
@@ -46,12 +38,13 @@ const OPENVIDU_SERVER_URL = 'https://i7e207.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
 class ConferencePage extends Component {
+
     constructor(props) {
         super(props);
 
         this.state = {
-            mySessionId: 'SessionA',
-            myUserName: 'Participant' + Math.floor(Math.random() * 10),
+            mySessionId: 'Session' + this.props.id,
+            myUserName: undefined,
             session: undefined,
             mainStreamManager: undefined,
             publisher: undefined,
@@ -59,6 +52,18 @@ class ConferencePage extends Component {
             localUser: undefined,
             chatDisplay: 'none',
         };
+
+        axios.get(process.env.REACT_APP_DB_HOST + "/users/me")
+            .then(({ data }) => {
+                console.log("then", data.name);
+                this.setState({
+                    myUserName: data.name,
+                });
+            }
+            ).catch((err) => {
+                alert('로그인 하세요');
+                window.location.href = '/';
+            })
 
         this.joinSession = this.joinSession.bind(this);
         this.leaveSession = this.leaveSession.bind(this);
@@ -131,15 +136,6 @@ class ConferencePage extends Component {
     }
 
     joinSession() {
-        // --- 상담실 입장 버튼으로 바로 입장 ---
-        // props로 세션이름(상담사 id), 이름 받아옴
-        // this.setSessionId("Session" +this.props.id);
-        this.setSessionId("SessionA");
-        this.setUserName('Participant' + Math.floor(Math.random() * 10),);
-        // this.setSessionId("Session" + this.props.counselorid);
-        // this.setUserName(this.props.nickname);
-
-        // --- 1) Get an OpenVidu object ---
 
         this.OV = new OpenVidu();
 
@@ -203,8 +199,8 @@ class ConferencePage extends Component {
                             let publisher = this.OV.initPublisher(undefined, {
                                 audioSource: undefined, // The source of audio. If undefined default microphone
                                 videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
-                                publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-                                publishVideo: true, // Whether you want to start publishing with your video enabled or not
+                                publishAudio: false, // Whether you want to start publishing with your audio unmuted or not
+                                publishVideo: false, // Whether you want to start publishing with your video enabled or not
                                 resolution: '640x480', // The resolution of your video
                                 frameRate: 30, // The frame rate of your video
                                 insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
@@ -332,8 +328,6 @@ class ConferencePage extends Component {
     }
 
     render() {
-        const mySessionId = this.state.mySessionId;
-        const myUserName = this.state.myUserName;
         const localUser = this.state.localUser;
         var chatDisplay = { display: this.state.chatDisplay };
 
@@ -341,44 +335,6 @@ class ConferencePage extends Component {
 
         return (
             <div className="container">
-                {/* {this.state.session === undefined ? (
-                    <div id="join">
-                        <div id="img-div">
-                            <img src="resources/images/openvidu_grey_bg_transp_cropped.png" alt="OpenVidu logo" />
-                        </div>
-                        <div id="join-dialog" className="jumbotron vertical-center">
-                            <h1> Join a video session </h1>
-                            <form className="form-group" onSubmit={this.joinSession}>
-                                <p>
-                                    <label>Participant: </label>
-                                    <input
-                                        className="form-control"
-                                        type="text"
-                                        id="userName"
-                                        value={myUserName}
-                                        onChange={this.handleChangeUserName}
-                                        required
-                                    />
-                                </p>
-                                <p>
-                                    <label> Session: </label>
-                                    <input
-                                        className="form-control"
-                                        type="text"
-                                        id="sessionId"
-                                        value={mySessionId}
-                                        onChange={this.handleChangeSessionId}
-                                        required
-                                    />
-                                </p>
-                                <p className="text-center">
-                                    <input className="btn btn-lg btn-success" name="commit" type="submit" value="JOIN" />
-                                </p>
-                            </form>
-                        </div>
-                    </div>
-                ) : null} */}
-
                 {this.state.session !== undefined ? (
                     <div id="session">
                         <div id="session-header">
