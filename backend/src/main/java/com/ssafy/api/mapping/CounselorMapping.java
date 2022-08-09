@@ -10,12 +10,13 @@ public interface CounselorMapping {
 	String getShortIntroduction();
 	LocalTime getContactStartTime();
 	LocalTime getContactEndTime();
-	int getCareer();
+	Integer getCareer();
 	String getLongIntroduction();
 	LocalTime getReserveStartTime();
 	LocalTime getReserveEndTime();
 	String getConsultTarget();
-	int getPrice();
-	int getConsultNumber();
+	Integer getPrice();
+	Integer getConsultNumber();
 	String getHoliday();
+	Float getAvgScore();
 }

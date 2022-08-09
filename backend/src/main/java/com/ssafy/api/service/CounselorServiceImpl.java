@@ -53,7 +53,8 @@ public class CounselorServiceImpl implements CounselorService{
 	
 	@Override
 	public List<CounselorMapping> getAllCounselor() {
-		List<CounselorMapping> clist = counselorRepository.findAllBy();
+		List<CounselorMapping> clist = counselorRepository.getCounselorAndScoreList();
+		//List<CounselorMapping> clist = counselorRepository.findAllBy();
 		return clist;
 	}
 
