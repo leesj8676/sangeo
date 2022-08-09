@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from './Navbar.module.css';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -70,10 +70,7 @@ function NavigationBar({authService}) {
           <Nav.Link className="me-1 text-center align-self-center" href="/counselorlist">상담사 찾기</Nav.Link>
           { isLogin ?
             (
-              <div>
               <Nav.Link className="me-1 text-center align-self-center" onClick={onClickLogout}>로그아웃</Nav.Link>
-              {/* <Button className="point_bgcolor" onClick={onLogout}>구글로그아웃</Button> */}
-              </div>
             )
             :
             (
