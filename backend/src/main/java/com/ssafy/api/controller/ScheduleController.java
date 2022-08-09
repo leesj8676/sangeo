@@ -291,7 +291,7 @@ public class ScheduleController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"),
 			@ApiResponse(code = 401, message = "날짜 포맷 부적절"), @ApiResponse(code = 402, message = "예약 존재 하지 않음"),
 			@ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<ScheduleRes> confirmSchedule(
+	public ResponseEntity<Schedule> confirmSchedule(
 			@RequestBody @ApiParam(value = "확정할 스케줄 정보", required = true) ScheduleGetReq scheduleInfo) {
 
 		String counselorId = scheduleInfo.getCounselorId();
@@ -312,7 +312,7 @@ public class ScheduleController {
 			return ResponseEntity.status(401).body(null);
 		}
 
-		return ResponseEntity.status(200).body(ScheduleRes.of(schedule));
+		return ResponseEntity.status(200).body(schedule);
 	}
 
 	@PutMapping("/complete")
@@ -320,7 +320,7 @@ public class ScheduleController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"),
 			@ApiResponse(code = 401, message = "날짜 포맷 부적절"), @ApiResponse(code = 402, message = "예약 존재 하지 않음"),
 			@ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<ScheduleRes> completeSchedule(
+	public ResponseEntity<Schedule> completeSchedule(
 			@RequestBody @ApiParam(value = "완료할 스케줄 정보", required = true) ScheduleGetReq scheduleInfo) {
 
 		String counselorId = scheduleInfo.getCounselorId();
@@ -341,7 +341,7 @@ public class ScheduleController {
 			return ResponseEntity.status(401).body(null);
 		}
 
-		return ResponseEntity.status(200).body(ScheduleRes.of(schedule));
+		return ResponseEntity.status(200).body(schedule);
 	}
 
 	@DeleteMapping("/{counselorId}/{starttime}")
