@@ -14,20 +14,18 @@ import registerServiceWorker from './registerServiceWorker';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const authService = new AuthService();
-const store = createStore( rootReducer, applyMiddleware(ReduxThunk));
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 
 // 리로드시에도 유지
-if(localStorage.getItem("Authorization")){
+if (localStorage.getItem("Authorization")) {
   setAuthorizationToken(localStorage.getItem("Authorization"));
-  store.dispatch({type:'LOG_IN', user: jwtDecode(localStorage.getItem("Authorization"))});
+  store.dispatch({ type: 'LOG_IN', user: jwtDecode(localStorage.getItem("Authorization")) });
 }
 root.render(
-  <React.StrictMode>
-    <Provider store={ store }>
+  <Provider store={store}>
     <App authService={authService} />
-    </Provider>
-  </React.StrictMode>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

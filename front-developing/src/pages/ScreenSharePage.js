@@ -51,7 +51,6 @@ class ConferencePage extends Component {
             subscribers: [],
             localUser: undefined,
             chatDisplay: 'none',
-            token: undefined,
         };
 
         axios.get(process.env.REACT_APP_DB_HOST + "/users/me")
@@ -78,7 +77,6 @@ class ConferencePage extends Component {
         this.toggleChat = this.toggleChat.bind(this);
         this.checkNotification = this.checkNotification.bind(this);
         this.checkSize = this.checkSize.bind(this);
-        this.test = this.test.bind(this);
     }
 
     componentDidMount() {
@@ -157,7 +155,6 @@ class ConferencePage extends Component {
                     // Subscribe to the Stream to receive it. Second parameter is undefined
                     // so OpenVidu doesn't create an HTML video by its own
                     var subscriber = mySession.subscribe(event.stream, undefined);
-                    console.log("USER DATA: " + event.stream.connection.data);
                     var subscribers = this.state.subscribers;
                     subscribers.push(subscriber);
 
@@ -186,55 +183,22 @@ class ConferencePage extends Component {
                 this.getToken().then((token) => {
                     // First param is the token got from OpenVidu Server. Second param can be retrieved by every user on event
                     // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
-                    mySession
-                        .connect(
-                            token,
-                            { clientData: this.state.myUserName },
-                        )
-                        .then(async () => {
+                    mySession.connect(token).then(() => {
+                        var publisher = this.OV.initPublisher(undefined, { videoSource: "screen" });
 
-                            this.setState({
-                                token: token,
+                        publisher.once('accessAllowed', (event) => {
+                            publisher.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
+                                console.log('User pressed the "Stop sharing" button');
                             });
-
-                            var devices = await this.OV.getDevices();
-                            var videoDevices = devices.filter(device => device.kind === 'videoinput');
-
-                            // --- 5) Get your own camera stream ---
-
-                            // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
-                            // element: we will manage it on our own) and with the desired properties
-                            let publisher = this.OV.initPublisher(undefined, {
-                                audioSource: undefined, // The source of audio. If undefined default microphone
-                                videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
-                                publishAudio: false, // Whether you want to start publishing with your audio unmuted or not
-                                publishVideo: false, // Whether you want to start publishing with your video enabled or not
-                                resolution: '640x480', // The resolution of your video
-                                frameRate: 30, // The frame rate of your video
-                                insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
-                                mirror: false, // Whether to mirror your local video or not
-                            });
-
-
-
-                            // --- 6) Publish your stream ---
-
                             mySession.publish(publisher);
-
-                            localUser.setConnectionId(publisher.session.connection.connectionId);
-                            localUser.setStreamManager(publisher);
-                            localUser.setNickname(this.state.myUserName);
-                            // Set the main video in the page to display our webcam and store our Publisher
-                            this.setState({
-                                currentVideoDevice: videoDevices[0],
-                                mainStreamManager: publisher,
-                                publisher: publisher,
-                                localUser: localUser
-                            });
-                        })
-                        .catch((error) => {
-                            console.log('There was an error connecting to the session:', error.code, error.message);
                         });
+
+                        publisher.once('accessDenied', (event) => {
+                            console.warn('ScreenShare: Access Denied');
+                        });
+                    }).catch((error) => {
+                        console.log('There was an error connecting to the session:', error.code, error.message);
+                    });
                 });
             },
         );
@@ -337,15 +301,6 @@ class ConferencePage extends Component {
         }
     }
 
-    test() {
-        this.state.session.connect(this.state.token, "USER_DATA")
-            .then(
-                console.log("테스트 then"),
-            )
-            .catch(console.log("테스트 then"),
-        );
-    }
-
     render() {
         const localUser = this.state.localUser;
         var chatDisplay = { display: this.state.chatDisplay };
@@ -397,11 +352,9 @@ class ConferencePage extends Component {
                                 </div>
                             </div>
                             <div className='col-md-9 col-xs-9 paint-container'>
-                                <IconButton id="test" onClick={this.test}>
-                                    <MicOffRoundedIcon />
-                                    </IconButton>
                                 <div id="canvas-container" >
-                                    <Paint></Paint>
+                                    <h3>iframe</h3>
+                                    <iframe src="i7e207.p.ssafy.io" title="testFrame"> frame body</iframe>
                                 </div>
                                 <div id="chat-container">
                                     {localUser !== undefined && localUser.getStreamManager() !== undefined && (
