@@ -93,6 +93,14 @@ public class CounselorServiceImpl implements CounselorService{
 	}
 	
 	@Override
+	public boolean confirmPassword(String counselorId, String password) {
+		Counselor counselor = counselorRepository.findByCounselorId(counselorId).get();
+		if(counselor == null || !passwordEncoder.matches(password, counselor.getPassword()))
+			return false;
+		return true;
+	}
+	
+	@Override
 	public void deleteCounselor(String counselorId) {
 		counselorRepository.deleteByCounselorId(counselorId);
 	}

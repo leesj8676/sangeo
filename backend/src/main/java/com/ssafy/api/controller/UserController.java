@@ -1,5 +1,7 @@
 package com.ssafy.api.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -91,20 +93,35 @@ public class UserController {
 			@RequestBody @ApiParam(value = "수정할 회원 비밀번호 정보", required = true) PasswordUpdateReq passwordUpdateInfo) {
 		User user = userService.updatePassword(passwordUpdateInfo);
 		if(user == null)
-			return ResponseEntity.status(400).body(null);
+			return ResponseEntity.status(401).body(null);
 		return ResponseEntity.status(200).body(user);
 	}
 	
-
+	@PostMapping("/{userId}")
+	@ApiOperation(value = "회원 비밀번호 확인", notes = "회원의 <strong>비밀번호</strong>를 확인한다.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<String> confirmPassword(
+			@PathVariable("userId") @ApiParam(value = "확인할 회원 아이디", required = true) String userId,
+			@RequestBody @ApiParam(value = "비밀번호를 담은 map", required = true) Map<String, String> map){
+		boolean result = userService.confirmPassword(userId, map.get("password"));
+		if(result)
+			return ResponseEntity.status(200).body("비밀번호 일치");
+		else
+			return ResponseEntity.status(401).body("비밀번호가 불일치합니다.");
+	}
+	
 	@DeleteMapping("/{userId}")
 	@ApiOperation(value = "회원 정보 삭제", notes = "<strong>아이디</strong>를 통해 회원 정보를 삭제한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<String> delete(
-			@PathVariable("userId") @ApiParam(value = "삭제할 회원 아이디", required = true) String userId) {
-		userService.deleteUser(userId);
-		return ResponseEntity.status(200).body("삭제 완료");
-
+			@PathVariable("userId") @ApiParam(value = "삭제할 회원 아이디", required = true) String userId){
+		boolean result = userService.deleteUser(userId);
+		if(result)
+			return ResponseEntity.status(200).body("삭제 완료");
+		else
+			return ResponseEntity.status(404).body("삭제 실패");
 	}
 
 	@GetMapping("/me")

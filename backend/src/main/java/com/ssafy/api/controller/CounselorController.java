@@ -3,6 +3,7 @@ package com.ssafy.api.controller;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -120,6 +121,20 @@ public class CounselorController {
 		if(counselor == null)
 			return ResponseEntity.status(400).body(null);
 		return ResponseEntity.status(200).body(counselor);
+	}
+	
+	@PostMapping("/{counselorId}")
+	@ApiOperation(value = "상담사 비밀번호 확인", notes = "상담사의 <strong>비밀번호</strong>를 확인한다.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "상담사 없음"), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<String> confirmPassword(
+			@PathVariable("counselorId") @ApiParam(value = "확인할 상담사 아이디", required = true) String counselorId,
+			@RequestBody @ApiParam(value = "비밀번호를 담은 map", required = true) Map<String, String> map){
+		boolean result = counselorService.confirmPassword(counselorId, map.get("password"));
+		if(result)
+			return ResponseEntity.status(200).body("비밀번호 일치");
+		else
+			return ResponseEntity.status(401).body("비밀번호가 불일치합니다.");
 	}
 
 	@DeleteMapping("/{counselorId}")

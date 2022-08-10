@@ -13,5 +13,6 @@ public interface UserService {
 	User getUserByUserId(String userId);
 	User updateUser(UserUpdateReq userUpdateInfo);
 	User updatePassword(PasswordUpdateReq passwordUpdateInfo);
-	void deleteUser(String userId);
+	boolean confirmPassword(String userId, String password);
+	boolean deleteUser(String userId);
 }

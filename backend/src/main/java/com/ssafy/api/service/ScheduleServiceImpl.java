@@ -49,13 +49,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 	@Override
 	public List<ScheduleMapping> getSchedulesByCounselor(Counselor counselor) {
-		List<ScheduleMapping> list = scheduleRepository.findByCounselor_Id(counselor.getId());
+		List<ScheduleMapping> list = scheduleRepository.findByCounselor_IdOrderByStartTime(counselor.getId());
 		return list;
 	}
 
 	@Override
 	public List<ScheduleMapping> getSchedulesByUser(User user) {
-		List<ScheduleMapping> list = scheduleRepository.findByUser_Id(user.getId());
+		List<ScheduleMapping> list = scheduleRepository.findByUser_IdOrderByStartTime(user.getId());
 		return list;
 	}
 	

@@ -1,4 +1,4 @@
-package com.ssafy.api.controller;
+ package com.ssafy.api.controller;
 
 import java.text.ParseException;
 import java.util.ArrayList;

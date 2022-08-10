@@ -23,9 +23,9 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
 //    @Transactional
 //    Optional<User> deleteByUserId(String userId);
-	List<ScheduleMapping> findByCounselor_Id(Long counselorId);
+	List<ScheduleMapping> findByCounselor_IdOrderByStartTime(Long counselorId);
 
-	List<ScheduleMapping> findByUser_Id(Long userId);
+	List<ScheduleMapping> findByUser_IdOrderByStartTime(Long userId);
 
 	Schedule findByCounselor_IdAndStartTime(Long counselorId, LocalDateTime date);
 

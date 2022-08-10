@@ -14,5 +14,6 @@ public interface CounselorService {
 	List<CounselorMapping> getAllCounselor(String searchWord);
 	Counselor updateCounselor(CounselorUpdateReq updateCounselorInfo);
 	Counselor updatePassword(PasswordUpdateReq passwordUpdateInfo);
+	boolean confirmPassword(String counselorId, String password);
 	void deleteCounselor(String counselorId);
 }
