@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import { propTypes } from 'react-bootstrap/esm/Image';
 import styles from '../reviewcontent/reviewcontent.module.css';
 
-function ReviewContent( {onSetData}) {
-
-    const [data, setData] = useState(); 
-    
+function ReviewContent( {onSetContent}) {
     const onafterCounsel = (event) => {
-      onSetData(event.currentTarget.value);   
+      onSetContent(event.currentTarget.value);   
     }
 
     return (
@@ -15,8 +11,7 @@ function ReviewContent( {onSetData}) {
         <textarea 
         className={styles.container} 
         placeholder ="상담 후기를 작성해주세요"
-        onChange = {onafterCounsel}
-        value = {data} /> 
+        onChange = {onafterCounsel} /> 
 
     </div>
   );

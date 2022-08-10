@@ -1,31 +1,38 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom"
+import { Link } from "react-router-dom";
+import styles from "./UserProfile.module.css";
+import { style } from "@mui/system";
 
 export default function UserProfile(){
-    // const URL = `http://localhost:8080/api/v1/users/${useParams().id}`
-    // //이후에 users/me로 수정
-    // const [info,setInfo] = useState("확인")
-    // axios.get(URL)
-    // .then(function (response) {
-    //         setInfo(info=>response)
-    //         console.log(info)
-    // });
-    const info = {
-        "id": 1,
-        "userId": "kimssafy",
-        "name": "김싸피",
-        "phoneNumber": "010-1234-5678",
-        "profile": "이미지 경로",
-        "password": "$2a$10$qhChJeLvkaxYqu0veloXy.uH1uxlv5h.YmQsyPFukzygTSrA3.r2m"
-      }
+     const URL = process.env.REACT_APP_DB_HOST+"/users/me";
+     const [info,setInfo] = useState("");
+
+     useEffect(()=>{
+        async function fetchData(){
+            try{
+                console.log("fetch Data");
+                const result = await axios.get(URL);
+                setInfo(result.data);
+                setTimeout(5000);
+            }
+            catch(error){
+                alert(error);
+            }
+        };    
+        fetchData();
+    },[]);
 
     return(
-        <div>
-            <div>{info.name}</div>
-            <div>{info.phoneNumber}</div>
-            <img src={info.profile}/>
-            <Link to = "./change">수정</Link>
+        <div className={styles.profile}>
+            <div className= {styles.profileImg}>
+                <img src={ info.profile ? `http://localhost:3000/${info.profile}` : "http://localhost:3000/basic.png"} alt="profile"/>
+            </div>
+            <div className= {styles.info}>
+                <div>{info.name} 고객님</div>
+                <div>{info.userId}</div>
+            </div>
+            <div className={styles.btn}><button><Link to = "./change">수정</Link></button></div>
         </div>
 
     )
