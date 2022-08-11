@@ -49,8 +49,6 @@ function Paint(props) {
       colorPickRefs.current.map((element) =>
         element.addEventListener('click', (event) => {
           if (event.target) {
-            // setPickedColor(event.target.value);
-            // contextRef.current.strokeStyle = pickedColor;
             onColorChange(event);
           }
         })
@@ -58,9 +56,9 @@ function Paint(props) {
     }
     if (eraserRef.current) {
       eraserRef.current.onclick = () => {
-        changeColor("white");
-        setLineWidth(40);
-        contextRef.current.lineWidth = lineWidth;    
+        changeColor("#FFFFFF"); //white
+        setLineWidth(80);
+        contextRef.current.lineWidth = lineWidth;
       };
     }
   }, [])
@@ -148,6 +146,7 @@ function Paint(props) {
     contextRef.current.strokeStyle = color;
     const colorSelector = document.getElementById("color-select");
     //color 에서 현재 선택한 색깔 보여주기
+    // console.log("호출 ----",color, colorSelector);
     colorSelector.value = color;
   }
 
@@ -161,7 +160,6 @@ function Paint(props) {
         onMouseOut={finishDrawing}
         ref={canvasRef}
       />
-      <input id="line-width" type="range" min="2" max="20" value={lineWidth} onChange={onLineWidthChange} step="2" />
       {/* <span class="color-option" style={{backgroundColor : "#1abc9c"}} data-color="#1abc9c" onClick={onColorClick}> </span>
       <span class="color-option" style={{backgroundColor : "#3498db"}} data-color="#3498db" onClick={onColorClick}> </span>
       <span class="color-option" style={{backgroundColor : "#34495e"}} data-color="#34495e" onClick={onColorClick}> </span>
@@ -174,8 +172,13 @@ function Paint(props) {
       <span class="color-option" style={{backgroundColor : "#bdc3c7"}} data-color="#bdc3c7" onClick={onColorClick}> </span>
       <span class="color-option" style={{backgroundColor : "#2ecc71"}} data-color="#2ecc71" onClick={onColorClick}> </span>
       <span class="color-option" style={{backgroundColor : "#e67e22"}} data-color="#e67e22" onClick={onColorClick}> </span> */}
+      <LineWidthSelector>
+        <input id="line-width" type="range" min="2" max="20" value={lineWidth} onChange={onLineWidthChange} step="2" />
+      </LineWidthSelector>
       <ColorsPickBox>
-        <input type="color" id="color-select" onChange={onColorChange} />
+        <ColorSelector>
+          <input type="color" id="color-select" onChange={onColorChange} />
+        </ColorSelector>
         {colors.map((color, i) => {
           return (
             <ColorPick
@@ -190,11 +193,11 @@ function Paint(props) {
             />
           );
         })}
-       <Eraser ref={eraserRef}>
-              <svg width='24' height='24' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M5.662 23l-5.369-5.365c-.195-.195-.293-.45-.293-.707 0-.256.098-.512.293-.707l14.929-14.928c.195-.194.451-.293.707-.293.255 0 .512.099.707.293l7.071 7.073c.196.195.293.451.293.708 0 .256-.097.511-.293.707l-11.216 11.219h5.514v2h-12.343zm3.657-2l-5.486-5.486-1.419 1.414 4.076 4.072h2.829zm6.605-17.581l-10.677 10.68 5.658 5.659 10.676-10.682-5.657-5.657z' />
-              </svg>
-            </Eraser>
+        <Eraser ref={eraserRef}>
+          <svg width='24' height='24' xmlns='http://www.w3.org/2000/svg'>
+            <path d='M5.662 23l-5.369-5.365c-.195-.195-.293-.45-.293-.707 0-.256.098-.512.293-.707l14.929-14.928c.195-.194.451-.293.707-.293.255 0 .512.099.707.293l7.071 7.073c.196.195.293.451.293.708 0 .256-.097.511-.293.707l-11.216 11.219h5.514v2h-12.343zm3.657-2l-5.486-5.486-1.419 1.414 4.076 4.072h2.829zm6.605-17.581l-10.677 10.68 5.658 5.659 10.676-10.682-5.657-5.657z' />
+          </svg>
+        </Eraser>
       </ColorsPickBox>
     </div>
   );
@@ -226,5 +229,23 @@ const Eraser = styled.div`
   justify-content: center;
   align-items: center;
   margin-right: -5px;
+`;
+const LineWidthSelector = styled.div`
+  cursor: pointer;
+  width: 200px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+`;
+const ColorSelector = styled.div`
+  cursor: pointer;
+  width: 80px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
 `;
 export default Paint;
