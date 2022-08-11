@@ -11,6 +11,7 @@ function ReviewWrite({scheduleId}) {
     const [existReview, setExistReview] = useState();
     const [content, setContent] = useState();
     const [star, setStar] = useState();
+    const [ done, setDone] = useState(false);
 
     useEffect(() => {
       // 후기 있는지 확인
@@ -26,10 +27,6 @@ function ReviewWrite({scheduleId}) {
 
     const onSetContent = (data) => {
       setContent(data);
-    const [ done, setDone] = useState(false);
-
-    const onSetData = (data) => {
-        setReview(data);
     }
 
     const onSetStar = (data) => {
@@ -65,8 +62,6 @@ function ReviewWrite({scheduleId}) {
           }).catch(function(err){
             alert(err);
           });
-
-          setDone(true);
       }
     }
 
@@ -114,26 +109,11 @@ function ReviewWrite({scheduleId}) {
             <div style={{width: '80%', marginLeft:'10%'}} className='mt-3'> 등록된 후기가 없습니다. </div>
           )
         }
-        <h1>리뷰작성 컴포넌트</h1>
-        {!done ? 
-        <div>
-          <StarScore onStarData = {onStarData}  />
-          <ReviewContent onSetData={onSetData}/>
-          <button onClick = {onSubmit}> 작성완료 </button>
-        </div>
-        
-         :
-         <p> 후기 : <b>{star}  </b> <b>{review}</b></p>
-      
-      
-      }
 
-        
-       
+
 
   </div>
   );
 }
 
 export default ReviewWrite;
-
