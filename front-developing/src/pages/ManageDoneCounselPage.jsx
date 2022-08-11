@@ -6,7 +6,7 @@ import styles from './ManageDoneCounselPage.module.css';
 // 상담사가 완료된 상담에 메세지를 남기고 이미지 업로드 하는 페이지
 function ManageDoneCounselPage({imageUploader}) {
     // scheduleId -> 상담사 마이페이지 구현된 후 수정, 일단은 임의로
-    const scheduleId = 11;
+    const scheduleId = 8;
 
     // // 사진 업로드 경로
     const [ counselResult, setCounselResult] = useState({

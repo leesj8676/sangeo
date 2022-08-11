@@ -12,7 +12,6 @@ import AuthService from './service/auth_service';
 import setAuthorizationToken from "./utils/setAuthorizationToken";
 import jwtDecode from "jwt-decode";
 import registerServiceWorker from './registerServiceWorker';
-import EditorBoxRepository from './service/editorbox_repository';
 
 import ImageUploader from './service/image_uploader';
 import ImageFileInput from './components/image_file_input/image_file_input';
@@ -23,7 +22,6 @@ const authService = new AuthService();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // 이미지 업로드
-const EditorboxRepository = new EditorBoxRepository();
 const imageUploader = new ImageUploader();
 const FileInput = props => (
 <ImageFileInput {...props} imageUploader= {imageUploader}/>
@@ -45,8 +43,7 @@ root.render(
     <Provider store={ store }>
     <App 
     authService={authService}
-    imageUploader= {imageUploader}
-    EditorboxRepository= {EditorboxRepository} />
+    imageUploader= {imageUploader} />
     </Provider>
   </React.StrictMode>
 );
