@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.api.mapping.ScheduleMapping;
 import com.ssafy.api.request.ScheduleResultPutReq;
-import com.ssafy.api.response.ScheduleResultRes;
 import com.ssafy.db.entity.Counselor;
 import com.ssafy.db.entity.Schedule;
 import com.ssafy.db.entity.User;

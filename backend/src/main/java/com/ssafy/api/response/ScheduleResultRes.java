@@ -18,14 +18,18 @@ import lombok.Setter;
 public class ScheduleResultRes {
 	@ApiModelProperty(name="스케줄 ID")
 	Long scheduleId;
+	@ApiModelProperty(name="상담 후 결과 있는지")
+	boolean isRegisteredResult;
 	@ApiModelProperty(name="상담 후 결과 이미지")
 	String resultImg;
 	@ApiModelProperty(name="상담 후 결과 내용")
 	String resultContent;
 	
+	
 	public static ScheduleResultRes of(Schedule schedule) {
 		ScheduleResultRes res = new ScheduleResultRes();
 		res.setScheduleId(schedule.getId());
+		res.setRegisteredResult(schedule.isRegisteredResult());
 		res.setResultImg(schedule.getResultImg());
 		res.setResultContent(schedule.getResultContent());
 		return res;
