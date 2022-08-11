@@ -1,0 +1,17 @@
+.point_color{
+  color: #62AAFF
+}
+
+.point_bgcolor{
+  background-color: #62AAFF
+}
+
+.profileImg{
+  border: 1px solid #62AAFF;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.color{
+  background-color: darkslategray
+}

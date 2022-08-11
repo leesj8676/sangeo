@@ -1,0 +1,36 @@
+.box {
+    box-sizing: border-box;
+    width: 90%;
+    min-height: 80px;
+    background: #FFFFFF;
+    border: 2px solid #62AAFF;
+    margin-left: 5%;
+    margin-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.state {
+    max-width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.completed{
+    background-color: gray;
+}
+
+.expected{
+    background-color: #62AAFF;
+}
+
+.state p{
+    margin-top: 50%; 
+    color: white;
+}
+
+.scheduleInfo{
+    align-items: center;
+    text-align: center;
+}

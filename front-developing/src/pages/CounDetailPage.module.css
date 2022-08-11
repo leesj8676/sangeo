@@ -1,0 +1,92 @@
+@value makerCardMint, makerShadow, makerColorful from '../common/colors.css';
+
+
+.card {
+    display: flex;
+    align-items: center;
+    border-radius: 1em;
+    padding: 1em;
+    margin-bottom: 0.5em;
+    box-shadow: 1px 1px 15px 3px makerCardMint ;
+    margin: 1em;
+}
+
+
+.avatar {
+    width : 10em;
+    height: 10em;
+    padding : 1em;
+    margin-left: 0.5em;
+    margin-right: 1em;
+    border-radius: 50%;
+}
+
+.info{
+    width: 100%;
+}
+
+.name{
+    font-size : 1.2rem;
+    margin-bottom: 1em;
+}
+
+.name::after {
+    content : '';
+    display : block;
+    width : 90%;
+    height: 1px;
+    transform: translateY(0.5em);
+    background-color: gray;
+}
+
+.detail,
+.score {
+    margin: 0;
+    font-size: 0.8rem;
+    margin-bottom: 0.2em;
+}
+
+.score{
+    color: hotpink;
+}
+
+.tab{
+    margin: 1em;
+}
+
+.wbtn {
+    float: right;
+    border: none;
+    min-width: 100px;
+    min-height: 40px;
+    background: linear-gradient(
+        90deg,
+        rgba(129, 230, 217, 1) 0%,
+        rgba(79, 209, 197, 1) 100%
+    );
+    border-radius: 1000px;
+    color: darkslategray;
+    cursor: pointer;
+    box-shadow: 12px 12px 24px rgba(79, 209, 197, 0.64);
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.wbtn:hover {
+    transform: scale(1.1);
+}
+
+.w-btn-neon2:hover::after {
+    content: "";
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    border: 6px solid #00ffcb;
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: ring 1.5s infinite;
+}
+
