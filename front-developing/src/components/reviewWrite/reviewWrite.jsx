@@ -11,6 +11,7 @@ function ReviewWrite({scheduleId}) {
     const [existReview, setExistReview] = useState();
     const [content, setContent] = useState();
     const [star, setStar] = useState();
+    const [ done, setDone] = useState(false);
 
     useEffect(() => {
       // 후기 있는지 확인
@@ -108,9 +109,11 @@ function ReviewWrite({scheduleId}) {
             <div style={{width: '80%', marginLeft:'10%'}} className='mt-3'> 등록된 후기가 없습니다. </div>
           )
         }
+
+
+
   </div>
   );
 }
 
 export default ReviewWrite;
-
