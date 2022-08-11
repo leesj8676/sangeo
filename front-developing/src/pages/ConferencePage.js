@@ -8,7 +8,6 @@ import UserVideoComponent from '../components/conference/UserVideoComponent';
 import UserModel from '../components/conference//user-model';
 import Paint from '../components/conference/Paint';
 import ChatComponent from '../components/conference//ChatComponent';
-import PaintComponent from '../components/conference//PaintComponent';
 
 //MUI 
 import IconButton from '@material-ui/core/IconButton';
@@ -52,9 +51,6 @@ class ConferencePage extends Component {
             subscribers: [],
             localUser: undefined,
             chatDisplay: 'none',
-
-            // //펜 굵기 용 (수정)
-            // lineWidth: 5
         };
 
         axios.get(process.env.REACT_APP_DB_HOST + "/users/me")
@@ -145,7 +141,6 @@ class ConferencePage extends Component {
         this.OV = new OpenVidu();
 
         // --- 2) Init a session ---
-
         this.setState(
             {
                 session: this.OV.initSession(),
@@ -406,7 +401,6 @@ class ConferencePage extends Component {
                                     {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                                         <div>
                                             <Paint user={localUser}/>
-                                            {/* <input id="line-width" type="range" min="1" max="10" value={this.state.lineWidth} onChange={this.onLineWidthChange} step="0.5" /> */}
                                         </div>
                                     )}
                                 </div>

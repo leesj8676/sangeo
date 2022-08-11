@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import './Paint.css';
 
-function Paint(props, { lineWidth, color }) {
+function Paint(props, { color }) {
 
   const canvasRef = useRef(null)
   const contextRef = useRef(null)
   const [isDrawing, setIsDrawing] = useState(false)
+  const [lineWidth, setLineWidth] = useState()
 
   let session = props.user.getStreamManager().stream.session;
   let id = props.user.connectionId;
@@ -95,7 +96,7 @@ function Paint(props, { lineWidth, color }) {
 
   function onLineWidthChange(event) {
     // console.log(event.target.value);
-    lineWidth = event.target.value;
+    setLineWidth(event.target.value);
     contextRef.current.lineWidth = lineWidth;
   }
 
