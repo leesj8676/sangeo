@@ -77,7 +77,6 @@ class ConferencePage extends Component {
         this.toggleChat = this.toggleChat.bind(this);
         this.checkNotification = this.checkNotification.bind(this);
         this.checkSize = this.checkSize.bind(this);
-        // this.onLineWidthChange = this.onLineWidthChange.bind(this);
     }
 
     componentDidMount() {
@@ -326,11 +325,6 @@ class ConferencePage extends Component {
             console.error(e);
         }
     }
-
-    // onLineWidthChange(event) {
-    //     this.setState({ lineWidth: event.target.value });
-    //     console.log(this.state.lineWidth);
-    // }
 
     render() {
         const localUser = this.state.localUser;
