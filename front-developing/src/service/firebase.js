@@ -6,18 +6,14 @@ import firebase from 'firebase';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  
-  // apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  // authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  // projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-
-  apiKey: 'AIzaSyDAJi72KGcNYiavVw3grnnJxkzx_44sG5M',
-  authDomain :'card-maker-4e987.firebaseapp.com',
-  projectId : 'card-maker-4e987'
-
-  
-
-};
+  apiKey: "AIzaSyDI71dUCRTAKg3oFBmgS0sZK96x3-zakkw",
+  authDomain: "counseling-6ceb2.firebaseapp.com",
+  projectId: "counseling-6ceb2",
+  storageBucket: "counseling-6ceb2.appspot.com",
+  messagingSenderId: "237698997215",
+  appId: "1:237698997215:web:e718fa74d0c0fd63bf026a",
+  measurementId: "G-3C8PKG1HKR"
+};;
 
 
 // Initialize Firebase

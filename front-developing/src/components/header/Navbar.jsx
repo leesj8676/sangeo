@@ -53,7 +53,7 @@ function NavigationBar({authService}) {
 
 
   return (
-    <Navbar key="lg" expand="lg" className="mb-3">
+    <Navbar key="lg" expand="lg" className={styles.color}>
     <Container fluid>
       <Navbar.Brand className="col-4 ps-3" href="/">
       <img src="http://localhost:3000/sangeo_logo.png" width="250" height="100" alt="logo"></img>
