@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import './Conferences.css'
 import axios from "axios";
 
 

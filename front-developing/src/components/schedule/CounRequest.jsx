@@ -1,7 +1,6 @@
 import {React, useState, usetState} from 'react';
 import axios from "axios";
 import { Link } from "react-router-dom"
-import './Conferences.css'
 export default function Request(x) {
     const { id, complete, confirmed, counselorId, counselorName, endTime, startTime, userId, userName } = x.props
     console.log("test",x.props);

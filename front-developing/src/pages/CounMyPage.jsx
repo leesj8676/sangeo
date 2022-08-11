@@ -1,6 +1,5 @@
 import {React, useState} from 'react';
 import {useParams} from 'react-router-dom'
-import './MyPage.css'
 import UserProfile from '../components/profile/UserProfile';
 import CounSchedulebox from '../components/schedule/CounSchedulebox'
 import CounTime from '../components/schedule/CounTime'
