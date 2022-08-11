@@ -5,9 +5,10 @@ import { useParams } from "react-router-dom";
 
 import './ConferencePage.css';
 import UserVideoComponent from '../components/conference/UserVideoComponent';
-import ChatComponent from '../components/conference//ChatComponent';
 import UserModel from '../components/conference//user-model';
 import Paint from '../components/conference/Paint';
+import ChatComponent from '../components/conference//ChatComponent';
+import PaintComponent from '../components/conference//PaintComponent';
 
 //MUI 
 import IconButton from '@material-ui/core/IconButton';
@@ -51,6 +52,9 @@ class ConferencePage extends Component {
             subscribers: [],
             localUser: undefined,
             chatDisplay: 'none',
+
+            // //펜 굵기 용 (수정)
+            // lineWidth: 5
         };
 
         axios.get(process.env.REACT_APP_DB_HOST + "/users/me")
@@ -77,6 +81,7 @@ class ConferencePage extends Component {
         this.toggleChat = this.toggleChat.bind(this);
         this.checkNotification = this.checkNotification.bind(this);
         this.checkSize = this.checkSize.bind(this);
+        // this.onLineWidthChange = this.onLineWidthChange.bind(this);
     }
 
     componentDidMount() {
@@ -327,19 +332,38 @@ class ConferencePage extends Component {
         }
     }
 
+    // onLineWidthChange(event) {
+    //     this.setState({ lineWidth: event.target.value });
+    //     console.log(this.state.lineWidth);
+    // }
+
     render() {
         const localUser = this.state.localUser;
         var chatDisplay = { display: this.state.chatDisplay };
-
-
-
         return (
             <div className="container">
                 {this.state.session !== undefined ? (
                     <div id="session">
                         <div id="session-header">
-                            <img src="sangeo_log.png" alt="상어 로고" />
+                            <img src={process.env.PUBLIC_URL + "/sangeo_log.png"} alt="상어 로고" />
                             <div id="session-tools">
+                                {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                                    <div>
+                                        <div className="OT_root OT_publisher custom-class row chatbox" style={chatDisplay}>
+                                            <ChatComponent
+                                                user={localUser}
+                                                chatDisplay={this.state.chatDisplay}
+                                                close={this.toggleChat}
+                                                messageReceived={this.checkNotification}
+                                            />
+                                        </div>
+                                        <ThemeProvider theme={theme}>
+                                            <IconButton id="buttonToggleChat" onClick={this.toggleChat}>
+                                                <ChatRoundedIcon color="primary" size="large" />
+                                            </IconButton>
+                                        </ThemeProvider>
+                                    </div>
+                                )}
                                 {this.state.publisher !== undefined && this.state.publisher.stream.videoActive ? (
                                     <IconButton id="buttonToggleCamera" onClick={this.toggleCamera}>
                                         <VideocamRoundedIcon />
@@ -379,31 +403,18 @@ class ConferencePage extends Component {
                             </div>
                             <div className='col-md-9 col-xs-9 paint-container'>
                                 <div id="canvas-container" >
-                                    <Paint></Paint>
-                                </div>
-                                <div id="chat-container">
                                     {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                                         <div>
-                                            <div className="OT_root OT_publisher custom-class row chatbox" style={chatDisplay}>
-                                                <ChatComponent
-                                                    user={localUser}
-                                                    chatDisplay={this.state.chatDisplay}
-                                                    close={this.toggleChat}
-                                                    messageReceived={this.checkNotification}
-                                                />
-                                            </div>
-                                            <ThemeProvider theme={theme}>
-                                                <IconButton id="buttonToggleChat" onClick={this.toggleChat}>
-                                                    <ChatRoundedIcon color="primary" size="large" />
-                                                </IconButton>
-                                            </ThemeProvider>
+                                            <Paint user={localUser}/>
+                                            {/* <input id="line-width" type="range" min="1" max="10" value={this.state.lineWidth} onChange={this.onLineWidthChange} step="0.5" /> */}
                                         </div>
                                     )}
                                 </div>
                             </div>
                         </div>
                     </div>
-                ) : null}
+                ) : null
+                }
             </div>
         );
     }
