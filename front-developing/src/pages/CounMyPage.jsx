@@ -7,7 +7,7 @@ import CounTime from '../components/schedule/CounTime'
 import CounTimeUpdate from '../components/schedule/CounTimeUpdate'
 import CounRequest from '../components/schedule/CounRequestbox'
 
-function UserMyPage (){
+function CounMyPage (){
     const [data,setData] = useState(false) //상담시간, 상담시간수정 토글
     const [confirm,setConfirm] = useState("상담목록") //승인된 상담 승인되지 않은 상담
     const id = useParams().id
@@ -35,4 +35,4 @@ function UserMyPage (){
       </div>
     )
     }
-  export default UserMyPage
+  export default CounMyPage
