@@ -5,6 +5,7 @@ import UserProfile from '../components/profile/UserProfile';
 import Schedulebox from '../components/schedule/Schedulebox'
 
 function UserMyPage (){
+  const id = useParams().id
     return (
       <div>
         <h1>마이페이지</h1>
