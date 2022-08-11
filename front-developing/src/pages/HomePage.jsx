@@ -8,9 +8,9 @@ function HomePage() {
   return (
     
 
-    <div>
+    <div  className={styles.back} >
 
-      <section className={styles.back} >
+      <section>
       {/* <img src = "light3.png" alt ="main_back"/> */}
       <div className={styles.neon}>
         <p>     미술심리상담 <br/>  상어로 시작하세요</p>

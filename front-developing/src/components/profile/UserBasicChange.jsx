@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import axios from 'axios';
 import styles from '../../pages/UserInfoChangePage.module.css';
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import setAuthorizationToken from "../../utils/setAuthorizationToken";
 
-export default function UserBasicChange(){
+function UserBasicChange({imageUploader}){
     //aixos로 최초정보 받음
     //보낼 폼 sendinfo
     //아이디 중복확인버튼 해당아이디를 사용하는 사람이 있는지 확인
@@ -18,8 +18,22 @@ export default function UserBasicChange(){
     const [newprofile,setProfile] = useState('');
     const [first,setFirst] = useState(1); //최초렌더링시 입력값이 반영안되는 문제 해결
 
+
+    //파일 미리볼 url을 저장해줄 state
+    const [fileImage, setFileImage] = useState("");
+    const[ textValue, setTextValue] = useState("");
+    const [ imgName, setImgName] = useState("");
+    // 서버에서 받아온 이미지 경로
+    const [ imgURL, setImgURL] = useState("");
+
+    // 버튼 이미지 바꾸기
+    const [imgbtn, setImgbtn ] = useState(true);
+    const [targetimg, setTargetImg] = useState("");
+   
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const inputRef = useRef();
+    const reader = new FileReader();
 
     useEffect(()=>{
     axios.get(process.env.REACT_APP_DB_HOST+URL)
@@ -50,7 +64,7 @@ export default function UserBasicChange(){
             name: newname,
             phoneNumber: newphonenumber,
             profile: newprofile,
-            userId: id
+            userId: id,
         })
           .then(function(result){
             alert("정보가 수정되었습니다!");
@@ -86,9 +100,60 @@ export default function UserBasicChange(){
         }
     }
 
+     // 이미지 업로드 버튼
+     const onButtonClick = (event) => {
+        event.preventDefault();
+        inputRef.current.click();
+    }
+
+
+
+    // 이미지 등록 버튼
+    const onButtonPost = async (event) => {
+        const uploaded = await imageUploader.upload(targetimg);
+        // await setImgName(uploaded.original_filename);
+        await setProfile(uploaded.url);
+        // await console.log("gggg ", imgURL);
+    }
+
+    // 파일 저장
+    const saveFileImage = async (event) => {
+        if(event.target.files[0]){
+            console.log("bbbbb  ",event.target.files[0]);
+            setTargetImg(event.target.files[0]);
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        reader.onloadend = () => {
+            const previewImgUrl = reader.result;
+
+            if(previewImgUrl){
+                setFileImage(previewImgUrl);
+            }
+        }
+
+        setImgbtn(false);
+    };
+
+
     return(
         <div className='text-center'>
             <div>
+                <div>프로필</div>
+
+                <div>
+                  <div>{newprofile && (<img alt="sample" src={newprofile} className = {styles.imgframe} />)}</div>
+                  <input
+                    ref = {inputRef}
+                    className = {styles.input} 
+                    name="imgUpload"
+                    type="file"
+                    accept="image/*"
+                    onChange={saveFileImage}
+                  />
+                    {imgbtn ?  <button className={styles.button} onClick={onButtonClick}> 이미지 업로드 </button> :  <button className={styles.button} onClick={onButtonPost}> 등록하기 </button>}
+                 
+                  </div> 
+               
                 <div>아이디</div>
                 <div>
                     <input value={id ? id : ""} disabled/>
@@ -106,3 +171,5 @@ export default function UserBasicChange(){
         </div>
     )
 }
+
+export default UserBasicChange;
