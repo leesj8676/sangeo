@@ -21,7 +21,7 @@ import ConferencePage from '../pages/ConferencePage';
 import NavigationBar from '../components/header/Navbar';
 
 
-function MainLayoutRoutes({ authService }) {
+function MainLayoutRoutes({ authService ,imageUploader }) {
     return (
         <div>
             <React.Fragment />
@@ -43,7 +43,7 @@ function MainLayoutRoutes({ authService }) {
 
                 {/* 상담관리 */}
                 <Route path="/donecounsel/:scheduleNo" element={<DoneCounselPage authService={authService} />} />
-                <Route path="/managedonecounsel" element={<ManageDoneCounselPage authService={authService} />} />
+                <Route path="/managedonecounsel" element={<ManageDoneCounselPage authService={authService} imageUploader= {imageUploader} />} />
 
 
                 {/* 컨퍼런스 */}

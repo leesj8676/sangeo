@@ -1,6 +1,12 @@
 
+.resultBox{
+    width: 60%;
+    margin-left: 20%;
+}
+
 .text {
-    width: 100%;
+    width: 90%;
+    margin-left: 5%;
     height: 150px;
     padding: 12px 20px;
     box-sizing: border-box;
@@ -8,4 +14,9 @@
     border-radius: 4px;
     background-color: #f8f8f8;
     resize: none;
+}
+
+.resultImg{
+    width: 50%;
+    margin-left: 25%;
 }
