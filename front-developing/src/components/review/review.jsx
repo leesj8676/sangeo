@@ -90,7 +90,6 @@ const rc = reviewList.filter(function(view){
 
   return (
     <div>
-      <h1> 여기는 리뷰 컴포넌트입니다.</h1>
       {returnContent()}
       
   </div>

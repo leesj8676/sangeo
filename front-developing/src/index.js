@@ -8,11 +8,29 @@ import { applyMiddleware, createStore } from "redux";
 import rootReducer from './modules';
 import ReduxThunk from "redux-thunk";
 import AuthService from './service/auth_service';
+
 import setAuthorizationToken from "./utils/setAuthorizationToken";
 import jwtDecode from "jwt-decode";
+import EditorBoxRepository from './service/editorbox_repository';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import ImageUploader from './service/image_uploader';
+import ImageFileInput from './components/image_file_input/image_file_input';
+
+
+
 const authService = new AuthService();
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// 이미지 업로드
+const EditorboxRepository = new EditorBoxRepository();
+const imageUploader = new ImageUploader();
+const FileInput = props => (
+<ImageFileInput {...props} imageUploader= {imageUploader}/>
+);
+
+
+
+// Redux 관리
 const store = createStore( rootReducer, applyMiddleware(ReduxThunk));
 
 
@@ -24,7 +42,10 @@ if(localStorage.getItem("Authorization")){
 root.render(
   <React.StrictMode>
     <Provider store={ store }>
-    <App authService={authService} />
+    <App 
+    authService={authService}
+    imageUploader= {imageUploader}
+    EditorboxRepository= {EditorboxRepository} />
     </Provider>
   </React.StrictMode>
 );

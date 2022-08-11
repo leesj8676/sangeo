@@ -6,11 +6,11 @@ import axios from "axios";
 import setAuthorizationToken from "../utils/setAuthorizationToken";
 import jwtDecode from "jwt-decode";
 
-const LoginPage = ({authService}) =>{
+const LoginPage = () =>{
   const [userid, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
-  authService.logout();
+  //authService.logout();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -59,19 +59,19 @@ const LoginPage = ({authService}) =>{
 
   };
 
-  const onLogin =(event) => {
-    event.preventDefault();
-    authService//
-    .login(event.currentTarget.textContent)
-    .then(data => goToCunslList(data.user.uid));
-}
+//   const onLogin =(event) => {
+//     event.preventDefault();
+//     authService//
+//     .login(event.currentTarget.textContent)
+//     .then(data => goToCunslList(data.user.uid));
+// }
 
-useEffect(() => {
-  authService
-  .onAuthChange(user => {
-      user && goToCunslList(user.uid);
-  })
-})
+// useEffect(() => {
+//   authService
+//   .onAuthChange(user => {
+//       user && goToCunslList(user.uid);
+//   })
+// })
 
   return (
     <div className="loginregister">
@@ -114,11 +114,11 @@ useEffect(() => {
             상담사 로그인
           </button>
         </div>
-        <div>
+        {/* <div>
           <button onClick={onLogin} className="loginregister__button">
             Google
           </button>
-        </div>
+        </div> */}
       </form>
     </div>
   );

@@ -26,16 +26,18 @@ public class QSchedule extends EntityPathBase<Schedule> {
 
     public final QCounselor counselor;
 
-    public final DateTimePath<java.util.Date> endTime = createDateTime("endTime", java.util.Date.class);
+    public final DateTimePath<java.time.LocalDateTime> endTime = createDateTime("endTime", java.time.LocalDateTime.class);
 
     //inherited
     public final NumberPath<Long> id = _super.id;
 
     public final BooleanPath isComplete = createBoolean("isComplete");
 
+    public final BooleanPath isConfirmed = createBoolean("isConfirmed");
+
     public final BooleanPath isHoliday = createBoolean("isHoliday");
 
-    public final DateTimePath<java.util.Date> startTime = createDateTime("startTime", java.util.Date.class);
+    public final DateTimePath<java.time.LocalDateTime> startTime = createDateTime("startTime", java.time.LocalDateTime.class);
 
     public final QUser user;
 

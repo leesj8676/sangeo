@@ -40,7 +40,7 @@ function NavigationBar({authService}) {
 
 
   return (
-    <Navbar key="lg" expand="lg" className="mb-3">
+    <Navbar key="lg" expand="lg" className={styles.color}>
     <Container fluid>
       <Navbar.Brand className="col-4 ps-3" href="/">
       <img src="http://localhost:3000/sangeo_log.png" width="250" height="100" alt="logo"></img>
@@ -70,10 +70,7 @@ function NavigationBar({authService}) {
           <Nav.Link className="me-1 text-center align-self-center" href="/counselorlist">상담사 찾기</Nav.Link>
           { isLogin ?
             (
-              <div>
               <Nav.Link className="me-1 text-center align-self-center" onClick={onClickLogout}>로그아웃</Nav.Link>
-              {/* <Button className="point_bgcolor" onClick={onLogout}>구글로그아웃</Button> */}
-              </div>
             )
             :
             (

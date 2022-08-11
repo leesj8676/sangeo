@@ -22,7 +22,7 @@ import './app.css';
 //import styles from './app.module.css';
 
 
-function App({authService}) {
+function App({FileInput, authService,  EditorboxRepository , imageUploader}) {
   return (
     <div >
       <BrowserRouter>
@@ -33,23 +33,25 @@ function App({authService}) {
         
         {/* 상담사 경로 */}
           <Route path="/counselordetail/:id" element = {<CounDetailPage/>}/>
-          <Route path="/counselorlist" element = {<CounListPage authService={authService}/>}/>
+          <Route path="/counselorlist" element = {<CounListPage />}/>
         
         
         {/* 회원관리 경로 */}
-          <Route path="/sign_in" element={<LoginPage authService={authService}/>} />
+          <Route path="/sign_in" element={<LoginPage />} />
           <Route path="/sign_up" element={<RegisterPage />} />
           <Route path="/sign_up/counselor" element={<RegisterCounselorPage />} />
-          <Route path="/mypage/:id" element={<UserMyPage authService={authService}/>} />
-          <Route path="/mypage/:id/change" element={<UserInfoChangePage authService={authService}/>} />
+          <Route path="/mypage/:id" element={<UserMyPage />} />
+          <Route path="/mypage/:id/change" element={<UserInfoChangePage />} />
         
-        {/* 상담관리 */}
-          <Route path="/donecounsel" element={<DoneCounselPage authService={authService}/>} />
-       
+ 
         
         {/* 상담관리 */}
         <Route path="/donecounsel" element={<DoneCounselPage authService={authService}/>} />
-        <Route path="/managedonecounsel" element={<ManageDoneCounselPage authService={authService}/>} />
+        {/* 상담사가 상담완료 후 분석 글 올려주는 페이지 */}
+        <Route path="/managedonecounsel" element={<ManageDoneCounselPage imageUploader= {imageUploader} FileInput= {FileInput} authService={authService} EditorboxRepository= {EditorboxRepository}/>} />
+        {/* 고객이 상담완료 후 분석글 확인하고 리뷰 작성하는 페이지  */}
+        <Route path="/donecounsel" element={<DoneCounselPage authService={authService} EditorboxRepository= {EditorboxRepository}/>} />
+       
 
         {/* 컨퍼런스 */}
         {/* 세션 아이디와 입장자, authService 확인 */}
