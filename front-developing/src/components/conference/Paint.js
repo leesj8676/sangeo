@@ -10,6 +10,7 @@ function Paint(props) {
   const [isDrawing, setIsDrawing] = useState(false)
   const [lineWidth, setLineWidth] = useState()
   const [pickedColor, setPickedColor] = useState()
+  const eraserRef = useRef();
 
   const colors = [
     '#c0392b',
@@ -55,7 +56,13 @@ function Paint(props) {
         })
       );
     }
-
+    if (eraserRef.current) {
+      eraserRef.current.onclick = () => {
+        changeColor("white");
+        setLineWidth(40);
+        contextRef.current.lineWidth = lineWidth;    
+      };
+    }
   }, [])
 
   const startDrawing = ({ nativeEvent }) => {
@@ -154,7 +161,7 @@ function Paint(props) {
         onMouseOut={finishDrawing}
         ref={canvasRef}
       />
-      <input id="line-width" type="range" min="1" max="10" value={lineWidth} onChange={onLineWidthChange} step="0.5" />
+      <input id="line-width" type="range" min="2" max="20" value={lineWidth} onChange={onLineWidthChange} step="2" />
       {/* <span class="color-option" style={{backgroundColor : "#1abc9c"}} data-color="#1abc9c" onClick={onColorClick}> </span>
       <span class="color-option" style={{backgroundColor : "#3498db"}} data-color="#3498db" onClick={onColorClick}> </span>
       <span class="color-option" style={{backgroundColor : "#34495e"}} data-color="#34495e" onClick={onColorClick}> </span>
@@ -183,11 +190,11 @@ function Paint(props) {
             />
           );
         })}
-        {/* <Eraser ref={eraserRef}>
-          <svg width='24' height='24' xmlns='http://www.w3.org/2000/svg'>
-            <path d='M5.662 23l-5.369-5.365c-.195-.195-.293-.45-.293-.707 0-.256.098-.512.293-.707l14.929-14.928c.195-.194.451-.293.707-.293.255 0 .512.099.707.293l7.071 7.073c.196.195.293.451.293.708 0 .256-.097.511-.293.707l-11.216 11.219h5.514v2h-12.343zm3.657-2l-5.486-5.486-1.419 1.414 4.076 4.072h2.829zm6.605-17.581l-10.677 10.68 5.658 5.659 10.676-10.682-5.657-5.657z' />
-          </svg>
-        </Eraser> */}
+       <Eraser ref={eraserRef}>
+              <svg width='24' height='24' xmlns='http://www.w3.org/2000/svg'>
+                <path d='M5.662 23l-5.369-5.365c-.195-.195-.293-.45-.293-.707 0-.256.098-.512.293-.707l14.929-14.928c.195-.194.451-.293.707-.293.255 0 .512.099.707.293l7.071 7.073c.196.195.293.451.293.708 0 .256-.097.511-.293.707l-11.216 11.219h5.514v2h-12.343zm3.657-2l-5.486-5.486-1.419 1.414 4.076 4.072h2.829zm6.605-17.581l-10.677 10.68 5.658 5.659 10.676-10.682-5.657-5.657z' />
+              </svg>
+            </Eraser>
       </ColorsPickBox>
     </div>
   );
@@ -210,5 +217,14 @@ const ColorPick = styled.div`
   margin-right: 5px;
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 `;
-
+const Eraser = styled.div`
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: -5px;
+`;
 export default Paint;
