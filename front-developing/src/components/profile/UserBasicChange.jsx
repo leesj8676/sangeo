@@ -30,7 +30,22 @@ export default function UserBasicChange(){
             setPhonenumber(info.phoneNumber)
             setProfile(info.profile)
             if (first === 1){setFirst(0)}//최초렌더링시 입력값이 반영안되는 문제 해결
-    })},[first]);
+    })
+    .catch(function(err){
+        if(err.response.status===401){ // 토큰 만료
+            alert("다시 로그인해주세요.");
+            // 로그아웃 처리
+            localStorage.removeItem("Authorization");
+            setAuthorizationToken(null);
+            dispatch({type:'LOG_OUT'});
+            // 로그인 페이지로 이동
+            navigate('/sign_in');
+          }
+          else{
+            alert(err);
+          }
+    })}
+    ,[first]);
 
     function nameChange(e){
         setName(e.target.value);
