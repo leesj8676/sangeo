@@ -138,7 +138,13 @@ class ConferencePage extends Component {
     joinSession() {
 
         this.OV = new OpenVidu();
-
+        var video = undefined;
+        // navigator.mediaDevices.getUserMedia({
+        //     video: true
+        // }).then(function(stream){
+        //     video = stream.getVideoTracks()[0].id;
+        //     console.log("테스트", video);
+        // })
         // --- 2) Init a session ---
         this.setState(
             {
@@ -191,6 +197,11 @@ class ConferencePage extends Component {
                             var devices = await this.OV.getDevices();
                             var videoDevices = devices.filter(device => device.kind === 'videoinput');
 
+                            if(videoDevices[0].deviceId==='') {
+                                console.log("에러 발생 !!! true인지 확인", videoDevices[0].deviceId==='');
+                                videoDevices[0].deviceId = video;
+                            }
+                            
                             // --- 5) Get your own camera stream ---
 
                             // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
@@ -394,7 +405,7 @@ class ConferencePage extends Component {
                                 <div id="canvas-container" >
                                     {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                                         <div>
-                                            <Paint user={localUser}/>
+                                            <Paint user={localUser} />
                                         </div>
                                     )}
                                 </div>

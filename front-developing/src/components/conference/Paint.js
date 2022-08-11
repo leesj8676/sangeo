@@ -25,7 +25,7 @@ function Paint(props) {
 
   let session = props.user.getStreamManager().stream.session;
   let id = props.user.connectionId;
-  console.log("최상위 : ", props);
+  // console.log("최상위 : ", props);
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = window.innerWidth * 0.75;    // 3/4 만큼 차지
