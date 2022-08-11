@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.api.mapping.ScheduleMapping;
+import com.ssafy.api.request.ScheduleResultPutReq;
+import com.ssafy.api.response.ScheduleResultRes;
 import com.ssafy.db.entity.Counselor;
 import com.ssafy.db.entity.Schedule;
 import com.ssafy.db.entity.User;
@@ -87,6 +89,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 		schedule.setEndTime(start.plusHours(1));
 		return scheduleRepository.save(schedule);
 	}
+	
+	@Override
+	public Schedule updateScheduleResult(ScheduleResultPutReq scheduleResultInfo) {
+		Schedule schdule = scheduleRepository.findById(scheduleResultInfo.getScheduleId()).get();
+		schdule.setRegisteredResult(true);
+		schdule.setResultImg(scheduleResultInfo.getResultImg());
+		schdule.setResultContent(scheduleResultInfo.getResultContent());
+		return scheduleRepository.save(schdule);
+	}
+	
 
 	@Override
 	public void deleteSchedule(Schedule schedule) {

@@ -43,6 +43,11 @@ public class Schedule extends BaseEntity implements Serializable{
 	private boolean isComplete = false;
 	private boolean isHoliday = false;
 	private boolean isConfirmed = false;
+	
+	// 상담사가 상담 완료 후 결과를 등록했는지에 따른 변수
+	private boolean isRegisteredResult = false;
+	private String resultImg;
+	private String resultContent;
 
 	public Schedule() {
 		super();
@@ -75,9 +80,10 @@ public class Schedule extends BaseEntity implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Schedule [counselor=" + counselor + ", endTime=" + endTime + ", isComplete=" + isComplete
-				+ ", isConfirmed=" + isConfirmed + ", isHoliday=" + isHoliday + ", startTime=" + startTime + ", user="
-				+ user + "]";
+		return "Schedule [counselor=" + counselor + ", user=" + user + ", startTime=" + startTime + ", endTime="
+				+ endTime + ", isComplete=" + isComplete + ", isHoliday=" + isHoliday + ", isConfirmed=" + isConfirmed
+				+ ", isRegisteredResult=" + isRegisteredResult + ", resultImg=" + resultImg + ", resultContent="
+				+ resultContent + "]";
 	}
 
 }

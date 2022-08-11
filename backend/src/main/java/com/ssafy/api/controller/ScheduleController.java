@@ -21,8 +21,10 @@ import com.ssafy.api.request.BreakRegisterPostReq;
 import com.ssafy.api.request.HolidayRegisterPostReq;
 import com.ssafy.api.request.ScheduleGetReq;
 import com.ssafy.api.request.ScheduleRegisterPostReq;
+import com.ssafy.api.request.ScheduleResultPutReq;
 import com.ssafy.api.request.ScheduleUpdatePutReq;
 import com.ssafy.api.response.ScheduleRes;
+import com.ssafy.api.response.ScheduleResultRes;
 import com.ssafy.api.service.CounselorService;
 import com.ssafy.api.service.ScheduleService;
 import com.ssafy.api.service.UserService;
@@ -256,6 +258,19 @@ public class ScheduleController {
 
 		return ResponseEntity.status(200).body(list);
 	}
+	
+	@GetMapping("/result/{scheduleId}")
+	@ApiOperation(value = "스케줄 완료 결과 조회", notes = "<strong>스케줄 ID</strong>을 통해 <strong>상담 결과 이미지, 코멘트</strong>를 조회한다.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 402, message = "스케줄 없음"), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<ScheduleResultRes> searchScheduleResult(
+			@PathVariable("scheduleId") @ApiParam(value = "1", required = true) Long scheduleId) {
+		Schedule schedule = scheduleService.getScheduleById(scheduleId);
+		if(schedule == null)
+			return ResponseEntity.status(402).body(null);
+		else
+			return ResponseEntity.status(200).body(ScheduleResultRes.of(schedule));
+		
+	}
 
 	@PutMapping()
 	@ApiOperation(value = "상담사 스케줄 시간 변경", notes = "<strong>상담사ID, 날짜가 포함된 시작 시간과 변경 시간</strong>을 통해 스케줄 정보를 수정한다.")
@@ -342,6 +357,19 @@ public class ScheduleController {
 		}
 
 		return ResponseEntity.status(200).body(schedule);
+	}
+	
+	@PutMapping("/result")
+	@ApiOperation(value = "스케줄 완료 후 결과 등록", notes = "<strong>스케줄 ID</strong>을 통해 <strong>상담사가 결과 이미지, 코멘트</strong>를 등록한다.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 402, message = "스케줄 없음"), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<ScheduleResultRes> updateScheduleResult(
+			@RequestBody @ApiParam(value = "완료할 스케줄 정보", required = true) ScheduleResultPutReq scheduleResultInfo) {
+		Schedule schedule = scheduleService.updateScheduleResult(scheduleResultInfo);
+		if(schedule == null)
+			return ResponseEntity.status(402).body(null);
+		else
+			return ResponseEntity.status(200).body(ScheduleResultRes.of(schedule));
+		
 	}
 
 	@DeleteMapping("/{counselorId}/{starttime}")

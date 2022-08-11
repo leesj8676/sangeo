@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import com.ssafy.api.mapping.ScheduleMapping;
+import com.ssafy.api.request.ScheduleResultPutReq;
 import com.ssafy.db.entity.Counselor;
 import com.ssafy.db.entity.Schedule;
 import com.ssafy.db.entity.User;
@@ -21,6 +22,7 @@ public interface ScheduleService {
 	Schedule getSchedulesByCounselorIdAndStartTime(Long counselorId, String startTime) throws ParseException;
 	Schedule getSchedulesByUserIdAndStartTime(Long userId, String startTime) throws ParseException;
 	Schedule updateSchedule(Schedule schedule, String afterStartTime) throws ParseException;
+	Schedule updateScheduleResult(ScheduleResultPutReq scheduleResultInfo);
 	void deleteSchedule(Schedule schedule);
 	public List<TimeOnly> getSchedulesByCounselorIdAndDate(Long id, String date) throws ParseException;
 	Schedule confirmSchedule(Schedule schedule);
