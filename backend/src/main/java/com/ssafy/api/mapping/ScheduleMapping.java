@@ -14,9 +14,10 @@ public class ScheduleMapping {
 	private LocalDateTime endTime;
 	private boolean isConfirmed;
 	private boolean isComplete;
+	private String formPath;
 
 	public ScheduleMapping(Long id, Counselor counselor, User user, LocalDateTime startTime, LocalDateTime endTime,
-			boolean isConfirmed, boolean isComplete) {
+			boolean isConfirmed, boolean isComplete, String formPath) {
 		super();
 		this.id = id;
 		this.counselor = counselor;
@@ -25,6 +26,7 @@ public class ScheduleMapping {
 		this.endTime = endTime;
 		this.isConfirmed = isConfirmed;
 		this.isComplete = isComplete;
+		this.formPath = formPath;
 	}
 
 	public Long getId() {
@@ -61,6 +63,10 @@ public class ScheduleMapping {
 
 	public boolean isComplete() {
 		return isComplete;
+	}
+	
+	public String getFormPath() {
+		return formPath;
 	}
 
 }

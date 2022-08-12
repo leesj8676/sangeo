@@ -6,11 +6,13 @@ import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.api.mapping.ScheduleMapping;
+import com.ssafy.api.request.ScheduleFormUpdateReq;
 import com.ssafy.api.request.ScheduleResultPutReq;
 import com.ssafy.db.entity.Counselor;
 import com.ssafy.db.entity.Schedule;
@@ -98,6 +100,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return scheduleRepository.save(schdule);
 	}
 	
+	
+	@Override
+	public Schedule updateScheduleForm(ScheduleFormUpdateReq scheduleFormInfo) {
+		Schedule schdule = scheduleRepository.findById(scheduleFormInfo.getScheduleId()).get();
+		schdule.setFormPath(scheduleFormInfo.getFormPath());
+		return scheduleRepository.save(schdule);
+	}
 
 	@Override
 	public void deleteSchedule(Schedule schedule) {

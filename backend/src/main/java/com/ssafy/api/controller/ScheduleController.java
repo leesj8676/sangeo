@@ -3,6 +3,7 @@ package com.ssafy.api.controller;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.api.mapping.ScheduleMapping;
 import com.ssafy.api.request.BreakRegisterPostReq;
 import com.ssafy.api.request.HolidayRegisterPostReq;
+import com.ssafy.api.request.ScheduleFormUpdateReq;
 import com.ssafy.api.request.ScheduleGetReq;
 import com.ssafy.api.request.ScheduleRegisterPostReq;
 import com.ssafy.api.request.ScheduleResultPutReq;
@@ -376,6 +378,21 @@ public class ScheduleController {
 	public ResponseEntity<ScheduleResultRes> updateScheduleResult(
 			@RequestBody @ApiParam(value = "완료할 스케줄 정보", required = true) ScheduleResultPutReq scheduleResultInfo) {
 		Schedule schedule = scheduleService.updateScheduleResult(scheduleResultInfo);
+		if (schedule == null)
+			return ResponseEntity.status(402).body(null);
+		else
+			return ResponseEntity.status(200).body(ScheduleResultRes.of(schedule));
+
+	}
+	
+	// 스케줄 사전 설문 폼 링크 등록
+	@PutMapping("/form")
+	@ApiOperation(value = "스케줄 사전 설문 등록", notes = "<strong>스케줄 ID</strong>을 통해 <strong>상담사가 사전 설문 링크</strong>를 등록한다.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 402, message = "스케줄 없음"),
+			@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<ScheduleResultRes> updateScheduleForm(
+			@RequestBody @ApiParam(value = "스케줄 아이디, 폼 주소", required = true) ScheduleFormUpdateReq scheduleFormInfo) {
+		Schedule schedule = scheduleService.updateScheduleForm(scheduleFormInfo);
 		if (schedule == null)
 			return ResponseEntity.status(402).body(null);
 		else

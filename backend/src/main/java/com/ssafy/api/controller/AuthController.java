@@ -1,5 +1,7 @@
 package com.ssafy.api.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.api.request.UserLoginPostReq;
+import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.response.LoginPostRes;
 import com.ssafy.api.service.CounselorService;
 import com.ssafy.api.service.UserService;
@@ -91,5 +94,21 @@ public class AuthController {
 		}
 		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
 		return ResponseEntity.status(401).body(LoginPostRes.of(401, "비밀번호가 틀렸습니다."));
+	}
+	
+	@PostMapping("naver/login")
+	public ResponseEntity<BaseResponseBody> loginNaverUser(
+			@RequestBody @ApiParam(value = "네이버 유저 로그인 정보", required = true) Map<String, String> loginInfo){
+		System.out.println(loginInfo);
+		String userId = loginInfo.get("userId");
+		String name = loginInfo.get("name");
+		String phoneNumber = loginInfo.get("phoneNumber");
+		String profile = loginInfo.get("profile");
+		// id 없을 시 user 테이블에 데이터 추가 -> id 중복 문제...?
+		if(userService.getUserByUserId(loginInfo.get("userId")) == null){
+			UserRegisterPostReq userRegisterInfo = new UserRegisterPostReq(userId, name, phoneNumber, profile);
+			userService.createUser(userRegisterInfo, true);
+		}
+		return ResponseEntity.ok(LoginPostRes.of(200, userId+"님 환영합니다.", JwtTokenUtil.getToken(true, userId, name, profile)));
 	}
 }

@@ -48,6 +48,9 @@ public class Schedule extends BaseEntity implements Serializable{
 	private boolean isRegisteredResult = false;
 	private String resultImg;
 	private String resultContent;
+	
+	// 설문 폼
+	private String formPath;
 
 	public Schedule() {
 		super();
@@ -83,7 +86,7 @@ public class Schedule extends BaseEntity implements Serializable{
 		return "Schedule [counselor=" + counselor + ", user=" + user + ", startTime=" + startTime + ", endTime="
 				+ endTime + ", isComplete=" + isComplete + ", isHoliday=" + isHoliday + ", isConfirmed=" + isConfirmed
 				+ ", isRegisteredResult=" + isRegisteredResult + ", resultImg=" + resultImg + ", resultContent="
-				+ resultContent + "]";
+				+ resultContent + ", formPath=" + formPath + "]";
 	}
 
 }

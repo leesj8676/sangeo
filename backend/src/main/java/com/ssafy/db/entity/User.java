@@ -26,6 +26,7 @@ public class User extends BaseEntity implements Serializable{
 	String phoneNumber;
 	@NotNull
 	String profile;
+	boolean isNaverUser;
 
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

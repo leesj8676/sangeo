@@ -65,7 +65,7 @@ public class UserController {
 		if (userService.getUserByUserId(registerInfo.getUserId()) == null) {
 			System.out.println(registerInfo.getUserId()+" 가입가능한 아이디입니다.");
 			// db에 registerInfo 저장
-			User user = userService.createUser(registerInfo);
+			User user = userService.createUser(registerInfo, false);
 			return ResponseEntity.status(200).body(user);
 		} else {
 			System.out.println("중복된 아이디입니다.");
