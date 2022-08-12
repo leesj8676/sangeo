@@ -6,6 +6,7 @@ function Paint(props) {
 
   const canvasRef = useRef(null)
   const contextRef = useRef(null)
+  const cavasContainerRef = useRef();
   const colorPickRefs = useRef([]);
   const [isDrawing, setIsDrawing] = useState(false)
   const [lineWidth, setLineWidth] = useState()
@@ -28,8 +29,8 @@ function Paint(props) {
   // console.log("최상위 : ", props);
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = window.innerWidth * 0.75;    // 3/4 만큼 차지
-    canvas.height = window.innerHeight - 150;  // 상단바 크기 150px로 고정
+    canvas.width = cavasContainerRef.current.clientWidth;    // 3/4 만큼 차지
+    canvas.height = cavasContainerRef.current.clientHeight;  // 상단바 크기 150px로 고정
 
     const context = canvas.getContext("2d");
     context.lineCap = "round"
@@ -151,8 +152,21 @@ function Paint(props) {
   }
 
 
+  function canvasClear() {
+    console.log("캔버스를 초기화 ---- ");
+    var context = canvasRef.context;
+    if (!context) return;
+    if (!canvasRef.current) return;
+    context.clearRect(
+      0,
+      0,
+      canvasRef.current.width,
+      canvasRef.current.height
+    );
+  }
+
   return (
-    <div>
+    <CanvasContainer ref={cavasContainerRef}>
       <canvas
         onMouseDown={startDrawing}
         onMouseMove={draw}
@@ -160,18 +174,6 @@ function Paint(props) {
         onMouseOut={finishDrawing}
         ref={canvasRef}
       />
-      {/* <span class="color-option" style={{backgroundColor : "#1abc9c"}} data-color="#1abc9c" onClick={onColorClick}> </span>
-      <span class="color-option" style={{backgroundColor : "#3498db"}} data-color="#3498db" onClick={onColorClick}> </span>
-      <span class="color-option" style={{backgroundColor : "#34495e"}} data-color="#34495e" onClick={onColorClick}> </span>
-      <span class="color-option" style={{backgroundColor : "#27ae60"}} data-color="#27ae60" onClick={onColorClick}> </span>
-      <span class="color-option" style={{backgroundColor : "#8e44ad"}} data-color="#8e44ad" onClick={onColorClick}> </span>
-      <span class="color-option" style={{backgroundColor : "#f1c40f"}} data-color="#f1c40f" onClick={onColorClick}> </span>
-      <span class="color-option" style={{backgroundColor : "#e74c3c"}} data-color="#e74c3c" onClick={onColorClick}> </span>
-      <span class="color-option" style={{backgroundColor : "#95a5a6"}} data-color="#95a5a6" onClick={onColorClick}> </span>
-      <span class="color-option" style={{backgroundColor : "#d35400"}} data-color="#d35400" onClick={onColorClick}> </span>
-      <span class="color-option" style={{backgroundColor : "#bdc3c7"}} data-color="#bdc3c7" onClick={onColorClick}> </span>
-      <span class="color-option" style={{backgroundColor : "#2ecc71"}} data-color="#2ecc71" onClick={onColorClick}> </span>
-      <span class="color-option" style={{backgroundColor : "#e67e22"}} data-color="#e67e22" onClick={onColorClick}> </span> */}
       <LineWidthSelector>
         <input id="line-width" type="range" min="2" max="20" value={lineWidth} onChange={onLineWidthChange} step="2" />
       </LineWidthSelector>
@@ -199,9 +201,10 @@ function Paint(props) {
           </svg>
         </Eraser>
       </ColorsPickBox>
-    </div>
+    </CanvasContainer>
   );
 }
+
 
 const ColorsPickBox = styled.div`
   position: absolute;
@@ -248,4 +251,14 @@ const ColorSelector = styled.div`
   align-items: center;
   margin-right: 5px;
 `;
+const CanvasContainer = styled.div`
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  position: relative;
+  background-color: white;
+`;
+
 export default Paint;

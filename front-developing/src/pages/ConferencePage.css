@@ -47,7 +47,7 @@ input.btn {
   border-color: #1abd61;
 }
 
-.footer {
+/* .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -59,9 +59,9 @@ input.btn {
   margin: 20px 0;
   float: left;
   color: #ccc;
-}
+} */
 
-.openvidu-logo {
+/* .openvidu-logo {
   height: 35px;
   float: right;
   margin: 12px 0;
@@ -74,9 +74,9 @@ input.btn {
 .openvidu-logo:hover {
   -webkit-filter: grayscale(0.5);
   filter: grayscale(0.5);
-}
+} */
 
-.demo-logo {
+/* .demo-logo {
   margin: 0;
   height: 22px;
   float: left;
@@ -86,7 +86,7 @@ input.btn {
 a:hover .demo-logo {
   -webkit-filter: brightness(0.7);
   filter: brightness(0.7);
-}
+} */
 
 #join-dialog h1 {
   color: #4d4d4d;
