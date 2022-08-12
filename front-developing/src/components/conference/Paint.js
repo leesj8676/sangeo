@@ -12,6 +12,7 @@ function Paint(props) {
   const [lineWidth, setLineWidth] = useState()
   const [pickedColor, setPickedColor] = useState()
   const eraserRef = useRef();
+  const trashBinRef = useRef();
 
   const colors = [
     '#c0392b',
@@ -19,7 +20,7 @@ function Paint(props) {
     '#f1c40f',
     '#2ecc71',
     '#3498db',
-    'blueviolet',
+    '#8e44ad',
     '#e84393',
     '#2c3e50',
   ];
@@ -62,6 +63,14 @@ function Paint(props) {
         contextRef.current.lineWidth = lineWidth;
       };
     }
+    if (trashBinRef.current) {
+      trashBinRef.current.onclick = () => {
+        contextRef.current.fillStyle="white";
+        contextRef.current.lineWidth = lineWidth; //rectfill
+        contextRef.current.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      };
+    }
+
   }, [])
 
   const startDrawing = ({ nativeEvent }) => {
@@ -152,18 +161,18 @@ function Paint(props) {
   }
 
 
-  function canvasClear() {
-    console.log("캔버스를 초기화 ---- ");
-    var context = canvasRef.context;
-    if (!context) return;
-    if (!canvasRef.current) return;
-    context.clearRect(
-      0,
-      0,
-      canvasRef.current.width,
-      canvasRef.current.height
-    );
-  }
+  // function canvasClear() {
+  //   console.log("상대방이 들어오면,, 캔버스를 초기화 ---- ");
+  //   var context = canvasRef.context;
+  //   if (!context) return;
+  //   if (!canvasRef.current) return;
+  //   context.clearRect(
+  //     0,
+  //     0,
+  //     canvasRef.current.width,
+  //     canvasRef.current.height
+  //   );
+  // }
 
   return (
     <CanvasContainer ref={cavasContainerRef}>
@@ -200,6 +209,25 @@ function Paint(props) {
             <path d='M5.662 23l-5.369-5.365c-.195-.195-.293-.45-.293-.707 0-.256.098-.512.293-.707l14.929-14.928c.195-.194.451-.293.707-.293.255 0 .512.099.707.293l7.071 7.073c.196.195.293.451.293.708 0 .256-.097.511-.293.707l-11.216 11.219h5.514v2h-12.343zm3.657-2l-5.486-5.486-1.419 1.414 4.076 4.072h2.829zm6.605-17.581l-10.677 10.68 5.658 5.659 10.676-10.682-5.657-5.657z' />
           </svg>
         </Eraser>
+
+
+        <TrashBin ref={trashBinRef}>
+          <svg xmlns="http://www.w3.org/2000/svg"
+            width="0.266667in" height="0.266667in"
+            viewBox="0 0 24 24">
+            <path
+              fill="none" stroke="black" stroke-width="1"
+              d="M 14.25,9.00
+           C 14.25,9.00 14.25,16.50 14.25,16.50M 9.75,9.00
+           C 9.75,9.00 9.75,16.50 9.75,16.50M 9.75,2.25
+           C 9.75,2.25 14.25,2.25 14.25,2.25M 2.25,5.25
+           C 2.25,5.25 21.75,5.25 21.75,5.25M 18.75,5.25
+           C 18.75,5.25 18.75,21.75 18.75,21.75
+             18.75,21.75 5.25,21.75 5.25,21.75
+             5.25,21.75 5.25,5.25 5.25,5.25
+             5.25,5.25 18.75,5.25 18.75,5.25 Z" />
+          </svg>
+        </TrashBin>
       </ColorsPickBox>
     </CanvasContainer>
   );
@@ -224,6 +252,16 @@ const ColorPick = styled.div`
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 `;
 const Eraser = styled.div`
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: -5px;
+`;
+const TrashBin = styled.div`
   cursor: pointer;
   width: 30px;
   height: 30px;
