@@ -11,7 +11,7 @@ function App({ authService , imageUploader}) {
         <Routes>
           {/* 컨퍼런스(내비게이션바 X) */}
           <Route path="/conference/:id" element={<ConferencePage />} />
-          <Route path="*" element={<MainLayoutRoutes authService={authService} imageUploader= {imageUploader} />} />
+          <Route path="*" element={<MainLayoutRoutes authService={authService}  imageUploader= {imageUploader}/>} />
         </Routes>
       </BrowserRouter>
 

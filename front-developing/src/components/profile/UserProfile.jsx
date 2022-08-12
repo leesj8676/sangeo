@@ -42,7 +42,7 @@ export default function UserProfile(){
     return(
         <div className={styles.profile}>
             <div className= {styles.profileImg}>
-                <img src={ info.profile ? `http://localhost:3000/${info.profile}` : "http://localhost:3000/basic.png"} alt="profile"/>
+                <img src={ info.profile ? `${info.profile}` : "basic.png"} alt="profile"/>
             </div>
             <div className= {styles.info}>
                 <div>{info.name} 고객님</div>
