@@ -1,18 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
 import './Paint.css';
 import styled from 'styled-components';
+import ImageUploader from '../../service/image_uploader';
 
+const imageUploader = new ImageUploader();
 function Paint(props) {
 
   const canvasRef = useRef(null)
   const contextRef = useRef(null)
   const cavasContainerRef = useRef();
   const colorPickRefs = useRef([]);
+  const eraserRef = useRef();
+  const trashBinRef = useRef();
+
   const [isDrawing, setIsDrawing] = useState(false)
   const [lineWidth, setLineWidth] = useState()
   const [pickedColor, setPickedColor] = useState()
-  const eraserRef = useRef();
-  const trashBinRef = useRef();
+
+  // 이미지 저장 관련 state
+  const [fileImage, setFileImage] = useState("");
+  const [textValue, setTextValue] = useState("");
+  const [imgName, setImgName] = useState("");
+  const [imgURL, setImgURL] = useState("");
 
   const colors = [
     '#c0392b',
@@ -30,8 +39,9 @@ function Paint(props) {
   // console.log("최상위 : ", props);
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = cavasContainerRef.current.clientWidth;    // 3/4 만큼 차지
-    canvas.height = window.innerHeight - 400;  // 상단바 크기 150px로 고정
+    canvas.width = cavasContainerRef.current.clientWidth;
+    // canvas.height = cavasContainerRef.current.clientHeight;
+    canvas.height = window.innerHeight - 200;  // 상단바 크기 150px로 고정
 
     const context = canvas.getContext("2d");
     context.lineCap = "round"
@@ -42,8 +52,13 @@ function Paint(props) {
     session.on('signal:draw', (event) => {
       const data = JSON.parse(event.data);
       if (data.id !== id) {
-        peerDrawing(data.payload);
-      } else {
+        if (data.type === 'file') {
+          console.log("data 다 뜯어보기", data);
+          peerDrawIamge(data.payload);
+        }
+
+        else
+          peerDrawing(data.payload);
       }
     });
 
@@ -65,7 +80,7 @@ function Paint(props) {
     }
     if (trashBinRef.current) {
       trashBinRef.current.onclick = () => {
-        contextRef.current.fillStyle="white";
+        contextRef.current.fillStyle = "white";
         contextRef.current.lineWidth = lineWidth; //rectfill
         contextRef.current.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
       };
@@ -151,6 +166,46 @@ function Paint(props) {
     changeColor(color);
   }
 
+  const onFileChange = async (event) => {
+    const file = event.target.files[0];
+
+    setFileImage(URL.createObjectURL(file));
+    const uploaded = await imageUploader.upload(file);
+    // await console.warn("uploaded 확인하기 ,,,, " ,uploaded);
+    await setImgName(uploaded.original_filename);
+    await setImgURL(uploaded.url);
+    // await console.log("gggg ", imgURL);
+
+    await drawImage(imgURL, 0, 0, canvasRef.current.width, canvasRef.current.height);
+    //상대방 화면에도 사진이 나오는지 확인 필요,,
+    const data = {
+      url: imgURL,
+      moveToX: 0,
+      moveToY: 0,
+      width: canvasRef.current.width,
+      height: canvasRef.current.height,
+    };
+    session.signal({
+      file: file,
+      data: JSON.stringify({ type: 'file', id: id, payload: { ...data } }),
+      type: 'draw',
+    });
+  }
+
+  function drawImage(imgURL, moveToX, moveToY, width, height) {
+    // console.log(imgURL);//blob:http://127.0.0.1:5500/d605923f-931b-4b31-8193-8a5999056d9e
+    const image = new Image();
+    image.src = imgURL;
+    image.onload = function () {
+      contextRef.current.drawImage(image, moveToX, moveToY, width, height);
+    }
+  }
+
+  function peerDrawIamge(payload) {
+    console.log("payload", payload);
+    drawImage(payload.url, payload.moveToX, payload.moveToY, payload.width, payload.height);
+  }
+
   function changeColor(color) {
     setPickedColor(color);
     contextRef.current.strokeStyle = color;
@@ -175,18 +230,11 @@ function Paint(props) {
   // }
 
   return (
-    <CanvasContainer ref={cavasContainerRef}>
-      <canvas
-        onMouseDown={startDrawing}
-        onMouseMove={draw}
-        onMouseUp={finishDrawing}
-        onMouseOut={finishDrawing}
-        ref={canvasRef}
-      />
-      <LineWidthSelector>
-        <input id="line-width" type="range" min="2" max="20" value={lineWidth} onChange={onLineWidthChange} step="2" />
-      </LineWidthSelector>
-      <ColorsPickBox>
+    <div>
+      <PickBox>
+        <LineWidthSelector>
+          <input id="line-width" type="range" min="2" max="20" value={lineWidth} onChange={onLineWidthChange} step="2" />
+        </LineWidthSelector>
         <ColorSelector>
           <input type="color" id="color-select" onChange={onColorChange} />
         </ColorSelector>
@@ -216,7 +264,7 @@ function Paint(props) {
             width="0.266667in" height="0.266667in"
             viewBox="0 0 24 24">
             <path
-              fill="none" stroke="black" stroke-width="1"
+              fill="none" stroke="black" stroke-width="2"
               d="M 14.25,9.00
            C 14.25,9.00 14.25,16.50 14.25,16.50M 9.75,9.00
            C 9.75,9.00 9.75,16.50 9.75,16.50M 9.75,2.25
@@ -228,13 +276,98 @@ function Paint(props) {
              5.25,5.25 18.75,5.25 18.75,5.25 Z" />
           </svg>
         </TrashBin>
-      </ColorsPickBox>
-    </CanvasContainer>
+        <ImageSelector>
+          <label for="file">
+            <svg xmlns="http://www.w3.org/2000/svg"
+              width="0.266667in" height="0.266667in"
+              viewBox="0 0 24 24">
+              <path
+                fill="none" stroke="black" stroke-width="1"
+                d="M 23.59,0.83
+           C 23.59,0.83 0.41,0.83 0.41,0.83
+             0.19,0.83 0.00,1.01 0.00,1.24
+             0.00,1.24 0.00,19.45 0.00,19.45
+             0.00,19.68 0.19,19.86 0.41,19.86
+             0.41,19.86 10.34,19.86 10.34,19.86
+             10.57,19.86 10.76,19.68 10.76,19.45
+             10.76,19.22 10.57,19.03 10.34,19.03
+             10.34,19.03 0.83,19.03 0.83,19.03
+             0.83,19.03 0.83,1.66 0.83,1.66
+             0.83,1.66 23.17,1.66 23.17,1.66
+             23.17,1.66 23.17,11.17 23.17,11.17
+             23.17,11.40 23.36,11.59 23.59,11.59
+             23.81,11.59 24.00,11.40 24.00,11.17
+             24.00,11.17 24.00,1.24 24.00,1.24
+             24.00,1.01 23.81,0.83 23.59,0.83 Z
+           M 2.59,15.17
+           C 2.67,15.26 2.78,15.31 2.90,15.31
+             2.99,15.31 3.09,15.28 3.17,15.21
+             3.17,15.21 9.92,9.26 9.92,9.26
+             9.92,9.26 12.95,12.29 12.95,12.29
+             13.11,12.45 13.37,12.45 13.53,12.29
+             13.70,12.13 13.70,11.87 13.53,11.71
+             13.53,11.71 12.78,10.95 12.78,10.95
+             12.78,10.95 16.58,6.79 16.58,6.79
+             16.58,6.79 21.24,11.06 21.24,11.06
+             21.41,11.22 21.67,11.21 21.82,11.04
+             21.98,10.87 21.96,10.61 21.80,10.45
+             21.80,10.45 16.83,5.90 16.83,5.90
+             16.75,5.83 16.64,5.79 16.53,5.79
+             16.42,5.80 16.32,5.85 16.25,5.93
+             16.25,5.93 12.19,10.37 12.19,10.37
+             12.19,10.37 10.23,8.40 10.23,8.40
+             10.08,8.25 9.83,8.24 9.66,8.39
+             9.66,8.39 2.62,14.59 2.62,14.59
+             2.45,14.74 2.43,15.00 2.59,15.17 Z
+           M 8.93,5.61
+           C 8.93,4.34 7.89,3.31 6.62,3.31
+             5.35,3.31 4.32,4.34 4.32,5.61
+             4.32,6.89 5.35,7.92 6.62,7.92
+             7.89,7.92 8.93,6.89 8.93,5.61 Z
+           M 5.14,5.61
+           C 5.14,4.80 5.81,4.14 6.62,4.14
+             7.44,4.14 8.10,4.80 8.10,5.61
+             8.10,6.43 7.44,7.09 6.62,7.09
+             5.81,7.09 5.14,6.43 5.14,5.61 Z
+           M 12.83,23.17
+           C 12.83,23.17 22.76,23.17 22.76,23.17
+             22.76,23.17 22.76,13.24 22.76,13.24
+             22.76,13.24 12.83,13.24 12.83,13.24
+             12.83,13.24 12.83,23.17 12.83,23.17 Z
+           M 13.66,14.07
+           C 13.66,14.07 21.93,14.07 21.93,14.07
+             21.93,14.07 21.93,22.34 21.93,22.34
+             21.93,22.34 18.21,22.34 18.21,22.34
+             18.21,22.34 18.21,17.14 18.21,17.14
+             18.21,17.14 19.98,18.91 19.98,18.91
+             19.98,18.91 20.57,18.33 20.57,18.33
+             20.57,18.33 17.79,15.55 17.79,15.55
+             17.79,15.55 15.02,18.33 15.02,18.33
+             15.02,18.33 15.60,18.91 15.60,18.91
+             15.60,18.91 17.38,17.14 17.38,17.14
+             17.38,17.14 17.38,22.34 17.38,22.34
+             17.38,22.34 13.66,22.34 13.66,22.34
+             13.66,22.34 13.66,14.07 13.66,14.07 Z" />
+            </svg>
+          </label>
+          <input type="file" accept="image/*" id="file" onChange={onFileChange} />
+        </ImageSelector>
+      </PickBox>
+      <CanvasContainer ref={cavasContainerRef}>
+        <canvas
+          onMouseDown={startDrawing}
+          onMouseMove={draw}
+          onMouseUp={finishDrawing}
+          onMouseOut={finishDrawing}
+          ref={canvasRef}
+        />
+      </CanvasContainer>
+    </div>
   );
 }
 
 
-const ColorsPickBox = styled.div`
+const PickBox = styled.div`
   position: absolute;
   left: 70%;
   bottom: 5px;
@@ -259,7 +392,7 @@ const Eraser = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: -5px;
+  margin-right: 5px;
 `;
 const TrashBin = styled.div`
   cursor: pointer;
@@ -269,7 +402,7 @@ const TrashBin = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: -5px;
+  margin-right: 5px;
 `;
 const LineWidthSelector = styled.div`
   cursor: pointer;
@@ -284,6 +417,15 @@ const ColorSelector = styled.div`
   cursor: pointer;
   width: 80px;
   height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+`;
+const ImageSelector = styled.div`
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;

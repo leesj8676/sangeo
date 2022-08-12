@@ -221,9 +221,9 @@ a:hover .demo-logo {
   border: 1px solid red;
 }
 
-.session-header {
+/* .session-header {
   display: flex;
-}
+} */
 
 .session-body {
   display: flex;
