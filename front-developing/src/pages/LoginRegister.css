@@ -18,5 +18,9 @@
   border-radius: 40px;
   height: 48px;
   margin-top: 10px;
-  
+}
+
+.naverLoginBtn{
+  margin-top: 10px;
+  text-align: center;
 }

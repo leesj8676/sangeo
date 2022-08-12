@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import axios from "axios";
 import setAuthorizationToken from "../utils/setAuthorizationToken";
 import jwtDecode from "jwt-decode";
+import NaverLogin from '../components/naver/NaverLogin';
 
 const LoginPage = () =>{
   const [userid, setUserId] = useState("");
@@ -114,13 +115,10 @@ const LoginPage = () =>{
             상담사 로그인
           </button>
         </div>
-        {/* <div>
-          <button onClick={onLogin} className="loginregister__button">
-            Google
-          </button>
-        </div> */}
+        <div className="naverLoginBtn">간편 유저가 되고싶다면? <NaverLogin></NaverLogin></div>
       </form>
     </div>
+    
   );
 }
 

@@ -49,6 +49,8 @@ function MainLayoutRoutes({ authService ,imageUploader }) {
                 {/* 컨퍼런스 */}
                 {/* 세션 아이디와 입장자, authService 확인 */}
                 <Route path="/conference/:id" element={<ConferencePage />} />
+            
+            
             </Routes>
             <React.Fragment />
         </div>

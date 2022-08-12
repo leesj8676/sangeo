@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styles from './Conferences.module.css';
 
 export default function Conference(x) {
-    const { id, complete, confirmed, counselorld, counselorName, endTime, startTime, userId, userName } = x.props;
+    const { id, complete, confirmed, counselorld, counselorName, endTime, startTime, userId, userName, formPath } = x.props;
     //console.log("test",x.props);
     let date = startTime.substring(16, 0).replace('T', ' ')+" ~ "+endTime.substring(16, 0).replace('T', ' ');
     let state = complete ? "완료" : "예정";
@@ -49,7 +49,7 @@ export default function Conference(x) {
                         {date}
                         </div>
                         <div className="col-3">
-                            <a href="">사전질문 연결</a>
+                            {formPath ? (<a href={formPath} className="text-primary">사전질문 연결</a>) : "사전질문 미등록"}
                         </div>
                         <div className="col-3">
                         <Link to={`../donecounsel/${id}`}>상담결과링크</Link>

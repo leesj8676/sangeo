@@ -46,9 +46,12 @@ export default function UserProfile(){
             </div>
             <div className= {styles.info}>
                 <div>{info.name} 고객님</div>
-                <div>{info.userId}</div>
+                { info.naverUser ? <div className="text-success">네이버 유저</div> :  <div>{info.userId}</div>}
             </div>
+            { info.naverUser ?
+            "" :
             <div className={styles.btn}><button><Link to = "./change">수정</Link></button></div>
+            }
         </div>
 
     )

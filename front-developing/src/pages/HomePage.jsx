@@ -2,7 +2,6 @@ import Stack from 'react-bootstrap/Stack';
 import React from 'react';
 import styles from './HomePage.module.css';
 
-
 function HomePage() {
 
   return (
