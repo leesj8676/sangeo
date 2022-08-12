@@ -41,14 +41,12 @@ if(localStorage.getItem("Authorization")){
   store.dispatch({type:'LOG_IN', user: jwtDecode(localStorage.getItem("Authorization"))});
 }
 root.render(
-  <React.StrictMode>
     <Provider store={ store }>
     <App 
     authService={authService}
     imageUploader= {imageUploader}
     EditorboxRepository= {EditorboxRepository} />
     </Provider>
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
