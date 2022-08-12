@@ -29,7 +29,7 @@ export default function Conference(x) {
                             <a href="">사전질문 연결</a>
                         </div>
                         <div className="col-3">
-                            <Link to={`../conference/${counselorName}`}>상담실링크</Link>
+                            <Link to={`../conference/${id}`}>상담실링크</Link>
                         </div>
                     </div>
                 </div>
