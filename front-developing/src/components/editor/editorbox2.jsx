@@ -15,10 +15,12 @@ const EditorBox2 = ({imageUploader, scheduleId, registeredResult, setCounselResu
         
         setFileImage(URL.createObjectURL(event.target.files[0]));
         const uploaded = await imageUploader.upload(event.target.files[0]);
-   
+
+        console.log("zzzzzzzg ", uploaded);
+
         await setImgName(uploaded.original_filename);
         await setImgURL(uploaded.url);
-
+        await console.log("gggg ", imgURL);
 
     };
 
