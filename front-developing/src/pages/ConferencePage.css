@@ -236,6 +236,15 @@ a:hover .demo-logo {
 }
 
 
+.sidebar {
+  height: 100%;
+  width: 450px;
+  position: absolute;
+  right: 30px;
+  top: 100px;
+  padding-top: 40px;
+  }
+
 /* .chat-container {
   position: absolute;
 } */

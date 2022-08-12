@@ -120,7 +120,7 @@ class ConferencePage extends Component {
                 else console.log("403외 다른 에러 발생,,");
             });
 
-        
+
 
         if (!isUser && !isCounselor) {
             alert('로그인 이후 입장 가능합니다.');
@@ -359,14 +359,6 @@ class ConferencePage extends Component {
                             <div id="session-tools">
                                 {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                                     <div>
-                                        <div className="OT_root OT_publisher custom-class row chatbox" style={chatDisplay}>
-                                            <ChatComponent
-                                                user={localUser}
-                                                chatDisplay={this.state.chatDisplay}
-                                                close={this.toggleChat}
-                                                messageReceived={this.checkNotification}
-                                            />
-                                        </div>
                                         <ThemeProvider theme={theme}>
                                             <IconButton id="buttonToggleChat" onClick={this.toggleChat}>
                                                 <ChatRoundedIcon color="primary" size="large" />
@@ -416,6 +408,14 @@ class ConferencePage extends Component {
                                     {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                                         <div>
                                             <Paint user={localUser} />
+                                            <div className="OT_root OT_publisher custom-class row chatbox sidebar" style={chatDisplay}>
+                                                <ChatComponent
+                                                    user={localUser}
+                                                    chatDisplay={this.state.chatDisplay}
+                                                    close={this.toggleChat}
+                                                    messageReceived={this.checkNotification}
+                                                />
+                                            </div>
                                         </div>
                                     )}
                                 </div>
