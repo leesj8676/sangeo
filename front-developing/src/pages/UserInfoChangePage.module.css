@@ -7,14 +7,3 @@ input{
     width: 300px;
     margin-bottom: 10px;
 }
-
-.input {
-    display: none;
-}
-
-
-.imgframe {
-    width: 10rem;
-    height: 10rem;
-    margin-bottom: 1em;
-}

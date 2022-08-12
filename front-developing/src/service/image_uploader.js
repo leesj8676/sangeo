@@ -1,5 +1,7 @@
 class ImageUploader {
     async upload(blob){
+
+        console.log("들어옴????");
         const data = new FormData();
         data.append('file', blob);
         data.append('upload_preset', 'j0olf3vr');

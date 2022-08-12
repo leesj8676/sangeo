@@ -59,7 +59,7 @@ function RegisterPage() {
       password : password,
       name: name,
       phoneNumber: Tel,
-      profile: "https://res.cloudinary.com/daomkhvu8/image/upload/v1660202419/basic.png_tijmd1.jpg"
+      profile: "basic.png"
     })
     .then(function(result){
       alert(result.data.userId+"님 가입을 축하드립니다.");

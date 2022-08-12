@@ -94,7 +94,7 @@ function NavigationBar({authService}) {
            { isLogin ? 
             (
               <div className="text-center">
-                <img src={user.profile} className={styles.profileImg+" me-1"} width="50" height="50" alt="profile"></img>
+                <img src={"http://localhost:3000/"+user.profile} className={styles.profileImg+" me-1"} width="50" height="50" alt="profile"></img>
                 { user.isUser ?  (<a href={"/mypage"}>{user.name}님</a>) : (<>상담사 <a href={"/mypage/"+user.id}>{user.name}님</a></>)}
               </div>
               )
