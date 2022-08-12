@@ -27,7 +27,7 @@ export default function Conference(x,state) {
                     <Link to={`../counselordetail/${userName}`}>{userName}님 상담</Link>
                     <span>{date}</span>
                     <a href="">사전질문</a>
-                    <Link to={`../conference/${counselorName}`}>상담실링크</Link>
+                    <Link to={`../conference/${id}`}>상담실링크</Link>
                     {time < now ? <button onClick={IsComplete}>상담완료</button> : null}
                 </nav>
             </div>

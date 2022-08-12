@@ -1,3 +1,5 @@
+//https://docs.openvidu.io/en/stable/tutorials/openvidu-insecure-react/ 기반으로 작성
+
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import React, { Component } from 'react';
@@ -19,7 +21,7 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-//set 상어 Theme Color
+//상어 Theme Color
 const theme = createTheme({
     palette: {
         primary: {
@@ -33,6 +35,10 @@ function withParams(Component) {
 }
 
 var localUser = new UserModel();
+var counselorId;
+var counselorName;
+var userId;
+var userName;
 
 const OPENVIDU_SERVER_URL = 'https://i7e207.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
@@ -41,33 +47,19 @@ class ConferencePage extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
-            mySessionId: 'Session' + this.props.id,
+            mySessionId: 'Session' + props.params.id,
             myUserName: undefined,
             session: undefined,
             mainStreamManager: undefined,
             publisher: undefined,
-            subscribers: [],
+            subscriber: undefined,
             localUser: undefined,
             chatDisplay: 'none',
         };
 
-        axios.get(process.env.REACT_APP_DB_HOST + "/users/me")
-            .then(({ data }) => {
-                console.log("then", data.name);
-                this.setState({
-                    myUserName: data.name,
-                });
-            }
-            ).catch((err) => {
-                alert('로그인 하세요');
-                window.location.href = '/';
-            })
-
         this.joinSession = this.joinSession.bind(this);
         this.leaveSession = this.leaveSession.bind(this);
-        this.switchCamera = this.switchCamera.bind(this);
         this.handleChangeSessionId = this.handleChangeSessionId.bind(this);
         this.handleChangeUserName = this.handleChangeUserName.bind(this);
         this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
@@ -79,8 +71,74 @@ class ConferencePage extends Component {
         this.checkSize = this.checkSize.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         window.addEventListener('beforeunload', this.onbeforeunload);
+
+
+        // 컨퍼런스 입장 전, 유효한 스케줄 번호인지, 유효한 사용자인지 검사
+        await axios.get(process.env.REACT_APP_DB_HOST + `/schedules/${this.props.params.id}`)
+            .then(({ data }) => {
+                console.log("then", data);
+                counselorId = data.counselor.counselorId;
+                counselorName = data.counselor.name;
+                userId = data.user.userId;
+                userName = data.user.name;
+                console.log("테스트트트트", counselorId, counselorName, userId, userName);
+            }
+            ).catch((err) => {
+                // 에러가 뜨면 일괄적으로 없는 스케줄에 들어왔다고 생각..
+                console.warn("스케줄 조회에서 에러 발생", err);
+                alert('등록된 상담 스케줄이 아닙니다');
+                window.location.href = '/';
+            });
+
+        let isCounselor = false;
+        let isUser = false;
+        let responseCounselorId;
+        let responseUserId;
+        await axios.get(process.env.REACT_APP_DB_HOST + "/counselors/me")
+            .then(({ data }) => {
+                console.log("counselors", data);
+                isCounselor = true;
+                responseCounselorId = data.counselorId;
+            }
+            ).catch((err) => {
+                // 접속한 사용자가 상담사가 아닌 경우(아무것도 하지 않음)
+                if (err.response.status === 403);
+                else console.log("403외 다른 에러 발생,,");
+            });
+
+        await axios.get(process.env.REACT_APP_DB_HOST + "/users/me")
+            .then(({ data }) => {
+                console.log("users", data);
+                isUser = true;
+                responseUserId = data.userId;
+            }
+            ).catch((err) => {
+                // 접속한 사용자가 회원이 아닌 경우(아무것도 하지 않음)
+                if (err.response.status === 403);
+                else console.log("403외 다른 에러 발생,,");
+            });
+
+
+
+        if (!isUser && !isCounselor) {
+            alert('로그인 이후 입장 가능합니다.');
+            window.location.href = '/';
+        }
+        else if (!(counselorId === responseCounselorId || userId === responseUserId)) {
+            alert('스케줄에 등록된 회원/상담사가 아닙니다.');
+            // window.location.href = '/';
+        }
+
+        if (isCounselor)
+            this.setUserName(counselorName);
+        if (isUser)
+            this.setUserName(userName);
+
+        //  var startTime;
+        // 스케줄이 진짜 있는 스케줄인지 체크 (나중에 시간을 두고 만드는것도 괜찮을듯...)
+
         this.joinSession();
     }
 
@@ -124,50 +182,52 @@ class ConferencePage extends Component {
         }
     }
 
-    deleteSubscriber(streamManager) {
-        let subscribers = this.state.subscribers;
-        let index = subscribers.indexOf(streamManager, 0);
-        if (index > -1) {
-            subscribers.splice(index, 1);
-            this.setState({
-                subscribers: subscribers,
-            });
-        }
+    setSubscriber(subscriber) {
+        this.setState({
+            subscriber,
+        });
+    }
+
+    deleteSubscriber() {
+        this.setSubscriber(undefined);
     }
 
     joinSession() {
-
         this.OV = new OpenVidu();
 
+        //카메라,오디오 권한 요구
+        var video = undefined;
+        navigator.mediaDevices.getUserMedia({
+            video: true
+        }).then(function (stream) {
+            video = stream.getVideoTracks()[0].id;
+            // console.log("테스트", video);
+        })
         // --- 2) Init a session ---
         this.setState(
-            {
-                session: this.OV.initSession(),
-            },
+            { session: this.OV.initSession(), },
             () => {
                 var mySession = this.state.session;
 
                 // --- 3) Specify the actions when events take place in the session ---
-
                 // On every new Stream received...
+
+                // 1대 1 상담이므로 subscriber는 하나만 존재
                 mySession.on('streamCreated', (event) => {
                     // Subscribe to the Stream to receive it. Second parameter is undefined
                     // so OpenVidu doesn't create an HTML video by its own
                     var subscriber = mySession.subscribe(event.stream, undefined);
-                    var subscribers = this.state.subscribers;
-                    subscribers.push(subscriber);
 
                     // Update the state with the new subscribers
                     this.setState({
-                        subscribers: subscribers,
+                        subscriber: subscriber,
                     });
                 });
 
                 // On every Stream destroyed...
                 mySession.on('streamDestroyed', (event) => {
-
                     // Remove the stream from 'subscribers' array
-                    this.deleteSubscriber(event.stream.streamManager);
+                    this.deleteSubscriber();
                 });
 
                 // On every asynchronous exception...
@@ -191,15 +251,20 @@ class ConferencePage extends Component {
                             var devices = await this.OV.getDevices();
                             var videoDevices = devices.filter(device => device.kind === 'videoinput');
 
-                            // --- 5) Get your own camera stream ---
+                            // Vidoe input devie with deviceId '' not found 에러 해결
+                            if (videoDevices[0].deviceId === '') {
+                                console.log("에러 발생 !!! true인지 확인", videoDevices[0].deviceId === '');
+                                videoDevices[0].deviceId = video;
+                            }
 
+                            // --- 5) Get your own camera stream ---
                             // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
                             // element: we will manage it on our own) and with the desired properties
                             let publisher = this.OV.initPublisher(undefined, {
                                 audioSource: undefined, // The source of audio. If undefined default microphone
                                 videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
-                                publishAudio: false, // Whether you want to start publishing with your audio unmuted or not
-                                publishVideo: false, // Whether you want to start publishing with your video enabled or not
+                                publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
+                                publishVideo: true, // Whether you want to start publishing with your video enabled or not
                                 resolution: '640x480', // The resolution of your video
                                 frameRate: 30, // The frame rate of your video
                                 insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
@@ -207,12 +272,11 @@ class ConferencePage extends Component {
                             });
 
                             // --- 6) Publish your stream ---
-
                             mySession.publish(publisher);
-
                             localUser.setConnectionId(publisher.session.connection.connectionId);
                             localUser.setStreamManager(publisher);
                             localUser.setNickname(this.state.myUserName);
+
                             // Set the main video in the page to display our webcam and store our Publisher
                             this.setState({
                                 currentVideoDevice: videoDevices[0],
@@ -239,7 +303,6 @@ class ConferencePage extends Component {
         publisher.publishAudio(!this.state.publisher.stream.audioActive);
         this.setState({ publisher: publisher });
     }
-
     toggleChat() {
         let display = this.state.chatDisplay;
         if (display === 'block') {
@@ -252,7 +315,6 @@ class ConferencePage extends Component {
         }
         //this.updateLayout();
     }
-
     checkNotification(event) {
         this.setState({
             messageReceived: this.state.chatDisplay === 'none',
@@ -269,61 +331,20 @@ class ConferencePage extends Component {
     }
 
     leaveSession() {
-
         // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
-
         const mySession = this.state.session;
-
         if (mySession) {
             mySession.disconnect();
         }
-
-        // Empty all properties...
-        this.OV = null;
-        this.setState({
-            session: undefined,
-            subscribers: [],
-            mySessionId: 'SessionA',
-            myUserName: 'Participant' + Math.floor(Math.random() * 100),
-            mainStreamManager: undefined,
-            publisher: undefined
-        });
-    }
-
-    async switchCamera() {
-        try {
-            const devices = await this.OV.getDevices()
-            var videoDevices = devices.filter(device => device.kind === 'videoinput');
-
-            if (videoDevices && videoDevices.length > 1) {
-
-                var newVideoDevice = videoDevices.filter(device => device.deviceId !== this.state.currentVideoDevice.deviceId)
-
-                if (newVideoDevice.length > 0) {
-                    // Creating a new publisher with specific videoSource
-                    // In mobile devices the default and first camera is the front one
-                    var newPublisher = this.OV.initPublisher(undefined, {
-                        videoSource: newVideoDevice[0].deviceId,
-                        publishAudio: true,
-                        publishVideo: true,
-                        mirror: true
-                    });
-
-                    //newPublisher.once("accessAllowed", () => {
-                    await this.state.session.unpublish(this.state.mainStreamManager)
-
-                    await this.state.session.publish(newPublisher)
-                    this.setState({
-                        currentVideoDevice: newVideoDevice,
-                        mainStreamManager: newPublisher,
-                        publisher: newPublisher,
-                        localUser: localUser,
-                    });
-                }
-            }
-        } catch (e) {
-            console.error(e);
-        }
+        // this.OV = null;
+        // this.setState({
+        //     session: undefined,
+        //     subscribers: [],
+        //     mySessionId: 'SessionA',
+        //     myUserName: 'Participant' + Math.floor(Math.random() * 100),
+        //     mainStreamManager: undefined,
+        //     publisher: undefined
+        // });
     }
 
     render() {
@@ -338,14 +359,6 @@ class ConferencePage extends Component {
                             <div id="session-tools">
                                 {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                                     <div>
-                                        <div className="OT_root OT_publisher custom-class row chatbox" style={chatDisplay}>
-                                            <ChatComponent
-                                                user={localUser}
-                                                chatDisplay={this.state.chatDisplay}
-                                                close={this.toggleChat}
-                                                messageReceived={this.checkNotification}
-                                            />
-                                        </div>
                                         <ThemeProvider theme={theme}>
                                             <IconButton id="buttonToggleChat" onClick={this.toggleChat}>
                                                 <ChatRoundedIcon color="primary" size="large" />
@@ -375,12 +388,12 @@ class ConferencePage extends Component {
                         <div className='session-body'>
                             <div id="video-container" className='col-md-3 col-xs-3'>
                                 <div className="row">
-                                    {this.state.subscribers.map((sub, i) => (
-                                        <div key={i} className="stream-container">
-                                            <UserVideoComponent streamManager={sub} />
+                                    {this.state.subscriber !== undefined ? (
+                                        <div className="stream-container">
+                                            <UserVideoComponent
+                                                streamManager={this.state.subscriber} />
                                         </div>
-                                    ))}
-                                </div>
+                                    ) : null}                                </div>
                                 <div className="row">
                                     {this.state.publisher !== undefined ? (
                                         <div className="stream-container">
@@ -394,7 +407,15 @@ class ConferencePage extends Component {
                                 <div id="canvas-container" >
                                     {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                                         <div>
-                                            <Paint user={localUser}/>
+                                            <Paint user={localUser} />
+                                            <div className="OT_root OT_publisher custom-class row chatbox sidebar" style={chatDisplay}>
+                                                <ChatComponent
+                                                    user={localUser}
+                                                    chatDisplay={this.state.chatDisplay}
+                                                    close={this.toggleChat}
+                                                    messageReceived={this.checkNotification}
+                                                />
+                                            </div>
                                         </div>
                                     )}
                                 </div>
