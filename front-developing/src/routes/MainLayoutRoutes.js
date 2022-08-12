@@ -11,11 +11,14 @@ import RegisterCounselorPage from '../pages/RegisterCounselorPage';
 import CounListPage from '../pages/CounListPage';
 import CounDetailPage from '../pages/CounDetailPage';
 import CounMyPage from '../pages/CounMyPage'
+import CounInfoPage from '../pages/CounInfoPage'
 import UserInfoChangePage from '../pages/UserInfoChangePage';
 import UserMyPage from '../pages/UserMyPage'
 import DoneCounselPage from '../pages/DoneCounselPage';
 import ManageDoneCounselPage from '../pages/ManageDoneCounselPage';
 import ConferencePage from '../pages/ConferencePage';
+
+
 
 // 컴포넌트
 import NavigationBar from '../components/header/Navbar';
@@ -33,6 +36,7 @@ function MainLayoutRoutes({ authService, imageUploader}) {
                 <Route path="/counselordetail/:id" element={<CounDetailPage />} />
                 <Route path="/counselorlist" element={<CounListPage authService={authService} />} />
                 <Route path="/counmypage/:id" element={<CounMyPage authService={authService} />} />
+                <Route path="/counmypage/:id/change" element={<CounInfoPage authService={authService} />} />
 
                 {/* 회원관리 경로 */}
                 <Route path="/sign_in" element={<LoginPage authService={authService} />} />
