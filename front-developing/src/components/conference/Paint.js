@@ -30,7 +30,7 @@ function Paint(props) {
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = cavasContainerRef.current.clientWidth;    // 3/4 만큼 차지
-    canvas.height = cavasContainerRef.current.clientHeight;  // 상단바 크기 150px로 고정
+    canvas.height = window.innerHeight - 400;  // 상단바 크기 150px로 고정
 
     const context = canvas.getContext("2d");
     context.lineCap = "round"
@@ -255,7 +255,6 @@ const CanvasContainer = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
   width: 100%;
-  height: 100%;
   border-radius: 18px;
   position: relative;
   background-color: white;
