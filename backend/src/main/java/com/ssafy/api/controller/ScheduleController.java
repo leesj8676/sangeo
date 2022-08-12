@@ -88,7 +88,7 @@ public class ScheduleController {
 	}
 
 	@PostMapping("/holiday")
-	@ApiOperation(value = "휴일 생성", notes = "<strong>상담사ID와 날짜 배열/strong>을 통해 휴일을 생성한다.")
+	@ApiOperation(value = "휴가 생성", notes = "<strong>상담사ID와 날짜 배열/strong>을 통해 비정기적인 휴가를 생성한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"),
 			@ApiResponse(code = 401, message = "시간 포맷 부적절"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<Schedule> registerHolidays(
@@ -138,10 +138,13 @@ public class ScheduleController {
 
 	@GetMapping("/{scheduleId}")
 	@ApiOperation(value = "스케줄 정보 조회", notes = "<strong>스케줄 번호</strong>를 통해 스케줄 정보를 조회한다.")
-	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 500, message = "서버 오류") })
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "스케줄 존재하지 않음"),
+			@ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<Schedule> searchScheduleById(
 			@PathVariable("scheduleId") @ApiParam(value = "스케줄 아이디", required = true) Long id) {
 		Schedule schedule = scheduleService.getScheduleById(id);
+		if (schedule == null)
+			ResponseEntity.status(401).body(null);
 		return ResponseEntity.status(200).body(schedule);
 	}
 
@@ -248,11 +251,11 @@ public class ScheduleController {
 	}
 
 	@GetMapping("/counselors/holidays/{counselorId}/{month}")
-	@ApiOperation(value = "상담사 휴일 연월 조회", notes = "<strong>상담사 아이디, 연월</strong>을 통해 상담사 스케줄을 날짜별로 조회한다.")
+	@ApiOperation(value = "상담사 휴가 연월 조회", notes = "<strong>상담사 아이디, 연월</strong>을 통해 상담사의 비정기적 휴가를 날짜별로 조회한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"),
 			@ApiResponse(code = 401, message = "date 포맷 부적절"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<List<DateOnly>> searchHolidaysByCounselorIdAndMonth(
-			@PathVariable("counselorId") @ApiParam(value = "스케줄을 조회할 상담사 아이디(예: parkcs)", required = true) String counselorId,
+			@PathVariable("counselorId") @ApiParam(value = "휴가를 조회할 상담사 아이디(예: parkcs)", required = true) String counselorId,
 			@PathVariable("month") @ApiParam(value = "연월(예: \"2022-08\")", required = true) String month) {
 
 		Counselor counselor = counselorService.getCounselorByCounselorId(counselorId);
@@ -384,7 +387,7 @@ public class ScheduleController {
 			return ResponseEntity.status(200).body(ScheduleResultRes.of(schedule));
 
 	}
-	
+
 	// 스케줄 사전 설문 폼 링크 등록
 	@PutMapping("/form")
 	@ApiOperation(value = "스케줄 사전 설문 등록", notes = "<strong>스케줄 ID</strong>을 통해 <strong>상담사가 사전 설문 링크</strong>를 등록한다.")
@@ -400,12 +403,28 @@ public class ScheduleController {
 
 	}
 
+	@DeleteMapping("/{scheduleId}")
+	@ApiOperation(value = "스케줄 삭제", notes = "휴가를 포함한 스케줄을 <strong>스케줄 ID</strong>으로 삭제한다.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "해당 스케줄 없음"),
+			@ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<String> delete(
+			@PathVariable("scheduleId") @ApiParam(value = "삭제할 스케줄 아이디", required = true) Long id) {
+
+		Schedule schedule;
+		schedule = scheduleService.getScheduleById(id);
+		if (schedule == null)
+			return ResponseEntity.status(402).body(null);
+
+		scheduleService.deleteSchedule(schedule);
+		return ResponseEntity.status(200).body(null);
+	}
+
 	@DeleteMapping("/{counselorId}/{starttime}")
 	@ApiOperation(value = "스케줄 삭제(현재는 상담사만 가능)", notes = "<strong>상담사 ID와 스케줄 시작 시간</strong>으로 스케줄을 삭제한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"),
 			@ApiResponse(code = 401, message = "날짜 포맷 부적절"), @ApiResponse(code = 402, message = "스케줄 없음"),
 			@ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<String> delete(
+	public ResponseEntity<String> deleteHoliday(
 			@PathVariable("counselorId") @ApiParam(value = "스케줄을 삭제할 상담사 아이디", required = true) String counselorId,
 			@PathVariable("starttime") @ApiParam(value = "날짜가 포함된 시작 시간(예: \"2022-07-27 17:30\")", required = true) String startTime) {
 
