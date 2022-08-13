@@ -3,12 +3,12 @@ import {Nav} from 'react-bootstrap';
 import UserBasicChange from '../components/profile/UserBasicChange';
 import UserPwChange from '../components/profile/UserPwChange';
 
-export default function UserInfoChange(){
+export default function UserInfoChange({imageUploader}){
     const[tab, setTab] = useState(0);
  
     function TabContent(props) {
       if(props.tab === 0){
-        return <div><UserBasicChange></UserBasicChange></div>
+        return <div><UserBasicChange imageUploader={imageUploader}></UserBasicChange></div>
       }else if(props.tab === 1) {
         return <div><UserPwChange></UserPwChange></div>
       }

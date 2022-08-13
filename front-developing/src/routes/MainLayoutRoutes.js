@@ -43,7 +43,7 @@ function MainLayoutRoutes({ authService ,imageUploader }) {
                 <Route path="/sign_up" element={<RegisterPage />} />
                 <Route path="/sign_up/counselor" element={<RegisterCounselorPage />} />
                 <Route path="/mypage" element={<UserMyPage authService={authService} />} />
-                <Route path="/mypage/change" element={<UserInfoChangePage authService={authService} />} />
+                <Route path="/mypage/change" element={<UserInfoChangePage authService={authService} imageUploader={imageUploader} />} />
 
                 {/* 상담관리 */}
                 <Route path="/donecounsel/:scheduleNo" element={<DoneCounselPage authService={authService} />} />
