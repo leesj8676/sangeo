@@ -408,9 +408,11 @@ class ConferencePage extends Component {
                                     )}
                                 </div>
                                 {localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                                    <IconButton id="buttonToggleChat" onClick={this.toggleChat}>
-                                        <ChatRoundedIcon size="large" />
-                                    </IconButton>
+                                    <MessageBorder>
+                                        <IconButton id="buttonToggleChat" onClick={this.toggleChat}>
+                                            <ChatRoundedIcon size="large" />
+                                        </IconButton>
+                                    </MessageBorder>
                                 )}
                             </div>
                         </div>
@@ -499,6 +501,17 @@ class ConferencePage extends Component {
     }
 }
 
+
+const MessageBorder = styled.div`
+position: absolute;
+right: 20px;
+bottom: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+`;
 
 const VideoContainer = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.1);

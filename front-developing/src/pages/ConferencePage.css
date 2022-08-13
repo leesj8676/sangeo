@@ -5,6 +5,7 @@ html {
 
 body {
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 #main-container {
@@ -164,9 +165,9 @@ a:hover .demo-logo {
   margin-right: 10px;
 }
 
-/* #canvas-container {
-  z-index: 100;
-} 
+ #canvas-container {
+  height: 100%;
+}  
 
 /*video {
 	width: 100%;
@@ -258,7 +259,7 @@ a:hover .demo-logo {
   width: 450px;
   position: absolute;
   right: 150px;
-  top: 0px;
+  top: 50px;
   padding-top: 40px;
   }
 
@@ -279,7 +280,5 @@ a:hover .demo-logo {
 #buttonToggleChat{
   color: #62AAFF;
   position: absolute;
-  right: 20px;
-  bottom: 20px;
 }
 

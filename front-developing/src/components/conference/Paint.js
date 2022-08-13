@@ -38,10 +38,12 @@ function Paint(props) {
 
   let session = props.user.getStreamManager().stream.session;
   let id = props.user.connectionId;
+  // console.log("최상위 : ", props);
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = cavasContainerRef.current.clientWidth;
-    canvas.height = cavasContainerRef.current.clientHeight;
+    // canvas.height = cavasContainerRef.current.clientHeight;
+    canvas.height = window.innerHeight - 200;  // 상단바 크기 150px로 고정
 
     const context = canvas.getContext("2d");
     context.lineCap = "round"
@@ -49,15 +51,16 @@ function Paint(props) {
     context.lineWidth = lineWidth
     contextRef.current = context;
 
+  // 처음 시작할때 흰 화면으로 초기화 했으면 좋겠음..
+    fillWhiteRect();
     session.on('signal:draw', (event) => {
       const data = JSON.parse(event.data);
       if (data.id !== id) {
         if (data.type === 'file') {
+          // console.log("data 다 뜯어보기", data);
           peerDrawIamge(data.payload);
-        }
-        else if (data.type === 'trash') {
-          //현재 캔버스 하얀색으로 칠하기
-          fillCanvasWhite();
+        } else if(data.type === 'trash') {
+          fillWhiteRect();
         }
         else
           peerDrawing(data.payload);
@@ -76,13 +79,13 @@ function Paint(props) {
     if (eraserRef.current) {
       eraserRef.current.onclick = () => {
         changeColor("#FFFFFF"); //white
-        // setLineWidth(80);
+        setLineWidth(20);
         contextRef.current.lineWidth = lineWidth;
       };
     }
     if (trashBinRef.current) {
       trashBinRef.current.onclick = () => {
-        fillCanvasWhite();
+        fillWhiteRect();
         session.signal({
           data: JSON.stringify({ type: 'trash', id: id }),
           type: 'draw',
@@ -96,6 +99,8 @@ function Paint(props) {
 
   }, [])
 
+
+  
   const startDrawing = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent
     contextRef.current.beginPath()
@@ -121,6 +126,7 @@ function Paint(props) {
       return
     }
     const { offsetX, offsetY } = nativeEvent;
+    contextRef.current.lineWidth = lineWidth;
     contextRef.current.lineTo(offsetX, offsetY)
     contextRef.current.stroke()
     const data = {
@@ -148,8 +154,11 @@ function Paint(props) {
     let context = contextRef.current;
     if (!context) return;
     context.lineWidth = payload.lineWidth;
+    changeColor(payload.color);
     context.strokeStyle = payload.color;
     // context.lineCap = payload.lineCap;
+
+
     if (!payload.isDrawing) {
       context.beginPath();
       context.moveTo(payload.x, payload.y);
@@ -157,12 +166,6 @@ function Paint(props) {
       context.lineTo(payload.x, payload.y);
       context.stroke();
     }
-  }
-
-  function fillCanvasWhite() {
-    contextRef.current.fillStyle = "white";
-    contextRef.current.lineWidth = lineWidth; //rectfill
-    contextRef.current.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
   }
 
   function onLineWidthChange(event) {
@@ -206,7 +209,14 @@ function Paint(props) {
     });
   }
 
+  function fillWhiteRect(){
+    contextRef.current.fillStyle = "white";
+    contextRef.current.lineWidth = lineWidth; //rectfill
+    contextRef.current.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+  }
+
   function drawImage(imgURL, moveToX, moveToY, width, height) {
+    // console.log(imgURL);//blob:http://127.0.0.1:5500/d605923f-931b-4b31-8193-8a5999056d9e
     const image = new Image();
     image.src = imgURL;
     image.onload = function () {
@@ -417,9 +427,8 @@ function Paint(props) {
 
 const PickBox = styled.div`
   position: absolute;
-  left: 62.5%;
-  width: 100%;
-  bottom: 5px;
+  left: 50%;
+  top: 15px;
   display: flex;
   transform: translate(-50%, 0);
 `;
@@ -494,11 +503,12 @@ const CanvasContainer = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
   width: 95%;
-  height: 670px;
+  height: 95%;
   border-radius: 18px;
   position: relative;
   background-color: white;
+  margin-top: 50px;
+  margin-left: 10px;
 `;
-
 
 export default Paint;
