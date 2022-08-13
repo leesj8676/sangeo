@@ -66,7 +66,10 @@ function RegisterPage() {
     if(password == PwdConfirmCurrent){
       setPasswordConfirmMessage('비밀번호가 일치합니다 :) ');
       setIsPasswordConfirm(true);
-      setIsActivate(true);
+      if(isId && isPassword && isPasswordConfirm){
+        setIsActivate(true);
+      }
+      
     } else {
       setPasswordConfirmMessage('비밀번호가 일치하지 않습니다! ');
       setIsPasswordConfirm(false);
