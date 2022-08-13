@@ -33,11 +33,12 @@ function Paint(props) {
     '#3498db',
     '#8e44ad',
     '#e84393',
-    '#2c3e50',
+    '#000000',
   ];
 
   let session = props.user.getStreamManager().stream.session;
   let id = props.user.connectionId;
+
   // console.log("최상위 : ", props);
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -51,14 +52,28 @@ function Paint(props) {
     context.lineWidth = lineWidth
     contextRef.current = context;
 
+    // 처음 시작할때 흰 화면으로 초기화 했으면 좋겠음.. (상대도 초기화)
+    fillWhiteRect();
+    const data = {
+      x: 0,
+      y: 0,
+      lineWidth: 10,
+      color: "#ffffff",
+      isDrawing: false,
+    };
+    session.signal({
+      data: JSON.stringify({ type: 'trash', id: id, payload: { ...data } }),
+      type: 'draw',
+    });
     session.on('signal:draw', (event) => {
       const data = JSON.parse(event.data);
       if (data.id !== id) {
         if (data.type === 'file') {
-          console.log("data 다 뜯어보기", data);
+          // console.log("data 다 뜯어보기", data);
           peerDrawIamge(data.payload);
+        } else if (data.type === 'trash') {
+          fillWhiteRect();
         }
-
         else
           peerDrawing(data.payload);
       }
@@ -76,15 +91,24 @@ function Paint(props) {
     if (eraserRef.current) {
       eraserRef.current.onclick = () => {
         changeColor("#FFFFFF"); //white
-        setLineWidth(80);
+        setLineWidth(20);
         contextRef.current.lineWidth = lineWidth;
       };
     }
     if (trashBinRef.current) {
       trashBinRef.current.onclick = () => {
-        contextRef.current.fillStyle = "white";
-        contextRef.current.lineWidth = lineWidth; //rectfill
-        contextRef.current.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+        fillWhiteRect();
+        const data = {
+          x: 0,
+          y: 0,
+          lineWidth: 10,
+          color: "#ffffff",
+          isDrawing: false,
+        };
+        session.signal({
+          data: JSON.stringify({ type: 'trash', id: id, payload: { ...data } }),
+          type: 'draw',
+        });
       };
     }
 
@@ -94,10 +118,13 @@ function Paint(props) {
 
   }, [])
 
+
+
   const startDrawing = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent
     contextRef.current.beginPath()
     contextRef.current.moveTo(offsetX, offsetY)
+    setLineWidth(lineWidth);
     setIsDrawing(true)
     const data = {
       x: offsetX,
@@ -119,6 +146,7 @@ function Paint(props) {
       return
     }
     const { offsetX, offsetY } = nativeEvent;
+    contextRef.current.lineWidth = lineWidth;
     contextRef.current.lineTo(offsetX, offsetY)
     contextRef.current.stroke()
     const data = {
@@ -145,9 +173,13 @@ function Paint(props) {
     console.log("payload", payload);
     let context = contextRef.current;
     if (!context) return;
-    context.lineWidth = payload.lineWidth;
+    setLineWidth(payload.lineWidth);
+    context.lineWidth = lineWidth;
+    changeColor(payload.color);
     context.strokeStyle = payload.color;
     // context.lineCap = payload.lineCap;
+
+
     if (!payload.isDrawing) {
       context.beginPath();
       context.moveTo(payload.x, payload.y);
@@ -157,9 +189,17 @@ function Paint(props) {
     }
   }
 
-  function onLineWidthChange(event) {
+  function onLineWidthChange() {
     // console.log(event.target.value);
-    setLineWidth(event.target.value);
+    // setLineWidth(event);
+    // contextRef.current.lineWidth = lineWidth;
+    var select = document.querySelector("select");
+    var selected = document.querySelector("option:checked");
+    var selectedFontSize = getComputedStyle(selected, null).getPropertyValue("font-size");
+    select.style.fontSize = selectedFontSize;
+    let width = selectedFontSize.substring(0, selectedFontSize.length - 2);
+    console.warn(width/2);
+    setLineWidth(width/2);
     contextRef.current.lineWidth = lineWidth;
   }
 
@@ -196,6 +236,12 @@ function Paint(props) {
       data: JSON.stringify({ type: 'file', id: id, payload: { ...data } }),
       type: 'draw',
     });
+  }
+
+  function fillWhiteRect() {
+    contextRef.current.fillStyle = "white";
+    contextRef.current.lineWidth = lineWidth; //rectfill
+    contextRef.current.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
   }
 
   function drawImage(imgURL, moveToX, moveToY, width, height) {
@@ -242,6 +288,8 @@ function Paint(props) {
   //   );
   // }
 
+
+
   return (
     <CanvasContainer ref={cavasContainerRef}>
       <canvas
@@ -253,7 +301,15 @@ function Paint(props) {
       />
       <PickBox>
         <LineWidthSelector>
-          <input id="line-width" type="range" min="2" max="20" value={lineWidth} onChange={onLineWidthChange} step="2" />
+          {/* <input id="line-width" type="range" min="2" max="20" value={lineWidth} onChange={onLineWidthChange} step="2" /> */}
+          <select onChange={onLineWidthChange}>
+            <option class="w1">-----</option>
+            <option class="w2">-----</option>
+            <option class="w3">-----</option>
+            <option class="w4">-----</option>
+            <option class="w5">-----</option>
+            <option class="w6">-----</option>
+          </select>
         </LineWidthSelector>
         <ColorSelector>
           <input type="color" id="color-select" onChange={onColorChange} />
@@ -373,12 +429,12 @@ function Paint(props) {
           <input type="file" accept="image/*" id="file" onChange={onFileChange} />
         </ImageSelector>
         <ImageDonwloader ref={downloadRef}>
-        <svg xmlns="http://www.w3.org/2000/svg"
-     width="0.266667in" height="0.266667in"
-     viewBox="0 0 24 24">
-  <path
-        fill="none" stroke="black" stroke-width="2"
-        d="M 11.53,18.74
+          <svg xmlns="http://www.w3.org/2000/svg"
+            width="0.266667in" height="0.266667in"
+            viewBox="0 0 24 24">
+            <path
+              fill="none" stroke="black" stroke-width="2"
+              d="M 11.53,18.74
            C 11.65,18.86 11.83,18.94 12.00,18.94
              12.17,18.94 12.35,18.87 12.47,18.74
              12.47,18.74 17.79,13.42 17.79,13.42
@@ -400,7 +456,7 @@ function Paint(props) {
              2.89,24.00 21.11,24.00 21.11,24.00
              21.48,24.00 21.77,23.70 21.77,23.33
              21.77,22.96 21.48,22.66 21.11,22.66 Z" />
-</svg>
+          </svg>
         </ImageDonwloader>
       </PickBox>
     </CanvasContainer>
@@ -411,7 +467,7 @@ function Paint(props) {
 const PickBox = styled.div`
   position: absolute;
   left: 50%;
-  bottom: 5px;
+  top: 15px;
   display: flex;
   transform: translate(-50%, 0);
 `;
@@ -485,10 +541,13 @@ const ImageDonwloader = styled.div`
 const CanvasContainer = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-  width: 100%;
+  width: 95%;
+  height: 95%;
   border-radius: 18px;
   position: relative;
   background-color: white;
+  margin-top: 50px;
+  margin-left: 10px;
 `;
 
 export default Paint;

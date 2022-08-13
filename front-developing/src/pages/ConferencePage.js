@@ -10,6 +10,8 @@ import UserVideoComponent from '../components/conference/UserVideoComponent';
 import UserModel from '../components/conference//user-model';
 import Paint from '../components/conference/Paint';
 import ChatComponent from '../components/conference//ChatComponent';
+import styled from 'styled-components';
+
 
 //MUI 
 import IconButton from '@material-ui/core/IconButton';
@@ -19,16 +21,7 @@ import MicRoundedIcon from '@mui/icons-material/MicRounded';
 import MicOffRoundedIcon from '@mui/icons-material/MicOffRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-//상어 Theme Color
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#62AAFF',
-        },
-    },
-});
 
 function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
@@ -356,54 +349,47 @@ class ConferencePage extends Component {
             <div className="container">
                 {this.state.session !== undefined ? (
                     <div id="session">
-                        <div id="session-header">
+                        {/* <div id="session-header">
                             <img src={"http://localhost:3001/sangeo_logo.png"} alt="상어 로고" />
-                            <div id="session-tools">
-                                {localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                                    <div>
-                                        <ThemeProvider theme={theme}>
-                                            <IconButton id="buttonToggleChat" onClick={this.toggleChat}>
-                                                <ChatRoundedIcon color="primary" size="large" />
-                                            </IconButton>
-                                        </ThemeProvider>
-                                    </div>
-                                )}
-                                {this.state.publisher !== undefined && this.state.publisher.stream.videoActive ? (
-                                    <IconButton id="buttonToggleCamera" onClick={this.toggleCamera}>
-                                        <VideocamRoundedIcon />
-                                    </IconButton>
-                                ) : <IconButton id="buttonToggleCamera" onClick={this.toggleCamera}>
-                                    <VideocamOffRoundedIcon />
-                                </IconButton>}
-                                {this.state.publisher !== undefined && this.state.publisher.stream.audioActive ? (
-                                    <IconButton id="buttonToggleMic" onClick={this.toggleMic}>
-                                        <MicRoundedIcon />
-                                    </IconButton>
-                                ) : <IconButton id="buttonToggleMic" onClick={this.toggleMic}>
-                                    <MicOffRoundedIcon />
-                                </IconButton>}
-                                <IconButton id="buttonLeaveSession" onClick={this.leaveSession}>
-                                    <LogoutRoundedIcon />
-                                </IconButton>
-                            </div>
-                        </div>
+                        </div> */}
                         <div className='session-body'>
                             <div id="video-container" className='col-md-3 col-xs-3'>
                                 <div className="row">
                                     {this.state.subscriber !== undefined ? (
-                                        <div className="stream-container">
+                                        // VideoContainer
+                                        <VideoContainer>
                                             <UserVideoComponent
                                                 streamManager={this.state.subscriber} />
-                                        </div>
+                                        </VideoContainer>
                                     ) : null}                                </div>
                                 <div className="row">
                                     {this.state.publisher !== undefined ? (
-                                        <div className="stream-container">
+                                        <VideoContainer>
                                             <UserVideoComponent
                                                 streamManager={this.state.publisher} />
-                                        </div>
+                                            <div id="session-tools row" className='d-flex justify-content-center'>
+                                                {this.state.publisher !== undefined && this.state.publisher.stream.videoActive ? (
+                                                    <IconButton id="buttonToggleCamera" onClick={this.toggleCamera}>
+                                                        <VideocamRoundedIcon />
+                                                    </IconButton>
+                                                ) : <IconButton id="buttonToggleCamera" onClick={this.toggleCamera}>
+                                                    <VideocamOffRoundedIcon />
+                                                </IconButton>}
+                                                {this.state.publisher !== undefined && this.state.publisher.stream.audioActive ? (
+                                                    <IconButton id="buttonToggleMic" onClick={this.toggleMic}>
+                                                        <MicRoundedIcon />
+                                                    </IconButton>
+                                                ) : <IconButton id="buttonToggleMic" onClick={this.toggleMic}>
+                                                    <MicOffRoundedIcon />
+                                                </IconButton>}
+                                                <IconButton id="buttonLeaveSession" onClick={this.leaveSession}>
+                                                    <LogoutRoundedIcon />
+                                                </IconButton>
+                                            </div>
+                                        </VideoContainer>
                                     ) : null}
                                 </div>
+
                             </div>
                             <div className='col-md-9 col-xs-9 paint-container'>
                                 <div id="canvas-container" >
@@ -421,6 +407,13 @@ class ConferencePage extends Component {
                                         </div>
                                     )}
                                 </div>
+                                {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                                    <MessageBorder>
+                                        <IconButton id="buttonToggleChat" onClick={this.toggleChat}>
+                                            <ChatRoundedIcon size="large" />
+                                        </IconButton>
+                                    </MessageBorder>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -429,6 +422,8 @@ class ConferencePage extends Component {
             </div>
         );
     }
+
+
 
     /**
      * --------------------------
@@ -505,5 +500,28 @@ class ConferencePage extends Component {
         });
     }
 }
+
+
+const MessageBorder = styled.div`
+position: absolute;
+right: 20px;
+bottom: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+`;
+
+const VideoContainer = styled.div`
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
+  position: relative;
+  background-color: white;
+  margin-top: 10px;
+  padding : 10px;
+  margin-right: 5px;
+`;
 
 export default withParams(ConferencePage);
