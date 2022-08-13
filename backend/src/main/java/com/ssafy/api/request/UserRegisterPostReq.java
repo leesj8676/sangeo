@@ -23,13 +23,4 @@ public class UserRegisterPostReq {
 	@ApiModelProperty(name="유저 Profile", example="basic.png")
 	String profile;
 	
-	public UserRegisterPostReq(String userId, String name, String phoneNumber, String profile) {
-		super();
-		this.userId = userId;
-		this.name = name;
-		this.phoneNumber = phoneNumber;
-		this.profile = profile;
-	}
-	
-	
 }
