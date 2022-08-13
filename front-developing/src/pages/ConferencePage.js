@@ -83,11 +83,11 @@ class ConferencePage extends Component {
                 counselorName = data.counselor.name;
                 userId = data.user.userId;
                 userName = data.user.name;
-                console.log("테스트트트트", counselorId, counselorName, userId, userName);
+                // console.log("테스트트트트", counselorId, counselorName, userId, userName);
             }
             ).catch((err) => {
                 // 에러가 뜨면 일괄적으로 없는 스케줄에 들어왔다고 생각..
-                console.warn("스케줄 조회에서 에러 발생", err);
+                // console.warn("스케줄 조회에서 에러 발생", err);
                 alert('등록된 상담 스케줄이 아닙니다');
                 window.location.href = '/';
             });
@@ -128,7 +128,7 @@ class ConferencePage extends Component {
         }
         else if (!(counselorId === responseCounselorId || userId === responseUserId)) {
             alert('스케줄에 등록된 회원/상담사가 아닙니다.');
-            // window.location.href = '/';
+            window.location.href = '/';
         }
 
         if (isCounselor)
@@ -336,15 +336,17 @@ class ConferencePage extends Component {
         if (mySession) {
             mySession.disconnect();
         }
-        // this.OV = null;
-        // this.setState({
-        //     session: undefined,
-        //     subscribers: [],
-        //     mySessionId: 'SessionA',
-        //     myUserName: 'Participant' + Math.floor(Math.random() * 100),
-        //     mainStreamManager: undefined,
-        //     publisher: undefined
-        // });
+        this.OV = null;
+        this.setState({
+            session: undefined,
+            subscribers: [],
+            mySessionId: 'SessionA',
+            myUserName: 'Participant' + Math.floor(Math.random() * 100),
+            mainStreamManager: undefined,
+            publisher: undefined
+        });
+        alert("상담을 종료합니다.");
+        window.history.back();
     }
 
     render() {
@@ -355,7 +357,7 @@ class ConferencePage extends Component {
                 {this.state.session !== undefined ? (
                     <div id="session">
                         <div id="session-header">
-                            <img src={process.env.PUBLIC_URL + "/sangeo_log.png"} alt="상어 로고" />
+                            <img src={"http://localhost:3001/sangeo_logo.png"} alt="상어 로고" />
                             <div id="session-tools">
                                 {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                                     <div>
