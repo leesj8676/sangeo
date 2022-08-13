@@ -1,5 +1,8 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+
+
 
 export default function CounTime(data){
     const month1 = ('0' + (new Date().getMonth()+1)).slice(-2)
@@ -9,9 +12,10 @@ export default function CounTime(data){
     const [info,setInfo] = useState()
     const [holidays1,setHolidays1] = useState()
     const [holidays2,setHolidays2] = useState()
-    const URL = `https://i7e207.p.ssafy.io:8080/api/v1/counselors/${id}` //강사정보
-    const URLT = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/counselors/holidays/${id}/${year}-${month1}` //휴일정보 이번달
-    const URLN = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/counselors/holidays/${id}/${year}-${month2}` //휴일정보 다음달
+    const user = useSelector(state => state.user.user);
+    const URL = `https://i7e207.p.ssafy.io:8080/api/v1/counselors/me` //강사정보
+    const URLT = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/counselors/holidays/${user.id}/${year}-${month1}` //휴일정보 이번달
+    const URLN = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/counselors/holidays/${user.id}/${year}-${month2}` //휴일정보 다음달
     useEffect(()=>{
         axios.get(URL)
         .then(function(response){
@@ -38,6 +42,7 @@ export default function CounTime(data){
     }
     return(
         <div>
+            <div>연락가능 시간 : {info ? `${info.contactStartTime.slice(0,5)}~${info.contactEndTime.slice(0,5)}` : null}</div>
             <div>상담가능 시간 : {info ? `${info.reserveStartTime.slice(0,5)}~${info.reserveEndTime.slice(0,5)}` : null}</div>
             { info ?
             <div>상담요일 :
@@ -50,10 +55,12 @@ export default function CounTime(data){
                 {info.holiday.includes('0') ? null : <span> 일</span>}
             </div>
             : null}
-            <div>휴일 
+            <div>
+                <div>이번달 휴일</div> 
                 <div>
                     { holidays1 ? ` ${month1}월 : ${holidays1}` : null}
-                </div>    
+                </div>
+                <div>다음달 휴일</div>     
                 <div>
                     { holidays2 ? ` ${month2}월 : ${holidays2}` : null}    
                 </div>     

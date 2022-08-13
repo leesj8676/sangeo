@@ -1,12 +1,13 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
-
+import { useSelector } from 'react-redux';
 
 export default function CounTimeUpdate(data){
     const month1 = ('0' + (new Date().getMonth()+1)).slice(-2)
     const month2 = ('0' + (new Date().getMonth()+2)).slice(-2)
     const year = new Date().getFullYear()   
     const { setData, id } = data
+    const user = useSelector(state => state.user.user);
     const [info,setInfo] = useState()
     const datable = ['일요일','월요일','화요일','수요일','목요일','금요일','토요일']
     const [holiday,setHoliday] = useState([false,false,false,false,false,false,false]) //일하는 요일
@@ -21,9 +22,9 @@ export default function CounTimeUpdate(data){
 
 
 
-    const URL = `https://i7e207.p.ssafy.io:8080/api/v1/counselors/${id}` //강사정보
-    const URLT = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/counselors/holidays/${id}/${year}-${month1}` //휴일정보 이번달
-    const URLN = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/counselors/holidays/${id}/${year}-${month2}` //휴일정보 다음달
+    const URL = `https://i7e207.p.ssafy.io:8080/api/v1/counselors/${user.id}` //강사정보
+    const URLT = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/counselors/holidays/${user.id}/${year}-${month1}` //휴일정보 이번달
+    const URLN = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/counselors/holidays/${user.id}/${year}-${month2}` //휴일정보 다음달
     
     useEffect(()=>{
         axios.get(URL)
@@ -32,7 +33,7 @@ export default function CounTimeUpdate(data){
         axios.get(URLT)
         .then(function(response){
             console.log(response.data,'8월')
-            setHolidays1(response.data.map((x)=><button value={x.holiday} onClick={holidayDelete}>{x.holiday}일 X</button>))
+            setHolidays1(response.data.map((x)=><button value={x.id} onClick={holidayDelete}>{x.holiday}일 X</button>))
         })
         axios.get(URLN)
         .then(function(response){
@@ -104,10 +105,8 @@ export default function CounTimeUpdate(data){
     }
 
     function holidayDelete(e){
-        console.log(e.target,'eeeeee')
-        let tmp = holidays1
-        
-        setHolidays1(holidays1.delete(e.target))
+        console.log(e.target.value,'eeeeee')
+        let tmp = holidays1     
     }
 
 
@@ -119,10 +118,10 @@ export default function CounTimeUpdate(data){
         for (let i =0; i<7; i++){ 
             if (holiday[i] === false){hol+=`${i}/`}
         } 
+        if (hol.length>1){hol=hol.slice(0,-1)}
         console.log(hol)
         console.log(holidays1.map((holiday)=>holiday.props.value))
         console.log(holidays2.map((holiday)=>holiday.props.value))
-        axios.put()
 
     }
 
