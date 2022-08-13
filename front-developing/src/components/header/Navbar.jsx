@@ -95,7 +95,7 @@ function NavigationBar({authService}) {
             (
               <div className="text-center">
                 <img src={process.env.REACT_APP_DB_HOST+"/"+user.profile} className={styles.profileImg+" me-1"} width="50" height="50" alt="profile"></img>
-                { user.isUser ?  (<a href={"/mypage"}>{user.name}님</a>) : (<>상담사 <a href={"/counmypage/"+user.id}>{user.name}님</a></>)}
+                { user.isUser ?  (<a href={"/mypage"}>{user.name}님</a>) : (<>상담사 <a href={"/counmypage"}>{user.name}님</a></>)}
               </div>
               )
             :(

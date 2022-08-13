@@ -2,7 +2,7 @@ import {React, useState, usetState} from 'react';
 import axios from "axios";
 import { Link } from "react-router-dom"
 export default function Request(x) {
-    const { id, complete, confirmed, counselorId, counselorName, endTime, startTime, userId, userName } = x.props
+    const { id, complete, confirmed, counselorId, counselorName, endTime, startTime, userId, userName, userPhoneNumber } = x.props
     console.log("test",x.props);
     let date = startTime.substring(16, 0)
     const [show,setShow] = useState({display: ''})
@@ -27,6 +27,7 @@ export default function Request(x) {
         <div style={show} className="box">
             <Link to={`../counselordetail/${userName}`}>{userName} 님 요청</Link>
             <span>{date}</span>
+            <span> 연락처 : { userPhoneNumber} </span>
             <button onClick={Approve}>수락</button>
             <button onClick={Refuse}>거절</button>
         </div>
