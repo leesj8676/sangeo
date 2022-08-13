@@ -18,8 +18,6 @@ import DoneCounselPage from '../pages/DoneCounselPage';
 import ManageDoneCounselPage from '../pages/ManageDoneCounselPage';
 import ConferencePage from '../pages/ConferencePage';
 
-
-
 // 컴포넌트
 import NavigationBar from '../components/header/Navbar';
 
@@ -47,7 +45,7 @@ function MainLayoutRoutes({ authService ,imageUploader }) {
 
                 {/* 상담관리 */}
                 <Route path="/donecounsel/:scheduleNo" element={<DoneCounselPage authService={authService} />} />
-                <Route path="/managedonecounsel" element={<ManageDoneCounselPage authService={authService} imageUploader= {imageUploader} />} />
+                <Route path="/managedonecounsel/:scheduleNo" element={<ManageDoneCounselPage authService={authService} imageUploader= {imageUploader} />} />
 
 
                 {/* 컨퍼런스 */}

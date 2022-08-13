@@ -42,7 +42,7 @@ export default function Conference(x,state) {
                     <Link to={`../counselordetail/${userName}`}>{userName}님 상담</Link>
                     <span>{date}</span>
                     <a href="">사전질문</a>
-                    <Link to={`../donecounsel/${id}`}>상담결과링크</Link>
+                    <Link to={`../managedonecounsel/${id}`}>상담결과링크</Link>
                 </nav>
             </div>
         )
