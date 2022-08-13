@@ -41,7 +41,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 	}
 
 	// 월별 휴일을 조회하기 위한 native query
-	@Query(value = "select id, date_format(start_time,'%d') as holiday from schedule where counselor_id = :counselor_id and date_format(start_time,'%Y-%m') = :month and is_holiday=1", nativeQuery = true)
+	@Query(value = "select id, date_format(start_time,'%d') as holiday from schedule where counselor_id = :counselor_id and date_format(start_time,'%Y-%m') = :month and is_holiday=1 order by holiday", nativeQuery = true)
 	List<DateOnly> getHolidaysByCounser_IdAndMonth(@Param(value = "counselor_id") long id,
 			@Param(value = "month") String month);
 

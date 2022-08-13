@@ -69,4 +69,8 @@ public class ScheduleMapping {
 		return formPath;
 	}
 
+	public String getUserPhoneNumber() {
+		return user.getPhoneNumber();
+	}
+	
 }
