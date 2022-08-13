@@ -192,7 +192,7 @@ function RegisterPage() {
             onChange={onNameHandler}
             className="loginregister__input"
           />
-           <div className="message">
+           <div className="message"></div>
         </div>
 
         <div>
