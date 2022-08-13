@@ -26,7 +26,8 @@ function NavigationBar({authService}) {
     setSearchWord(event.currentTarget.value);
   };
 
-  const onClickSearch = () => {
+  const onClickSearch = (event) => {
+    event.preventDefault();
     navigate({
       pathname: '/counselorlist',
       search: `?searchWord=${searchWord}`
@@ -78,7 +79,9 @@ function NavigationBar({authService}) {
             aria-label="Search"
             onChange={onSearchWordHandler}
           />
-          <FaSearch className="align-self-center" onClick={onClickSearch}/>
+          <button type="submit" className={styles.searchBtn} onClick={onClickSearch}>
+          <FaSearch className={styles.searchIcon}/>
+          </button>
         </Form>
           <Nav className="justify-content-end flex-grow-1 pe-3">
           <Nav.Link className="me-1 text-center align-self-center" href="/counselorlist">상담사 찾기</Nav.Link>
@@ -94,7 +97,8 @@ function NavigationBar({authService}) {
            { isLogin ? 
             (
               <div className="text-center">
-                <img src={process.env.REACT_APP_DB_HOST+"/"+user.profile} className={styles.profileImg+" me-1"} width="50" height="50" alt="profile"></img>
+                {/* cloud에서 이미지 받아오므로 process.env.REACT_APP_DB_HOST+"/" 뺌 */}
+                <img src={user.profile} className={styles.profileImg+" me-1"} width="50" height="50" alt="profile"></img>
                 { user.isUser ?  (<a href={"/mypage"}>{user.name}님</a>) : (<>상담사 <a href={"/counmypage"}>{user.name}님</a></>)}
               </div>
               )

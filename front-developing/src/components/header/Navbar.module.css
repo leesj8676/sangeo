@@ -15,3 +15,10 @@
 .color{
   background-color: #010c2a;
 }
+
+.searchBtn{
+  border: none;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+}

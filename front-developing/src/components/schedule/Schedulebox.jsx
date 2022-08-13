@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {useParams, Link} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Conferences from './Conferences'
 import axios from 'axios';
@@ -41,14 +40,22 @@ export default function ScheduleBox (){
     }
     
     function changeSee(e){
-        console.log(e.target.value);
         setPage(page=>1);
         if (e.target.value==="모두"){
             setList(conference.map((x)=>(<Conferences props={x}/>)))
         }
+        else if(e.target.value==="미정"){
+            setList(conference.map(function(x){
+                console.log(x.confirmed);
+                if(x.confirmed === false){
+                    return <Conferences props={x}/>;
+                }
+            })
+            );
+        }
         else if (e.target.value==="완료"){
             setList(conference.map(function(x){
-                if(x.complete === true){
+                if(x.confirmed === true && x.complete === true){
                     return <Conferences props={x}/>;
                 }
             })
@@ -56,7 +63,7 @@ export default function ScheduleBox (){
         }
         else {
             setList(conference.map(function(x){
-                if(x.complete === false){
+                if(x.confirmed === true && x.complete === false){
                     return <Conferences props={x}/>;
                 }
             })
@@ -75,7 +82,9 @@ export default function ScheduleBox (){
         <div className={styles.searchBar}>
             <label className={styles.selectBox}>
                 <select className="form-select form-select-sm" onChange={changeSee}>
-                    <option value="모두" selected>모두</option>
+                    <option value="DEFAULT" disabled>상담 상태 선택</option>
+                    <option value="모두">모두</option>
+                    <option value="미정">미정</option>
                     <option value="완료">완료</option>
                     <option value="예정">예정</option>
                 </select>

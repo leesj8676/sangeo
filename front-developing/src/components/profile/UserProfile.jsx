@@ -31,6 +31,11 @@ export default function UserProfile(){
                     // 로그인 페이지로 이동
                     navigate('/sign_in');
                   }
+                  else if(error.response.status===403){
+                    alert("로그인 후 접근 가능한 페이지입니다.");
+                    // 로그인 페이지로 이동
+                    navigate('/sign_in');
+                  }
                   else{
                     alert(error);
                   }
@@ -42,7 +47,7 @@ export default function UserProfile(){
     return(
         <div className={styles.profile}>
             <div className= {styles.profileImg}>
-                <img src={ info.profile ? `http://localhost:3000/${info.profile}` : "http://localhost:3000/basic.png"} alt="profile"/>
+                <img src={ info.profile ? info.profile : "http://localhost:3000/basic.png"} alt="profile"/>
             </div>
             <div className= {styles.info}>
                 <div>{info.name} 고객님</div>

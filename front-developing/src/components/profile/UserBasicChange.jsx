@@ -38,13 +38,35 @@ function UserBasicChange({imageUploader}){
     useEffect(()=>{
     axios.get(process.env.REACT_APP_DB_HOST+URL)
     .then(function (response) {
-            setInfo(response.data)
-            setId(info.userId)
-            setName(info.name)
-            setPhonenumber(info.phoneNumber)
-            setProfile(info.profile)
-            if (first === 1){setFirst(0)}//최초렌더링시 입력값이 반영안되는 문제 해결
-    })},[first]);
+            setInfo(response.data);
+            setId(info.userId);
+            setName(info.name);
+            setPhonenumber(info.phoneNumber);
+            setProfile(info.profile);
+            if (first === 1){
+                setFirst(0)
+            }//최초렌더링시 입력값이 반영안되는 문제 해결
+    })
+    .catch(function (error){
+        if(error.response.status===401){ // 토큰 만료
+            alert("다시 로그인해주세요.");
+            // 로그아웃 처리
+            localStorage.removeItem("Authorization");
+            setAuthorizationToken(null);
+            dispatch({type:'LOG_OUT'});
+            // 로그인 페이지로 이동
+            navigate('/sign_in');
+        }
+        else if(error.response.status===403){
+            alert("로그인 후 접근 가능한 페이지입니다.");
+            // 로그인 페이지로 이동
+            navigate('/sign_in');
+        }
+        else{
+            alert(error);
+        }
+    })
+    },[first]);
 
     function nameChange(e){
         setName(e.target.value);
