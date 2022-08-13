@@ -14,10 +14,10 @@ function HomePage() {
       </div>
      </div>
      </div>
-    {/* <Stack gap={2} className="col-md-8 mx-auto">
+    <Stack gap={2} className="col-md-8 mx-auto">
 
       <img src="sangeo_banner.png" alt="main_logo"></img>
-      </Stack> */}
+      </Stack>
 
 </div>
  
