@@ -17,3 +17,4 @@ const CounselorList = ({cards}) => {
 };
 
 export default CounselorList;
+
