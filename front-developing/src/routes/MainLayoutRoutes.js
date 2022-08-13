@@ -35,8 +35,8 @@ function MainLayoutRoutes({ authService }) {
                 {/* 상담사 경로 */}
                 <Route path="/counselordetail/:id" element={<CounDetailPage />} />
                 <Route path="/counselorlist" element={<CounListPage authService={authService} />} />
-                <Route path="/counmypage/:id" element={<CounMyPage authService={authService} />} />
-                <Route path="/counmypage/:id/change" element={<CounInfoPage authService={authService} />} />
+                <Route path="/counmypage" element={<CounMyPage authService={authService} />} />
+                <Route path="/counmypage/change" element={<CounInfoPage authService={authService} />} />
 
                 {/* 회원관리 경로 */}
                 <Route path="/sign_in" element={<LoginPage authService={authService} />} />
