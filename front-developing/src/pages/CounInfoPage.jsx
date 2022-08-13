@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
+import { Navigate, useNavigate } from 'react-router-dom'
 import {Nav} from 'react-bootstrap';
 import axios from 'axios';
 
 export default function CounInfoPage(){
+    const navigate = useNavigate()
     const URL = 'https://i7e207.p.ssafy.io:8080/api/v1/counselors/me'
     const sendURL = 'https://i7e207.p.ssafy.io:8080/api/v1/counselors'
     const [info,setInfo] = useState()
@@ -20,13 +22,13 @@ export default function CounInfoPage(){
     },[])
     useEffect(()=>{
         if(info){
-        setConsultTarget(info.consultTarget.split('/'))
+        setConsultTarget(info.consultTarget.split(''))
+        console.log(consultTarget,'lllllll')
         setPhoneNumber(info.phoneNumber)
         setShort(info.shortIntroduction)
         setLong(info.longIntroduction)
         setPrice(info.price)
-        setTargetBox(target.map((t)=>'ddd'))
-        // setTargetBox(target.map((t)=>{<div><span>{t}</span><input onChange={TargetChange} type="checkbox" value={t}/></div>}))
+        setTargetBox(target.map((t)=><div>{t}<input onChange={TargetChange} type="checkbox" value={t}/></div>))
         console.log(info)
         }
     },[info])
@@ -61,6 +63,9 @@ export default function CounInfoPage(){
         axios.put(sendURL,newinfo)
     }
 
+    function Back(){
+        navigate(-1)
+    }
 
     return(
         <div>강사 정보페이지
@@ -74,7 +79,7 @@ export default function CounInfoPage(){
                 </div>
                 <div>상세자기소개 <input onChange={LongChange} value={longIntroduction} /></div>
                 <button onClick={Send} >수정</button>
-                <button>나가기</button>
+                <button onClick={Back}>나가기</button>
             <div>
                 비밀번호 변경
             </div>
