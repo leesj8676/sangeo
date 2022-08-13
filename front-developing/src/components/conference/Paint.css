@@ -21,3 +21,46 @@ canvas{
   width:200px;
   height:0;
 }
+
+option.w1  {
+  font-size: 10px;
+  background-repeat: repeat;
+  display: inline-block;
+  position: static;
+  
+}
+
+option.w2  {
+  font-size:14px;
+  background-repeat: repeat;
+  display: inline-block;
+  position: static;
+}
+
+option.w3 {
+  font-size: 18px;
+  background-repeat: repeat;
+  display: inline-block;
+  position: static;
+}
+
+option.w4 {
+  font-size: 22px;
+  background-repeat: repeat;
+  display: inline-block;
+  position: static;
+}
+
+option.w5 {
+  font-size: 26px;
+  background-repeat: repeat;
+  display: inline-block;
+  position: static;
+}
+
+option.w6 {
+  font-size: 30px;
+  background-repeat: repeat;
+  display: inline-block;
+  position: static;
+}

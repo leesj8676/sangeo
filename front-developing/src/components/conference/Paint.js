@@ -33,11 +33,12 @@ function Paint(props) {
     '#3498db',
     '#8e44ad',
     '#e84393',
-    '#2c3e50',
+    '#000000',
   ];
 
   let session = props.user.getStreamManager().stream.session;
   let id = props.user.connectionId;
+
   // console.log("최상위 : ", props);
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -51,15 +52,26 @@ function Paint(props) {
     context.lineWidth = lineWidth
     contextRef.current = context;
 
-  // 처음 시작할때 흰 화면으로 초기화 했으면 좋겠음..
+    // 처음 시작할때 흰 화면으로 초기화 했으면 좋겠음.. (상대도 초기화)
     fillWhiteRect();
+    const data = {
+      x: 0,
+      y: 0,
+      lineWidth: 10,
+      color: "#ffffff",
+      isDrawing: false,
+    };
+    session.signal({
+      data: JSON.stringify({ type: 'trash', id: id, payload: { ...data } }),
+      type: 'draw',
+    });
     session.on('signal:draw', (event) => {
       const data = JSON.parse(event.data);
       if (data.id !== id) {
         if (data.type === 'file') {
           // console.log("data 다 뜯어보기", data);
           peerDrawIamge(data.payload);
-        } else if(data.type === 'trash') {
+        } else if (data.type === 'trash') {
           fillWhiteRect();
         }
         else
@@ -86,8 +98,15 @@ function Paint(props) {
     if (trashBinRef.current) {
       trashBinRef.current.onclick = () => {
         fillWhiteRect();
+        const data = {
+          x: 0,
+          y: 0,
+          lineWidth: 10,
+          color: "#ffffff",
+          isDrawing: false,
+        };
         session.signal({
-          data: JSON.stringify({ type: 'trash', id: id }),
+          data: JSON.stringify({ type: 'trash', id: id, payload: { ...data } }),
           type: 'draw',
         });
       };
@@ -100,11 +119,12 @@ function Paint(props) {
   }, [])
 
 
-  
+
   const startDrawing = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent
     contextRef.current.beginPath()
     contextRef.current.moveTo(offsetX, offsetY)
+    setLineWidth(lineWidth);
     setIsDrawing(true)
     const data = {
       x: offsetX,
@@ -153,7 +173,8 @@ function Paint(props) {
     console.log("payload", payload);
     let context = contextRef.current;
     if (!context) return;
-    context.lineWidth = payload.lineWidth;
+    setLineWidth(payload.lineWidth);
+    context.lineWidth = lineWidth;
     changeColor(payload.color);
     context.strokeStyle = payload.color;
     // context.lineCap = payload.lineCap;
@@ -168,9 +189,17 @@ function Paint(props) {
     }
   }
 
-  function onLineWidthChange(event) {
+  function onLineWidthChange() {
     // console.log(event.target.value);
-    setLineWidth(event.target.value);
+    // setLineWidth(event);
+    // contextRef.current.lineWidth = lineWidth;
+    var select = document.querySelector("select");
+    var selected = document.querySelector("option:checked");
+    var selectedFontSize = getComputedStyle(selected, null).getPropertyValue("font-size");
+    select.style.fontSize = selectedFontSize;
+    let width = selectedFontSize.substring(0, selectedFontSize.length - 2);
+    console.warn(width/2);
+    setLineWidth(width/2);
     contextRef.current.lineWidth = lineWidth;
   }
 
@@ -209,7 +238,7 @@ function Paint(props) {
     });
   }
 
-  function fillWhiteRect(){
+  function fillWhiteRect() {
     contextRef.current.fillStyle = "white";
     contextRef.current.lineWidth = lineWidth; //rectfill
     contextRef.current.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -259,6 +288,8 @@ function Paint(props) {
   //   );
   // }
 
+
+
   return (
     <CanvasContainer ref={cavasContainerRef}>
       <canvas
@@ -270,7 +301,15 @@ function Paint(props) {
       />
       <PickBox>
         <LineWidthSelector>
-          <input id="line-width" type="range" min="2" max="20" value={lineWidth} onChange={onLineWidthChange} step="2" />
+          {/* <input id="line-width" type="range" min="2" max="20" value={lineWidth} onChange={onLineWidthChange} step="2" /> */}
+          <select onChange={onLineWidthChange}>
+            <option class="w1">-----</option>
+            <option class="w2">-----</option>
+            <option class="w3">-----</option>
+            <option class="w4">-----</option>
+            <option class="w5">-----</option>
+            <option class="w6">-----</option>
+          </select>
         </LineWidthSelector>
         <ColorSelector>
           <input type="color" id="color-select" onChange={onColorChange} />
