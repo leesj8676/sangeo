@@ -185,8 +185,10 @@
     margin-bottom: 2px !important;
   }
   
+  
   ::-webkit-scrollbar {
-    width: 8px;
+    /* y 스크롤바 안보이도록 */
+    width: 0px;
   }
   
   ::-webkit-scrollbar-thumb {
