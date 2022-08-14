@@ -1,18 +1,15 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import CounHolidayChange from './CounHolidayChange';
+import CounHolidayChange2 from './CounHolidayChange2';
 
-export default function CounTimeUpdate(data){
-    const month1 = ('0' + (new Date().getMonth()+1)).slice(-2)
-    const month2 = ('0' + (new Date().getMonth()+2)).slice(-2)
-    const year = new Date().getFullYear()   
+export default function CounTimeUpdate(data){  
     const { setData, id } = data
     const user = useSelector(state => state.user.user);
     const [info,setInfo] = useState()
     const datable = ['일요일','월요일','화요일','수요일','목요일','금요일','토요일']
     const [holiday,setHoliday] = useState([false,false,false,false,false,false,false]) //일하는 요일
-    const [holidays1,setHolidays1] = useState() //이번달 쉬는날
-    const [holidays2,setHolidays2] = useState() //다음달 쉬는날
     const [dayoption,setDayoption] = useState(holiday.map((day,idx)=><div>
                                                                         <span>{datable[idx]}</span>
                                                                         <input onChange={changeCheck} type="checkbox" value={idx}/>
@@ -23,24 +20,12 @@ export default function CounTimeUpdate(data){
 
 
     const URL = `https://i7e207.p.ssafy.io:8080/api/v1/counselors/${user.id}` //강사정보
-    const URLT = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/counselors/holidays/${user.id}/${year}-${month1}` //휴일정보 이번달
-    const URLN = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/counselors/holidays/${user.id}/${year}-${month2}` //휴일정보 다음달
     
     useEffect(()=>{
         axios.get(URL)
         .then(function(response){
-        setInfo(response.data)
-        axios.get(URLT)
-        .then(function(response){
-            console.log(response.data,'8월')
-            setHolidays1(response.data.map((x)=><button value={x.id} onClick={holidayDelete}>{x.holiday}일 X</button>))
-        })
-        axios.get(URLN)
-        .then(function(response){
-            console.log(response.data,'9월')
-            setHolidays2(response.data.map((x)=>x.holiday))
-        })
-    })
+        setInfo(response.data)})
+
     },[])
 
     useEffect(()=>{
@@ -68,10 +53,6 @@ export default function CounTimeUpdate(data){
                                             }
                                             </div>))
     },[holiday])
-
-    useEffect(()=>{
-        }
-    ,[holidays1,holidays2])
 
 
     const timetable = []
@@ -104,12 +85,6 @@ export default function CounTimeUpdate(data){
                                             </div>))
     }
 
-    function holidayDelete(e){
-        console.log(e.target.value,'eeeeee')
-        let tmp = holidays1     
-    }
-
-
     function Submit(){
         console.log(start)
         console.log(end)
@@ -120,8 +95,6 @@ export default function CounTimeUpdate(data){
         } 
         if (hol.length>1){hol=hol.slice(0,-1)}
         console.log(hol)
-        console.log(holidays1.map((holiday)=>holiday.props.value))
-        console.log(holidays2.map((holiday)=>holiday.props.value))
 
     }
 
@@ -145,9 +118,12 @@ export default function CounTimeUpdate(data){
             <div>               
                 {dayoption}
             </div>
-            <div>휴일</div>
-            <div>{month1}월 : {holidays1}</div>
-            <div>{month2}월 : {holidays2}</div>
+            <div>
+                <CounHolidayChange/>
+            </div>
+            <div>
+                <CounHolidayChange2/>
+            </div>
             <button onClick={Submit}>제출</button>
             <button onClick={Change}>취소</button>
         </div>
