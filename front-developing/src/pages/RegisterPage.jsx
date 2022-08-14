@@ -11,6 +11,7 @@ function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [Tel, setTel] = useState("");
   const [disable, setDisable] = React.useState(false);
+  const [certstyle, setCertStyle] = useState({display: 'block'})
   const [ style, setStyle ] = useState({display: 'none'})
 
 
@@ -174,8 +175,9 @@ function RegisterPage() {
      console.log(response);
      if (success) {
        console.log(response.imp_uid);
-       alert('본인인증 성공');
+       //alert('본인인증 성공'); // 순식간에 사라져서 그냥 주석 처리
        setDisable(true);
+       setCertStyle({display: 'none'}); // 인증 버튼 더이상 보이지 않도록 하기
        setStyle({display: 'block'}); // 회원가입 버튼 생성
      } else {
        alert(`본인인증 실패: ${error_msg}`);
@@ -260,6 +262,7 @@ function RegisterPage() {
           <button 
           type="submit"
           disabled={!(isId && isPassword && isPasswordConfirm)}
+          style={certstyle}
           onClick={onClickCertification} 
           className={'btn' + (isActivate? 'Activate' : 'Disabled')}>
           본인인증하기

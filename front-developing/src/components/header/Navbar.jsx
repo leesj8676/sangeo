@@ -10,6 +10,7 @@ import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import setAuthorizationToken from "../../utils/setAuthorizationToken";
+import './FontColor.css';
 
 
 function NavigationBar({authService}) {
@@ -88,22 +89,22 @@ function NavigationBar({authService}) {
           </button>
         </Form>
           <Nav className="justify-content-end flex-grow-1 pe-3">
-          <Nav.Link className="me-1 text-center align-self-center" href="/counselorlist">상담사 찾기</Nav.Link>
+          <Nav.Link className="me-1 text-center align-self-center white" href="/counselorlist">상담사 찾기</Nav.Link>
           { isLogin ?
             (
-              <Nav.Link className="me-1 text-center align-self-center" onClick={onClickLogout}>로그아웃</Nav.Link>
+              <Nav.Link className="me-1 text-center align-self-center white" onClick={onClickLogout}>로그아웃</Nav.Link>
             )
             :
             (
-              <Nav.Link className="me-1 text-center align-self-center" href="/sign_in">로그인</Nav.Link>
+              <Nav.Link className="me-1 text-center align-self-center white" href="/sign_in">로그인</Nav.Link>
             )
           }
            { isLogin ? 
             (
-              <div className="text-center">
-                {/* cloud에서 이미지 받아오므로 process.env.REACT_APP_DB_HOST+"/" 뺌 */}
+              <div className="text-center white">
+                {/* cloud에서 이미지 받아오는데 프로필 수정 안했으면 basic.png */}
                 <img src={user.profile==="basic.png" ? "https://i7e207.p.ssafy.io/basic.png" : user.profile} className={styles.profileImg+" me-1"} width="50" height="50" alt="profile"></img>
-                { user.isUser ?  (<a href={"/mypage"}>{user.name}님</a>) : (<>상담사 <a href={"/counmypage"}>{user.name}님</a></>)}
+                { user.isUser ?  (<a className="white" href={"/mypage"}>{user.name}님</a>) : (<>상담사 <a className="white" href={"/counmypage"}>{user.name}님</a></>)}
               </div>
               )
             :(
