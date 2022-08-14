@@ -35,7 +35,7 @@ export default function CounTime(data){
     },[])
         
     useEffect(()=>{
-    },[info,holidays1,holidays2])
+    },[info])
 
     function Change(){
         setData(true)
