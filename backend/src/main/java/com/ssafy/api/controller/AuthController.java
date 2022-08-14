@@ -65,7 +65,7 @@ public class AuthController {
 		if (passwordEncoder.matches(password, user.getPassword())) {
 			// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
 			System.out.println(user.getProfile());
-			return ResponseEntity.ok(LoginPostRes.of(200, userId+"님 환영합니다.", JwtTokenUtil.getToken(true, userId, user.getName(), user.getProfile())));
+			return ResponseEntity.ok(LoginPostRes.of(200, user.getName()+"님 환영합니다.", JwtTokenUtil.getToken(true, userId, user.getName(), user.getProfile())));
 		}
 		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
 		return ResponseEntity.status(401).body(LoginPostRes.of(401, "비밀번호가 틀렸습니다."));
@@ -90,7 +90,7 @@ public class AuthController {
 		// 로그인 요청한 상담사로부터 입력된 패스워드 와 디비에 저장된 상담사의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
 		if (passwordEncoder.matches(password, counselor.getPassword())) {
 			// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
-			return ResponseEntity.ok(LoginPostRes.of(200, counselorId+"님 환영합니다.", JwtTokenUtil.getToken(false, counselorId, counselor.getName(), counselor.getProfile())));
+			return ResponseEntity.ok(LoginPostRes.of(200, counselor.getName()+"님 환영합니다.", JwtTokenUtil.getToken(false, counselorId, counselor.getName(), counselor.getProfile())));
 		}
 		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
 		return ResponseEntity.status(401).body(LoginPostRes.of(401, "비밀번호가 틀렸습니다."));
@@ -100,15 +100,21 @@ public class AuthController {
 	public ResponseEntity<BaseResponseBody> loginNaverUser(
 			@RequestBody @ApiParam(value = "네이버 유저 로그인 정보", required = true) Map<String, String> loginInfo){
 		System.out.println(loginInfo);
-		String userId = loginInfo.get("userId");
+		String userId = loginInfo.get("id");
 		String name = loginInfo.get("name");
 		String phoneNumber = loginInfo.get("phoneNumber");
 		String profile = loginInfo.get("profile");
 		// id 없을 시 user 테이블에 데이터 추가 -> id 중복 문제...?
-		if(userService.getUserByUserId(loginInfo.get("userId")) == null){
-			UserRegisterPostReq userRegisterInfo = new UserRegisterPostReq(userId, name, phoneNumber, profile);
+		User user = userService.getUserByUserId(userId);
+		if(user == null){ // 없으면 회원 등록
+			UserRegisterPostReq userRegisterInfo = new UserRegisterPostReq();
+			userRegisterInfo.setUserId(userId);
+			userRegisterInfo.setPassword(null);
+			userRegisterInfo.setName(name);
+			userRegisterInfo.setPhoneNumber(phoneNumber);
+			userRegisterInfo.setProfile(profile);
 			userService.createUser(userRegisterInfo, true);
 		}
-		return ResponseEntity.ok(LoginPostRes.of(200, userId+"님 환영합니다.", JwtTokenUtil.getToken(true, userId, name, profile)));
+		return ResponseEntity.ok(LoginPostRes.of(200, name+"님 환영합니다.", JwtTokenUtil.getToken(true, user.getUserId(), user.getName(), user.getProfile())));
 	}
 }

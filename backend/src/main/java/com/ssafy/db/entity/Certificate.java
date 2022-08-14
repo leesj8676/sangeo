@@ -3,6 +3,7 @@ package com.ssafy.db.entity;
 import java.io.Serializable;
 import java.text.ParseException;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -20,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Certificate extends BaseEntity implements Serializable{
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "COUNSELOR_ID")
 	private Counselor counselor;
 

@@ -2,6 +2,7 @@ package com.ssafy.db.entity;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,7 +26,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Review extends BaseEntity{
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumns({
         @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID"),
         @JoinColumn(name = "COUNSELOR_ID", referencedColumnName = "COUNSELOR_ID"),
