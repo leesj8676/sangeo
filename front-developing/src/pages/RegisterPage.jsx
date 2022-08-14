@@ -10,22 +10,71 @@ function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [Tel, setTel] = useState("");
   const [disable, setDisable] = React.useState(false);
-  const [certstyle, setCertStyle] = useState({display: 'block'})
   const [ style, setStyle ] = useState({display: 'none'})
+
+
+  // 오류상태 메세지
+  const [IdMessage, setIdMessage] = useState('');
+  const [passwordMessage, setPasswordMessage] = useState('');
+  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState('');
+
+  const [isId, setIsId] = useState(false)
+  const [isPassword, setIsPassword] = useState(false)
+  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
+  const [isActivate, setIsActivate] = useState(false);
+
+
 
   const onNameHandler = (event) => {
     setName(event.currentTarget.value);
   };
   const onUserIdHandler = (event) => {
-    setUserId(event.currentTarget.value);
+    const regul1 = /^[a-zA-Z0-9]{4,12}$/;
+    const IdCurrent = event.currentTarget.value;
+    setUserId(IdCurrent);
+
+    if(!regul1.test(IdCurrent)){
+      setIdMessage('아이디는 4~12자리의 대소문자와 숫자로만 입력 가능합니다.');
+      setIsId(false);
+    } else {
+      setIdMessage('올바른 아이디 형식입니다 :) ');
+      setIsId(true);
+    }
+
   };
 
   const onPasswordHandler = (event) => {
-    setPassword(event.currentTarget.value);
+
+    const regul2 = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    const PwdCurrent = event.currentTarget.value;
+    setPassword(PwdCurrent);
+
+    if(!regul2.test(PwdCurrent)){
+      setPasswordMessage('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요! ㅠㅠ');
+      setIsPassword(false);
+    } else {
+      setPasswordMessage('안전한 비밀번호입니다!! :)');
+      setIsPassword(true);
+    }
+
   };
 
   const onConfirmPasswordHandler = (event) => {
-    setConfirmPassword(event.currentTarget.value);
+    const PwdConfirmCurrent = event.currentTarget.value;
+    setConfirmPassword(PwdConfirmCurrent);
+
+    if(password == PwdConfirmCurrent){
+      setPasswordConfirmMessage('비밀번호가 일치합니다 :) ');
+      setIsPasswordConfirm(true);
+      if(isId && isPassword && isPasswordConfirm){
+        setIsActivate(true);
+      }
+      
+    } else {
+      setPasswordConfirmMessage('비밀번호가 일치하지 않습니다! ');
+      setIsPasswordConfirm(false);
+    }
+
   };
 
   const onTelHandler = (event) => {
@@ -47,8 +96,6 @@ function RegisterPage() {
 
     if(!checkInput())
       return;
-
-    console.log(password+" "+confirmPassword);
 
     if (password !== confirmPassword) {
       return alert("비밀번호와 비밀번호확인은 같아야 합니다.");
@@ -97,6 +144,12 @@ function RegisterPage() {
    function onClickCertification(event) {
      event.preventDefault();
 
+     // 유효성검사
+
+     if(!isId || !isPassword || !isPasswordConfirm){
+
+     }
+
      /* 1. 가맹점 식별하기 */
      const { IMP } = window;
      IMP.init('imp27086612') // 발급한 가맹점 식별번호 (인예림)
@@ -124,7 +177,6 @@ function RegisterPage() {
        console.log(response.imp_uid);
        alert('본인인증 성공');
        setDisable(true);
-      setCertStyle({display: 'none'}); // 인증 버튼 더이상 보이지 않도록 하기
        setStyle({display: 'block'}); // 회원가입 버튼 생성
      } else {
        alert(`본인인증 실패: ${error_msg}`);
@@ -143,7 +195,9 @@ function RegisterPage() {
             onChange={onNameHandler}
             className="loginregister__input"
           />
+           <div className="message"></div>
         </div>
+
         <div>
           <input
             name="userId"
@@ -153,6 +207,11 @@ function RegisterPage() {
             onChange={onUserIdHandler}
             className="loginregister__input"
           />
+          <div className="message">
+          {userId.length > 0 && (
+            <span className={`message ${isId ? 'success' : 'error'}`}>{IdMessage}</span>
+          )}
+          </div>
         </div>
         <div>
           <input
@@ -163,7 +222,14 @@ function RegisterPage() {
             onChange={onPasswordHandler}
             className="loginregister__input"
           />
+          <div className="message">
+          {password.length > 0 && (
+            <span className={`message ${isPassword ? 'success' : 'error'}`}>{passwordMessage}</span>
+          )}
+          </div>
+         
         </div>
+       
         <div>
           <input
             name="confirmPassword"
@@ -173,7 +239,14 @@ function RegisterPage() {
             onChange={onConfirmPasswordHandler}
             className="loginregister__input"
           />
+          <div className="message">
+          {confirmPassword.length > 0 && (
+            <span className={`message ${isPasswordConfirm ? 'success' : 'error'}`}>{passwordConfirmMessage}</span>
+          )}
+          </div>
+          
         </div>
+        
         <div>
           <input
             name="name"
@@ -187,11 +260,9 @@ function RegisterPage() {
         <div>        
           <button 
           type="submit"
-          id="certifiaction"
-          disabled={disable} 
-          style={certstyle}
+          disabled={!(isId && isPassword && isPasswordConfirm)}
           onClick={onClickCertification} 
-          className="loginregister__button">
+          className={'btn' + (isActivate? 'Activate' : 'Disabled')}>
           본인인증하기
           </button></div>
         <div>
