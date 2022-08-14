@@ -346,7 +346,7 @@ class ConferencePage extends Component {
         const localUser = this.state.localUser;
         var chatDisplay = { display: this.state.chatDisplay };
         return (
-            <div className="container">
+            <div className="conference-container">
                 {this.state.session !== undefined ? (
                     <div id="session">
                         {/* <div id="session-header">
