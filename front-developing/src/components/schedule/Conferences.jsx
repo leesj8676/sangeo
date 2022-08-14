@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styles from './Conferences.module.css';
 
 export default function Conference(x) {
-    const { id, complete, confirmed, counselorld, counselorName, endTime, startTime, userId, userName, formPath } = x.props;
+    const { id, complete, confirmed, counselorId, counselorName, endTime, startTime, userId, userName, formPath } = x.props;
     //console.log("test",x.props);
     let date = startTime.substring(16, 0).replace('T', ' ')+" ~ "+endTime.substring(16, 0).replace('T', ' ');
     let state = confirmed ?  (complete ? "완료" : "예정") : "미정";
@@ -34,12 +34,13 @@ export default function Conference(x) {
                     </div>
                     <div className={`col-11 row ${styles.scheduleInfo}`}>
                         <div className="col-6">
-                        <Link to={`../counselordetail/${counselorName}`}>{counselorName} 상담사</Link>
+                        <Link to={`../counselordetail/${counselorId}`}>{counselorName} 상담사</Link>
                         <br/>
                         {date}
                         </div>
                         <div className="col-3">
-                        {formPath ? (<a href={formPath} className="text-primary">사전질문 연결</a>) : "사전질문 미등록"}
+                        {formPath ? (<a href={formPath} className="text-primary" target="_blank"
+rel="noopener noreferrer">사전질문 연결</a>) : "사전질문 미등록"}
                         </div>
                         <div className="col-3">
                             <Link to={`../conference/${id}`}>상담실링크</Link>
@@ -57,12 +58,13 @@ export default function Conference(x) {
                     </div>
                     <div className={`col-11 row ${styles.scheduleInfo}`}>
                         <div className="col-6">
-                        <Link to={`../counselordetail/${counselorName}`}>{counselorName} 상담사</Link>
+                        <Link to={`../counselordetail/${counselorId}`}>{counselorName} 상담사</Link>
                         <br/>
                         {date}
                         </div>
                         <div className="col-3">
-                            {formPath ? (<a href={formPath} className="text-primary">사전질문 연결</a>) : "사전질문 미등록"}
+                            {formPath ? (<a href={formPath} className="text-primary" target="_blank"
+rel="noopener noreferrer">사전질문 연결</a>) : "사전질문 미등록"}
                         </div>
                         <div className="col-3">
                         <Link to={`../donecounsel/${id}`}>상담결과링크</Link>

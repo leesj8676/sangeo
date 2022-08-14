@@ -3,7 +3,7 @@ import Calendar from "../calendar/calendar";
 import ReservationTime from "../reservationtime/reservationtime";
 import "./reservation.module.css";
 
-function Reservation({counselorId, rst, ret}) {
+function Reservation({counselorId, rst, ret, holiday}) {
   const [today] = useState({
     year: new Date().getFullYear(), //오늘 연도
     month: new Date().getMonth() + 1, //오늘 월
@@ -19,11 +19,10 @@ function Reservation({counselorId, rst, ret}) {
       <div className="board">
         <div className="row bar"></div>
         <div className="row body">
-        {/* 테스트용으로 holiday, rst, ret 임시로 설정 -> 실제로는 상담사 상세페이지에서 받아옴 */}
-        <Calendar selectedYear={selectedYear} setSelectedYear={setSelectedYear} selectedMonth={selectedMonth} 
+        <Calendar counselorId={counselorId} selectedYear={selectedYear} setSelectedYear={setSelectedYear} selectedMonth={selectedMonth} 
         setSelectedMonth={setSelectedMonth} selectedDate={selectedDate} setSelectedDate={setSelectedDate}
         today={today}
-        holiday="0/6"/> {/* 받을 때 일 -> 0, 토 -> 6 이런 식으로 받도록 */}
+        holiday={holiday}/> {/* 받을 때 일 -> 0, 토 -> 6 이런 식으로 받도록 */}
         <ReservationTime rst={rst} ret={ret} counselorId={counselorId}
         selectedYear={selectedYear} selectedMonth={selectedMonth} selectedDate={selectedDate} today={today}/>
         </div>

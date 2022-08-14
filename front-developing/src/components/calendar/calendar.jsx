@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "./calendar.module.css";
-import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"
+import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai";
+import axios from "axios";
 
 const cx = classNames.bind(styles);
 
@@ -9,6 +10,26 @@ const Calendar = (props) => {
   const week = ["일", "월", "화", "수", "목", "금", "토"]; //일주일
   const dateTotalCount = new Date(props.selectedYear, props.selectedMonth, 0).getDate(); //선택된 연도, 달의 마지막 날짜
   const holiday = props.holiday.split("/").map(Number);
+  const [holidate, setHolidate] = useState(null);
+
+  const YM = props.selectedYear + "-" + ("0" + props.selectedMonth).slice(-2);
+  useEffect(() => {
+    async function fetchData() {
+      try{
+          console.log("fetch Data"+YM);
+          const result = await axios.get(process.env.REACT_APP_DB_HOST+`/schedules/counselors/holidays/${props.counselorId}/${YM}`);
+          // result.data에서 holiday만 뽑음
+          setHolidate(result.data.map((rd)=>rd.holiday));
+          console.log(holidate);
+          setTimeout(5000);
+      }
+      catch(error){
+          alert(error);
+      }
+  };
+  fetchData();
+
+  },[props.counselorId, YM]);
 
   const preMonth = () => {
     //이전 달 보기 보튼
@@ -77,6 +98,20 @@ const Calendar = (props) => {
     return false;
   }
 
+  const checkHoliday = (nowDay) => {
+    if(holiday === null){
+      return false;
+    }
+    return holiday.includes(nowDay);
+  }
+
+  const checkHolidate = (date) => {
+    if(holidate === null){
+      return false;
+    }
+    return holidate.includes(date);
+  }
+
   const returnDate = () => {
     //선택된 달의 날짜들 반환 함수
     let dates = [];
@@ -102,7 +137,7 @@ const Calendar = (props) => {
           {sunday: nowDay === 0},
           {saturday: nowDay === 6},
           {today: checkToday && date === props.today.date},
-          {notWork: holiday.includes(nowDay) || checkPrev(date)}
+          {notWork: checkHoliday(nowDay) || checkPrev(date) || checkHolidate(date)}
           )}
           onClick={(e)=>{
             clickDate(e.target.innerText);

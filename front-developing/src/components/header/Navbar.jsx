@@ -64,13 +64,14 @@ function NavigationBar({authService}) {
       <Navbar.Brand className="col-4 ps-3" href="/">
       <img src="https://i7e207.p.ssafy.io/sangeo_logo.png" width="250" height="100" alt="logo"></img>
       </Navbar.Brand>
-      <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} />
+      <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} className={styles.point_bgcolor}/>
       <Navbar.Offcanvas
         id={`offcanvasNavbar-expand-lg`}
         aria-labelledby={`offcanvasNavbarLabel-expand-lg`}
         placement="end"
+        className={styles.color}
       >
-        <Offcanvas.Header closeButton>
+        <Offcanvas.Header closeButton className={styles.point_color}>
           <Offcanvas.Title className={styles.point_color} id={`offcanvasNavbarLabel-expand-lg`}>
             SangEo - 상담 어때요
           </Offcanvas.Title>

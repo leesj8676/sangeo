@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import setAuthorizationToken from "../../utils/setAuthorizationToken";
 import jwtDecode from "jwt-decode";
+import UserPwModal from '../pwmodal/UserPwModal';
 
 function UserBasicChange({imageUploader, naverUser}){
     //aixos로 최초정보 받음
@@ -30,9 +31,21 @@ function UserBasicChange({imageUploader, naverUser}){
     // 버튼 이미지 바꾸기
     const [imgbtn, setImgbtn ] = useState(true);
     const [targetimg, setTargetImg] = useState("");
-   
+
+    // 모달 관련
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    // 모달에서 받을 비밀번호
+    const [password, setPassword] = useState(null);
+    // 비밀번호 체크 후 update인지 delete인지 파악
+    const [isUpdate, setIsUpdate] = useState(false);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     const inputRef = useRef();
     const reader = new FileReader();
 
@@ -89,32 +102,40 @@ function UserBasicChange({imageUploader, naverUser}){
         return true;
     }
 
-    // 회원정보 수정
-    async function onClickUpdate(){
-        
-        if(!checkInput())
-        return;
-
-        // 새로 로그인 될 user 정보
-        console.log(id);
-        let user = {};
-        user.id = id;
-        if(!naverUser){ // naverUser는 password 없음, naverUser 아니면 비밀번호 검사
-            const password = prompt("정보 변경을 위해 비밀번호를 입력해주세요.");
-            user.password = password;
-            console.log(user);
-            if(password){
-                await axios.post(process.env.REACT_APP_DB_HOST+`/users/password/${id}`, {
-                    password: password
-                })
-                .then(function(result){ // 비밀번호 일치
-                    console.log(result);
-                }).catch(function(err){
-                    alert(err.response.data);
-                    return;
-                });
-            }
+    async function checkPassword() {
+        console.log(password);
+        if(password === null){
+            return;
         }
+
+        let check = false;
+        await axios.post(process.env.REACT_APP_DB_HOST+`/users/password/${id}`, {
+            password: password
+        })
+        .then(function(result){ // 비밀번호 일치
+            console.log(result);
+            check = true;
+        }).catch(function(err){
+            alert(err.response.data);
+        });
+
+        if(!check){
+            return;
+        }
+
+        if(isUpdate){
+            const user = {
+                id: id,
+                password: password
+            };
+            updateBasic(user);
+        }
+        else{
+            deleteUser();
+        }
+    }
+
+    async function updateBasic(user){
         // 정보 수정
         await axios.put(process.env.REACT_APP_DB_HOST+'/users', {
             name: newname,
@@ -124,12 +145,7 @@ function UserBasicChange({imageUploader, naverUser}){
         })
         .then(function(result){
             // Navbar에서 바로 적용되게 새로 로그인 처리
-            let login_url = "/auth/user/login";
-            if(naverUser){
-              login_url = "/auth/naver/login";
-              user.phoneNumber = newphonenumber;
-              user.profile = newprofile;
-            }
+            let login_url = naverUser ? "/auth/naver/login" : "/auth/user/login";
             console.log(user);
             axios.post(process.env.REACT_APP_DB_HOST+login_url, user)
               .then(function(result){
@@ -144,6 +160,29 @@ function UserBasicChange({imageUploader, naverUser}){
         }).catch(function(err){
             alert(err);
         });
+    }
+
+    // 회원정보 수정
+    async function onClickUpdate(){
+        if(!checkInput())
+        return;
+
+        // 새로 로그인 될 user 정보
+        console.log(id);
+        if(!naverUser){ // naverUser는 password 없음, naverUser 아니면 비밀번호 검사
+            setIsUpdate(true);
+            setPassword(null); // 초기화
+            handleShow();
+        }
+        else{
+            const user = {
+                id: id,
+                name: newname,
+                phoneNumber: newphonenumber,
+                profile: newprofile
+            };
+            updateBasic(user);
+        }
     }
 
     function deleteUser(){
@@ -162,23 +201,13 @@ function UserBasicChange({imageUploader, naverUser}){
 
     // 회원 탈퇴
     function onClickDelete(){
-        if(naverUser){ // naverUser는 비밀번호 없음
-            deleteUser();
+        if(!naverUser){ // 일반 User는 비밀번호 필요
+            setIsUpdate(false);
+            setPassword(null); // 초기화
+            handleShow();
         }
-        else { // 일반 User는 비밀번호 필요
-            const password = prompt("탈퇴를 위해 비밀번호를 입력해주세요.");
-            if(password){
-                axios.post(process.env.REACT_APP_DB_HOST+`/users/password/${id}`, {
-                    password: password
-                })
-                .then(function(result){
-                    console.log(result);
-                    // 비밀번호 일치 확인 후 회원 탈퇴
-                    deleteUser();
-                }).catch(function(err){
-                    alert(err.response.data);
-                });
-            }
+        else { // naverUser는 비밀번호 없음
+            deleteUser();
         }
     }
 
@@ -253,6 +282,7 @@ function UserBasicChange({imageUploader, naverUser}){
             <button className={styles.ubcBtn} onClick={onClickUpdate}>수정</button>
             <br/>
             <button className={styles.ubcBtn} onClick={onClickDelete}>회원탈퇴</button>
+            <UserPwModal show={show} handleClose={handleClose} setPassword={setPassword} checkPassword={checkPassword}></UserPwModal>
         </div>
     )
 }
