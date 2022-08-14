@@ -11,7 +11,7 @@ import RegisterCounselorPage from '../pages/RegisterCounselorPage';
 import CounListPage from '../pages/CounListPage';
 import CounDetailPage from '../pages/CounDetailPage';
 import CounMyPage from '../pages/CounMyPage'
-import CounInfoPage from '../pages/CounInfoPage'
+import CounInfoChangePage from '../pages/CounInfoChangePage'
 import UserInfoChangePage from '../pages/UserInfoChangePage';
 import UserMyPage from '../pages/UserMyPage'
 import DoneCounselPage from '../pages/DoneCounselPage';
@@ -36,7 +36,7 @@ function MainLayoutRoutes({ authService }) {
                 <Route path="/counselordetail/:id" element={<CounDetailPage />} />
                 <Route path="/counselorlist" element={<CounListPage authService={authService} />} />
                 <Route path="/counmypage" element={<CounMyPage authService={authService} />} />
-                <Route path="/counmypage/change" element={<CounInfoPage authService={authService} />} />
+                <Route path="/counmypage/change" element={<CounInfoChangePage authService={authService}/>} />
 
                 {/* 회원관리 경로 */}
                 <Route path="/sign_in" element={<LoginPage authService={authService} />} />
