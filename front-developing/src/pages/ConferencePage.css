@@ -8,6 +8,10 @@ body {
   /* overflow-y: hidden; */
 }
 
+.container {
+  background: none !important;
+}
+
 #main-container {
   padding-bottom: 80px;
 }
