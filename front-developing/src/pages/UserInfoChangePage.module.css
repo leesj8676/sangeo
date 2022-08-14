@@ -1,6 +1,7 @@
 input{
     width: 300px;
     margin-bottom: 10px;
+    
 }
 
 .ubcBtn{
@@ -11,4 +12,8 @@ input{
 .imgframe{
     width: 200px;
     height: 200px;
+}
+
+.input {
+    display: none;
 }
