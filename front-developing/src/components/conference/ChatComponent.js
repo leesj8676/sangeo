@@ -15,7 +15,6 @@ export default class ChatComponent extends Component {
             message: '',
         };
         this.chatScroll = React.createRef();
-
         this.handleChange = this.handleChange.bind(this);
         this.handlePressKey = this.handlePressKey.bind(this);
         this.close = this.close.bind(this);
@@ -28,14 +27,15 @@ export default class ChatComponent extends Component {
             const data = JSON.parse(event.data);
             let messageList = this.state.messageList;
             messageList.push({ connectionId: event.from.connectionId, nickname: data.nickname, message: data.message });
+            // 이모티콘 관련
             // const document = window.document;
-            setTimeout(() => {
-                //     const userImg = document.getElementById('userImg-' + (this.state.messageList.length - 1));
-                //     const video = document.getElementById('video-' + data.streamId);
-                //     const avatar = userImg.getContext('2d');
-                //     avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
-                this.props.messageReceived();
-            }, 50);
+            // setTimeout(() => {
+            //         const userImg = document.getElementById('userImg-' + (this.state.messageList.length - 1));
+            //         const video = document.getElementById('video-' + data.streamId);
+            //         const avatar = userImg.getContext('2d');
+            //         avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
+            //     this.props.messageReceived();
+            // }, 50);
             this.setState({ messageList: messageList });
             this.scrollToBottom();
         });
@@ -84,7 +84,7 @@ export default class ChatComponent extends Component {
             <div id="chatContainer">
                 <div id="chatComponent" style={styleChat}>
                     <div id="chatToolbar">
-                        <span>{this.props.user.getStreamManager().stream.session.sessionId} - CHAT</span>
+                        <span>채팅방</span>
                         <IconButton id="closeButton" onClick={this.close}>
                             <HighlightOff color="secondary" />
                         </IconButton>
@@ -98,7 +98,7 @@ export default class ChatComponent extends Component {
                                     'message' + (data.connectionId !== this.props.user.getConnectionId() ? ' left' : ' right')
                                 }
                             >
-                                <canvas id={'userImg-' + i} width="60" height="60" className="user-img" />
+                                {/* <canvas id={'userImg-' + i} width="60" height="60" className="user-img" /> */}
                                 <div className="msg-detail">
                                     <div className="msg-info">
                                         <p> {data.nickname}</p>
