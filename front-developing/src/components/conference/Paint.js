@@ -57,7 +57,7 @@ function Paint(props) {
     const data = {
       x: 0,
       y: 0,
-      lineWidth: 10,
+      lineWidth: lineWidth,
       color: "#ffffff",
       isDrawing: false,
     };
@@ -91,7 +91,7 @@ function Paint(props) {
     if (eraserRef.current) {
       eraserRef.current.onclick = () => {
         changeColor("#FFFFFF"); //white
-        setLineWidth(20);
+        setLineWidth(18);
         contextRef.current.lineWidth = lineWidth;
       };
     }
@@ -174,7 +174,7 @@ function Paint(props) {
     let context = contextRef.current;
     if (!context) return;
     setLineWidth(payload.lineWidth);
-    context.lineWidth = lineWidth;
+    context.lineWidth = payload.lineWidth;
     changeColor(payload.color);
     context.strokeStyle = payload.color;
     // context.lineCap = payload.lineCap;
@@ -195,11 +195,14 @@ function Paint(props) {
     // contextRef.current.lineWidth = lineWidth;
     var select = document.querySelector("select");
     var selected = document.querySelector("option:checked");
-    var selectedFontSize = getComputedStyle(selected, null).getPropertyValue("font-size");
-    select.style.fontSize = selectedFontSize;
-    let width = selectedFontSize.substring(0, selectedFontSize.length - 2);
-    console.warn(width/2);
-    setLineWidth(width/2);
+
+    console.log(selected.textContent);
+    // var selectedFontSize = getComputedStyle(selected, null).getPropertyValue("font-size");
+    // select.style.fontSize = selectedFontSize;
+    // let width = selectedFontSize.substring(0, selectedFontSize.length - 2);
+    let width = selected.textContent.substring(0, selected.textContent.length - 2);
+    console.warn("width", width);
+    setLineWidth(width);
     contextRef.current.lineWidth = lineWidth;
   }
 
@@ -221,11 +224,10 @@ function Paint(props) {
     await setImgName(uploaded.original_filename);
     await setImgURL(uploaded.url);
     // await console.log("gggg ", imgURL);
-
-    await drawImage(imgURL, 0, 0, canvasRef.current.width, canvasRef.current.height);
+    await drawImage(uploaded.url, 0, 0, canvasRef.current.width, canvasRef.current.height);
     //상대방 화면에도 사진이 나오는지 확인 필요,,
     const data = {
-      url: imgURL,
+      url: uploaded.url,
       moveToX: 0,
       moveToY: 0,
       width: canvasRef.current.width,
@@ -291,24 +293,25 @@ function Paint(props) {
 
 
   return (
-    <CanvasContainer ref={cavasContainerRef}>
-      <canvas
-        onMouseDown={startDrawing}
-        onMouseMove={draw}
-        onMouseUp={finishDrawing}
-        onMouseOut={finishDrawing}
-        ref={canvasRef}
-      />
+    <div>
       <PickBox>
         <LineWidthSelector>
           {/* <input id="line-width" type="range" min="2" max="20" value={lineWidth} onChange={onLineWidthChange} step="2" /> */}
-          <select onChange={onLineWidthChange}>
-            <option class="w1">-----</option>
-            <option class="w2">-----</option>
-            <option class="w3">-----</option>
-            <option class="w4">-----</option>
-            <option class="w5">-----</option>
-            <option class="w6">-----</option>
+          {/* <select id="lineWidthOption" onChange={onLineWidthChange}>
+            <option class="w1"><>&#9473;&#9473;&#9473;&#9473;</></option>
+            <option class="w2"><>&#9473;&#9473;&#9473;&#9473;</></option>
+            <option class="w3"><>&#9473;&#9473;&#9473;&#9473;</></option>
+            <option class="w4"><>&#9473;&#9473;&#9473;&#9473;</></option>
+            <option class="w5"><>&#9473;&#9473;&#9473;&#9473;</></option>
+            <option class="w6"><>&#9473;&#9473;&#9473;&#9473;</></option>
+          </select> */}
+          <select id="lineWidthOption" onChange={onLineWidthChange}>
+            <option class="w1"><>3px</></option>
+            <option class="w2"><>6px</></option>
+            <option class="w3"><>9px</></option>
+            <option class="w4"><>12px</></option>
+            <option class="w5"><>15px</></option>
+            <option class="w6"><>18px</></option>
           </select>
         </LineWidthSelector>
         <ColorSelector>
@@ -459,17 +462,37 @@ function Paint(props) {
           </svg>
         </ImageDonwloader>
       </PickBox>
-    </CanvasContainer>
+      <CanvasContainer ref={cavasContainerRef}>
+        <canvas
+          onMouseDown={startDrawing}
+          onMouseMove={draw}
+          onMouseUp={finishDrawing}
+          onMouseOut={finishDrawing}
+          ref={canvasRef}
+        />
+
+      </CanvasContainer>
+
+    </div>
   );
 }
 
 
 const PickBox = styled.div`
-  position: absolute;
+  position: relative;
   left: 50%;
   top: 15px;
   display: flex;
   transform: translate(-50%, 0);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+border-radius: 18px;
+background-color: white;
+width: 95%;
+height : 50px;
+align-items: center;
+justify-content: center;
+margin-right: 0px;
 `;
 const ColorPick = styled.div`
   cursor: pointer;
@@ -503,12 +526,11 @@ const TrashBin = styled.div`
 `;
 const LineWidthSelector = styled.div`
   cursor: pointer;
-  width: 200px;
-  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 5px;
+  margin-right: 20px;
+  margin-bottom: 10px;
 `;
 const ColorSelector = styled.div`
   cursor: pointer;
@@ -546,8 +568,8 @@ const CanvasContainer = styled.div`
   border-radius: 18px;
   position: relative;
   background-color: white;
-  margin-top: 50px;
-  margin-left: 10px;
+  margin-top: 30px;
+  margin-left: 30px;
 `;
 
 export default Paint;
