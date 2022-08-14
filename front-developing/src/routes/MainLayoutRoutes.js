@@ -33,8 +33,8 @@ function MainLayoutRoutes({ authService ,imageUploader }) {
                 {/* 상담사 경로 */}
                 <Route path="/counselordetail/:id" element={<CounDetailPage />} />
                 <Route path="/counselorlist" element={<CounListPage authService={authService} />} />
-                <Route path="/counmypage" element={<CounMyPage authService={authService} />} />
-                <Route path="/counmypage/change" element={<CounInfoChangePage authService={authService}/>} />
+                <Route path="/counmypage" element={<CounMyPage imageUploader={imageUploader} />} />
+                <Route path="/counmypage/change" element={<CounInfoChangePage imageUploader={imageUploader}/>} />
 
                 {/* 회원관리 경로 */}
                 <Route path="/sign_in" element={<LoginPage authService={authService} />} />

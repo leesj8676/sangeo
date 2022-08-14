@@ -70,7 +70,7 @@ export default function CounBasicChange({imageUploader}){
 
     useEffect(()=>{
         if(info){
-            setConsultTarget(info.consultTarget.split('/'))
+            // setConsultTarget(info.consultTarget.split('/'))
             setId(info.counselorId);
             setName(info.name);
             setPhonenumber(info.phoneNumber);
@@ -79,8 +79,7 @@ export default function CounBasicChange({imageUploader}){
             setLong(info.longIntroduction)
             setPrice(info.price)
             setTargetBox(target.map((t)=><div>{t}<input checked={consultTarget.includes(t)} onChange={TargetChange} type="checkbox" value={t}/></div>))
-            
-            console.log(info)
+ 
             console.log(consultTarget)
         }
     },[info])

@@ -1,18 +1,23 @@
 import React, {useState} from 'react';
 import {Nav} from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
+import Certification from '../components/certification/certification';
 import CounBasicChange from '../components/profile/CounBasicChange';
 import CounPwChange from '../components/profile/CounPwChange';
 
 export default function CounInfoChangePages({imageUploader}){
     const[tab, setTab] = useState(0);
- 
+   
+    const location = useLocation();
+    const counselorId = location.state.counselorId;
+  
     function TabContent(props) {
       if(props.tab === 0){
         return <div><CounBasicChange imageUploader={imageUploader}></CounBasicChange></div>
       }else if(props.tab === 1) {
         return <div><CounPwChange/></div>
       }else{
-        return <div><CounPwChange/></div>
+        return <div><Certification imageUploader={imageUploader} Id = {counselorId}/></div>
       }
 
     }
