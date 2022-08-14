@@ -1,0 +1,220 @@
+2022-08-15 00:20:20.109  INFO 18636 --- [Thread-5] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-08-15 00:20:20.124  INFO 18636 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-08-15 00:20:20.129  INFO 18636 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-08-15 00:20:20.136  INFO 18636 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-08-15 00:20:20.368  INFO 18636 --- [restartedMain] com.ssafy.GroupCallApplication           : Starting GroupCallApplication using Java 1.8.0_192 on DESKTOP-KVCQHCD with PID 18636 (C:\Users\SSAFY\Documents\GitHub\S07P12E207\backend\bin\main started by SSAFY in C:\Users\SSAFY\Documents\GitHub\S07P12E207\backend)
+2022-08-15 00:20:20.369  INFO 18636 --- [restartedMain] com.ssafy.GroupCallApplication           : No active profile set, falling back to default profiles: default
+2022-08-15 00:20:21.345  INFO 18636 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-08-15 00:20:21.673  INFO 18636 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 326 ms. Found 5 JPA repository interfaces.
+2022-08-15 00:20:22.083  INFO 18636 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-08-15 00:20:22.083  INFO 18636 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-08-15 00:20:22.084  INFO 18636 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2022-08-15 00:20:22.105  INFO 18636 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-08-15 00:20:22.106  INFO 18636 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1732 ms
+2022-08-15 00:20:22.159 DEBUG 18636 --- [restartedMain] o.s.web.filter.CharacterEncodingFilter   : Filter 'characterEncodingFilter' configured for use
+2022-08-15 00:20:22.210  INFO 18636 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-08-15 00:20:22.217  INFO 18636 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2022-08-15 00:20:22.242  INFO 18636 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2022-08-15 00:20:22.242  INFO 18636 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+2022-08-15 00:20:22.382  INFO 18636 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-08-15 00:20:22.382  INFO 18636 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-08-15 00:20:22.402  INFO 18636 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-08-15 00:20:22.482  WARN 18636 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-08-15 00:20:22.519 DEBUG 18636 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 7 mappings in 'requestMappingHandlerMapping'
+2022-08-15 00:20:22.583  INFO 18636 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2022-08-15 00:20:22.818  INFO 18636 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-08-15 00:20:22.822 DEBUG 18636 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2022-08-15 00:20:22.824  INFO 18636 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [dist/index.html]
+2022-08-15 00:20:22.828 DEBUG 18636 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/swagger-ui/] in 'viewControllerHandlerMapping'
+2022-08-15 00:20:22.833 DEBUG 18636 --- [restartedMain] o.s.w.s.c.annotation.WebMvcConfigurer    : Default resource handling disabled
+2022-08-15 00:20:22.946 DEBUG 18636 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/swagger-ui/**] in 'resourceHandlerMapping'
+2022-08-15 00:20:22.953 DEBUG 18636 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2022-08-15 00:20:23.011  INFO 18636 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 5b0b324f-ffad-420c-8037-5e5ce04ae042
+
+2022-08-15 00:20:23.160  INFO 18636 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@38d0ed47, org.springframework.security.web.context.SecurityContextPersistenceFilter@2cb75a9f, org.springframework.security.web.header.HeaderWriterFilter@172157ff, org.springframework.security.web.csrf.CsrfFilter@557d0d32, org.springframework.security.web.authentication.logout.LogoutFilter@19db086d, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@58d66c24, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@5367c129, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@6e24d919, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@454564a5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3d30760, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1ed0364a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5782fb5, org.springframework.security.web.session.SessionManagementFilter@119ec103, org.springframework.security.web.access.ExceptionTranslationFilter@954d3ea, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@376c39d5]
+2022-08-15 00:20:23.202  INFO 18636 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-08-15 00:20:23.260  INFO 18636 --- [restartedMain] com.ssafy.GroupCallApplication           : Started GroupCallApplication in 2.951 seconds (JVM running for 30080.074)
+2022-08-15 00:20:23.266  INFO 18636 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   JacksonAutoConfiguration.JacksonObjectMapperConfiguration#jacksonObjectMapper matched:
+      - @ConditionalOnMissingBean (types: com.fasterxml.jackson.databind.ObjectMapper; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ManagementWebSecurityAutoConfiguration matched:
+      - found 'session' scope (OnWebApplicationCondition)
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter,org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   UserDetailsServiceAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
+      - @ConditionalOnBean (types: org.springframework.security.config.annotation.ObjectPostProcessor; SearchStrategy: all) found bean 'objectPostProcessor'; @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.oauth2.jwt.JwtDecoder,org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   UserDetailsServiceAutoConfiguration#inMemoryUserDetailsManager matched:
+      - @ConditionalOnMissingBean (types: org.springframework.security.oauth2.client.registration.ClientRegistrationRepository; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebSecurityEnablerConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+      - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+
+Negative matches:
+-----------------
+
+    None
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2022-08-15 00:20:24.668  INFO 18636 --- [Thread-9] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-08-15 00:20:24.670  INFO 18636 --- [Thread-9] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-08-15 00:20:24.670  INFO 18636 --- [Thread-9] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2022-08-15 00:20:24.676  INFO 18636 --- [Thread-9] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2022-08-15 00:20:24.853  INFO 18636 --- [restartedMain] com.ssafy.GroupCallApplication           : Starting GroupCallApplication using Java 1.8.0_192 on DESKTOP-KVCQHCD with PID 18636 (C:\Users\SSAFY\Documents\GitHub\S07P12E207\backend\bin\main started by SSAFY in C:\Users\SSAFY\Documents\GitHub\S07P12E207\backend)
+2022-08-15 00:20:24.853  INFO 18636 --- [restartedMain] com.ssafy.GroupCallApplication           : No active profile set, falling back to default profiles: default
+2022-08-15 00:20:25.328  INFO 18636 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-08-15 00:20:25.363  INFO 18636 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 35 ms. Found 5 JPA repository interfaces.
+2022-08-15 00:20:25.435  INFO 18636 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@4c28a023' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-08-15 00:20:25.437  INFO 18636 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-08-15 00:20:25.477  INFO 18636 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-08-15 00:20:25.477  INFO 18636 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-08-15 00:20:25.477  INFO 18636 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2022-08-15 00:20:25.494  INFO 18636 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-08-15 00:20:25.494  INFO 18636 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 638 ms
+2022-08-15 00:20:25.542 DEBUG 18636 --- [restartedMain] o.s.web.filter.CharacterEncodingFilter   : Filter 'characterEncodingFilter' configured for use
+2022-08-15 00:20:25.543 DEBUG 18636 --- [restartedMain] o.s.w.f.CommonsRequestLoggingFilter      : Filter 'commonsRequestLoggingFilter' configured for use
+2022-08-15 00:20:25.579  INFO 18636 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-08-15 00:20:25.584  INFO 18636 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2022-08-15 00:20:25.603  INFO 18636 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2022-08-15 00:20:25.604  INFO 18636 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+2022-08-15 00:20:25.694  INFO 18636 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-08-15 00:20:25.694  INFO 18636 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-08-15 00:20:25.711  INFO 18636 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-08-15 00:20:25.807  WARN 18636 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-08-15 00:20:26.026 DEBUG 18636 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 53 mappings in 'requestMappingHandlerMapping'
+2022-08-15 00:20:26.081  INFO 18636 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2022-08-15 00:20:26.125  INFO 18636 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/api/v1/users/me'] with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4b017e48, org.springframework.security.web.context.SecurityContextPersistenceFilter@41a3982a, org.springframework.security.web.header.HeaderWriterFilter@4a653039, org.springframework.web.filter.CorsFilter@62264c57, org.springframework.security.web.authentication.logout.LogoutFilter@322ea2f5, com.ssafy.common.auth.JwtUserAuthenticationFilter@7d587e2d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@69cdd84b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@acac9b3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2e2e9494, org.springframework.security.web.session.SessionManagementFilter@4d25136c, org.springframework.security.web.access.ExceptionTranslationFilter@ef4d65b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@495ac771]
+2022-08-15 00:20:26.126  INFO 18636 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/api/v1/counselors/me'] with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@32c600b6, org.springframework.security.web.context.SecurityContextPersistenceFilter@5de5c238, org.springframework.security.web.header.HeaderWriterFilter@5eb6f414, org.springframework.web.filter.CorsFilter@7d2aede, org.springframework.security.web.authentication.logout.LogoutFilter@64a628b5, com.ssafy.common.auth.JwtCounselorAuthenticationFilter@711e0516, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@703eb80d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1941f44a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6175c7ca, org.springframework.security.web.session.SessionManagementFilter@2f44254c, org.springframework.security.web.access.ExceptionTranslationFilter@5a4ef70e, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3b4577c8]
+2022-08-15 00:20:26.159  INFO 18636 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-08-15 00:20:26.163 DEBUG 18636 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2022-08-15 00:20:26.167  INFO 18636 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [dist/index.html]
+2022-08-15 00:20:26.173 DEBUG 18636 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/swagger-ui/] in 'viewControllerHandlerMapping'
+2022-08-15 00:20:26.183 DEBUG 18636 --- [restartedMain] o.s.w.s.c.annotation.WebMvcConfigurer    : Default resource handling disabled
+2022-08-15 00:20:26.245 DEBUG 18636 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/resources/**, /swagger-ui.html, /webjars/**, /css/**, /fonts/**, /icons/**, /img/**, /js/**, /swagger-ui/**] in 'resourceHandlerMapping'
+2022-08-15 00:20:26.251 DEBUG 18636 --- [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2022-08-15 00:20:26.350  INFO 18636 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-08-15 00:20:26.558  INFO 18636 --- [restartedMain] com.ssafy.GroupCallApplication           : Started GroupCallApplication in 1.739 seconds (JVM running for 30083.371)
+2022-08-15 00:20:26.560  INFO 18636 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   JacksonAutoConfiguration.JacksonObjectMapperConfiguration#jacksonObjectMapper:
+      Did not match:
+         - @ConditionalOnMissingBean (types: com.fasterxml.jackson.databind.ObjectMapper; SearchStrategy: all) found beans of type 'com.fasterxml.jackson.databind.ObjectMapper' objectMapper (OnBeanCondition)
+
+   ManagementWebSecurityAutoConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter,org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter' counselorSecurityConfig, userSecurityConfig; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+      Matched:
+         - found 'session' scope (OnWebApplicationCondition)
+
+   UserDetailsServiceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.oauth2.jwt.JwtDecoder,org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector; SearchStrategy: all) found beans of type 'org.springframework.security.core.userdetails.UserDetailsService' counselorDetailService, ssafyUserDetailService and found beans of type 'org.springframework.security.authentication.AuthenticationProvider' authenticationProvider (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
+
+   WebSecurityEnablerConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) found beans named springSecurityFilterChain (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+         - found 'session' scope (OnWebApplicationCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2022-08-15 01:15:43.321  INFO 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-08-15 01:15:43.321  INFO 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-08-15 01:15:43.322 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2022-08-15 01:15:43.322 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2022-08-15 01:15:43.322 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2022-08-15 01:15:43.322 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@3596eb3e
+2022-08-15 01:15:43.323 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@10e8dfd2
+2022-08-15 01:15:43.323 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2022-08-15 01:15:43.323  INFO 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2022-08-15 01:15:43.323 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/counmypage/change/basic.png, client=127.0.0.1, headers=[x-forwarded-host:"localhost:3000", x-forwarded-proto:"http", x-forwarded-port:"3000", x-forwarded-for:"127.0.0.1", accept-language:"ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7", accept-encoding:"gzip, deflate, br", referer:"http://localhost:3000/counmypage/change/certificate", sec-fetch-dest:"image", sec-fetch-mode:"no-cors", sec-fetch-site:"same-origin", accept:"image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8", sec-ch-ua-platform:""Windows"", user-agent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36", sec-ch-ua-mobile:"?0", sec-ch-ua:""Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"", connection:"close", host:"localhost:8080"]]
+2022-08-15 01:15:43.323 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/counmypage/change/basic.png", parameters={}
+2022-08-15 01:15:43.324  WARN 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.PageNotFound             : No mapping for GET /api/v1/counmypage/change/basic.png
+2022-08-15 01:15:43.325 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.ssafy.common.exception.handler.NotFoundHandler#renderDefaultPage(NoHandlerFoundException)
+2022-08-15 01:15:43.331 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'image/avif', given [image/avif, image/webp, image/apng, image/svg+xml, image/*, */*;q=0.8] and supported [text/plain, */*, text/plain, */*, text/plain, */*, application/json, application/*+json, application/json, application/*+json]
+2022-08-15 01:15:43.331 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Nothing to write: null body
+2022-08-15 01:15:43.331  WARN 18636 --- [http-nio-127.0.0.1-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.NoHandlerFoundException: No handler found for GET /api/v1/counmypage/change/basic.png]
+2022-08-15 01:15:43.331 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 404 NOT_FOUND
+2022-08-15 01:15:43.331 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-1] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/counmypage/change/basic.png, client=127.0.0.1, headers=[x-forwarded-host:"localhost:3000", x-forwarded-proto:"http", x-forwarded-port:"3000", x-forwarded-for:"127.0.0.1", accept-language:"ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7", accept-encoding:"gzip, deflate, br", referer:"http://localhost:3000/counmypage/change/certificate", sec-fetch-dest:"image", sec-fetch-mode:"no-cors", sec-fetch-site:"same-origin", accept:"image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8", sec-ch-ua-platform:""Windows"", user-agent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36", sec-ch-ua-mobile:"?0", sec-ch-ua:""Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"", connection:"close", host:"localhost:8080"]]
+2022-08-15 01:17:12.541 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/counmypage/change/basic.png, client=127.0.0.1, headers=[x-forwarded-host:"localhost:3000", x-forwarded-proto:"http", x-forwarded-port:"3000", x-forwarded-for:"127.0.0.1", accept-language:"ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7", accept-encoding:"gzip, deflate, br", referer:"http://localhost:3000/counmypage/change/certificate", sec-fetch-dest:"image", sec-fetch-mode:"no-cors", sec-fetch-site:"same-origin", accept:"image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8", sec-ch-ua-platform:""Windows"", user-agent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36", sec-ch-ua-mobile:"?0", sec-ch-ua:""Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"", connection:"close", host:"localhost:8080"]]
+2022-08-15 01:17:12.541 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/counmypage/change/basic.png", parameters={}
+2022-08-15 01:17:12.542  WARN 18636 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.PageNotFound             : No mapping for GET /api/v1/counmypage/change/basic.png
+2022-08-15 01:17:12.542 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.ssafy.common.exception.handler.NotFoundHandler#renderDefaultPage(NoHandlerFoundException)
+2022-08-15 01:17:12.543 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'image/avif', given [image/avif, image/webp, image/apng, image/svg+xml, image/*, */*;q=0.8] and supported [text/plain, */*, text/plain, */*, text/plain, */*, application/json, application/*+json, application/json, application/*+json]
+2022-08-15 01:17:12.543 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Nothing to write: null body
+2022-08-15 01:17:12.543  WARN 18636 --- [http-nio-127.0.0.1-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.NoHandlerFoundException: No handler found for GET /api/v1/counmypage/change/basic.png]
+2022-08-15 01:17:12.543 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 404 NOT_FOUND
+2022-08-15 01:17:12.543 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-2] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/counmypage/change/basic.png, client=127.0.0.1, headers=[x-forwarded-host:"localhost:3000", x-forwarded-proto:"http", x-forwarded-port:"3000", x-forwarded-for:"127.0.0.1", accept-language:"ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7", accept-encoding:"gzip, deflate, br", referer:"http://localhost:3000/counmypage/change/certificate", sec-fetch-dest:"image", sec-fetch-mode:"no-cors", sec-fetch-site:"same-origin", accept:"image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8", sec-ch-ua-platform:""Windows"", user-agent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36", sec-ch-ua-mobile:"?0", sec-ch-ua:""Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"", connection:"close", host:"localhost:8080"]]
+2022-08-15 01:18:38.537 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.f.CommonsRequestLoggingFilter      : Before request [GET /api/v1/counmypage/change/basic.png, client=127.0.0.1, headers=[x-forwarded-host:"localhost:3000", x-forwarded-proto:"http", x-forwarded-port:"3000", x-forwarded-for:"127.0.0.1", accept-language:"ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7", accept-encoding:"gzip, deflate, br", referer:"http://localhost:3000/counmypage/change/certificate", sec-fetch-dest:"image", sec-fetch-mode:"no-cors", sec-fetch-site:"same-origin", accept:"image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8", sec-ch-ua-platform:""Windows"", user-agent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36", sec-ch-ua-mobile:"?0", sec-ch-ua:""Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"", connection:"close", host:"localhost:8080"]]
+2022-08-15 01:18:38.537 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/counmypage/change/basic.png", parameters={}
+2022-08-15 01:18:38.538  WARN 18636 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.PageNotFound             : No mapping for GET /api/v1/counmypage/change/basic.png
+2022-08-15 01:18:38.538 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.ssafy.common.exception.handler.NotFoundHandler#renderDefaultPage(NoHandlerFoundException)
+2022-08-15 01:18:38.539 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'image/avif', given [image/avif, image/webp, image/apng, image/svg+xml, image/*, */*;q=0.8] and supported [text/plain, */*, text/plain, */*, text/plain, */*, application/json, application/*+json, application/json, application/*+json]
+2022-08-15 01:18:38.539 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Nothing to write: null body
+2022-08-15 01:18:38.539  WARN 18636 --- [http-nio-127.0.0.1-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.NoHandlerFoundException: No handler found for GET /api/v1/counmypage/change/basic.png]
+2022-08-15 01:18:38.539 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 404 NOT_FOUND
+2022-08-15 01:18:38.539 DEBUG 18636 --- [http-nio-127.0.0.1-8080-exec-3] o.s.w.f.CommonsRequestLoggingFilter      : After request [GET /api/v1/counmypage/change/basic.png, client=127.0.0.1, headers=[x-forwarded-host:"localhost:3000", x-forwarded-proto:"http", x-forwarded-port:"3000", x-forwarded-for:"127.0.0.1", accept-language:"ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7", accept-encoding:"gzip, deflate, br", referer:"http://localhost:3000/counmypage/change/certificate", sec-fetch-dest:"image", sec-fetch-mode:"no-cors", sec-fetch-site:"same-origin", accept:"image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8", sec-ch-ua-platform:""Windows"", user-agent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36", sec-ch-ua-mobile:"?0", sec-ch-ua:""Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"", connection:"close", host:"localhost:8080"]]
+2022-08-15 01:22:00.256  INFO 18636 --- [Thread-14] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-08-15 01:22:00.262  INFO 18636 --- [Thread-14] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-08-15 01:22:00.263  INFO 18636 --- [Thread-14] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2022-08-15 01:22:00.266  INFO 18636 --- [Thread-14] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.

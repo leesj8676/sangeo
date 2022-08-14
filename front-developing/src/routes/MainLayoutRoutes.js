@@ -17,6 +17,7 @@ import UserMyPage from '../pages/UserMyPage'
 import DoneCounselPage from '../pages/DoneCounselPage';
 import ManageDoneCounselPage from '../pages/ManageDoneCounselPage';
 import ConferencePage from '../pages/ConferencePage';
+import Certification from '../components/certification/certification';
 
 // 컴포넌트
 import NavigationBar from '../components/header/Navbar';
@@ -32,9 +33,10 @@ function MainLayoutRoutes({ authService ,imageUploader }) {
 
                 {/* 상담사 경로 */}
                 <Route path="/counselordetail/:id" element={<CounDetailPage />} />
-                <Route path="/counselorlist" element={<CounListPage authService={authService} />} />
+                <Route path="/counselorlist" element={<CounListPage/>} />
                 <Route path="/counmypage" element={<CounMyPage authService={authService} />} />
-                <Route path="/counmypage/change" element={<CounInfoPage authService={authService} />} />
+                <Route path="/counmypage/change" element={<CounInfoPage authService={authService} imageUploader={imageUploader}/>} />
+                <Route path="/counmypage/change/certificate" element = {<Certification imageUploader={imageUploader}/>} />
 
                 {/* 회원관리 경로 */}
                 <Route path="/sign_in" element={<LoginPage authService={authService} />} />

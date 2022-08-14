@@ -32,7 +32,7 @@ export default function CounProfile(){
                 <div>{info.name} 고객님</div>
                 <div>{info.userId}</div>
             </div>
-            <div className={styles.btn}><button><Link to = "./change">수정</Link></button></div>
+            <div className={styles.btn}><button><Link to = "./change" state = {{counselorId: info.userId}}>수정</Link></button></div>
         </div>
 
     )

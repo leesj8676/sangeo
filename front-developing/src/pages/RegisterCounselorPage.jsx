@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./LoginRegister.css";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function RegisterCounselorPage() {
   const [shortIntroduction, setShortIntroduction] = useState("");
@@ -27,6 +27,7 @@ function RegisterCounselorPage() {
     return true;
   }
 
+  const navigate = useNavigate();
   const location = useLocation();
 
   const onSubmit = (event) => {
@@ -50,6 +51,8 @@ function RegisterCounselorPage() {
     })
     .then(function(result){
       alert(result.data.userId+"님 가입을 축하드립니다.");
+      navigate('/');
+
       // 로그인 페이지로 이동하게 수정
     }).catch(function(err){
       if(err.response.status===401){

@@ -27,6 +27,7 @@ function CounMyPage (){
         <div>
             { confirm==="상담목록" ? <CounSchedulebox/> : <CounRequest/>}
         </div>
+
         
       </div>
     )

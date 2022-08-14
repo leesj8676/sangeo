@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import {Nav} from 'react-bootstrap';
 import axios from 'axios';
 
-export default function CounInfoPage(){
+export default function CounInfoPage({imageUploader}){
     const navigate = useNavigate()
     const URL = 'https://i7e207.p.ssafy.io:8080/api/v1/counselors/me'
     const sendURL = 'https://i7e207.p.ssafy.io:8080/api/v1/counselors'
@@ -14,8 +14,11 @@ export default function CounInfoPage(){
     const [longIntroduction,setLong] = useState()
     const [price,setPrice] = useState()
     const target = ['아동','청소년','성인(여)','성인(남)']
-    const [targetbox,setTargetBox] = useState()
+    const [targetbox,setTargetBox] = useState();
 
+    const[auth, setAuth] = useState();
+
+    
     useEffect(()=>{
         axios.get(URL)
         .then(response=>setInfo(response.data))
@@ -67,6 +70,14 @@ export default function CounInfoPage(){
         navigate(-1)
     }
 
+    const onAuth =() => {
+        navigate(
+            '/counmypage/change/certificate',{
+        state:{
+            counselorId: info.counselorId
+        }});
+
+    }
     return(
         <div>강사 정보페이지
             <div>강사 등록정보수정</div>
@@ -85,6 +96,7 @@ export default function CounInfoPage(){
             </div>
             <div>
                 강사 자격인증
+                <button onClick = {onAuth}></button>
             </div>
         </div>
     )
