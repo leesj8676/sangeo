@@ -39,6 +39,10 @@ public class CounselorServiceImpl implements CounselorService{
 		counselor.setContactStartTime(counselorRegisterInfo.getContactStartTime());
 		counselor.setContactEndTime(counselorRegisterInfo.getContactEndTime());
 		
+		// 상담사 마이페이지 접근을 위해서, 초기 상담가능시간을 연락 가능시간과 같도록 두기
+		counselor.setReserveStartTime(counselorRegisterInfo.getContactStartTime());
+		counselor.setReserveEndTime(counselorRegisterInfo.getContactEndTime());
+		
 		return counselorRepository.save(counselor);
 	}
 
