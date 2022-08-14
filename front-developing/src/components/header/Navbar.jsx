@@ -57,7 +57,7 @@ function NavigationBar({authService}) {
     <Navbar key="lg" expand="lg" className={styles.color}>
     <Container fluid>
       <Navbar.Brand className="col-4 ps-3" href="/">
-      <img src="http://localhost:3000/sangeo_logo.png" width="250" height="100" alt="logo"></img>
+      <img src="https://i7e207.p.ssafy.io/sangeo_logo.png" width="250" height="100" alt="logo"></img>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} />
       <Navbar.Offcanvas
