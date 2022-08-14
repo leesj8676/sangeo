@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./LoginRegister.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function RegisterPage() {
   const [name, setName] = useState("");
@@ -22,6 +23,13 @@ function RegisterPage() {
   const [isPassword, setIsPassword] = useState(false)
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
   const [isActivate, setIsActivate] = useState(false);
+
+  useEffect(() => {
+    if(isId && isPassword && isPasswordConfirm ){
+      console.log("comeon!!!");
+      setIsActivate(true);
+    }
+  }, [Tel]);
 
 
 
@@ -66,10 +74,7 @@ function RegisterPage() {
     if(password == PwdConfirmCurrent){
       setPasswordConfirmMessage('비밀번호가 일치합니다 :) ');
       setIsPasswordConfirm(true);
-      if(isId && isPassword && isPasswordConfirm){
-        setIsActivate(true);
-      }
-      
+
     } else {
       setPasswordConfirmMessage('비밀번호가 일치하지 않습니다! ');
       setIsPasswordConfirm(false);
@@ -143,12 +148,6 @@ function RegisterPage() {
 
    function onClickCertification(event) {
      event.preventDefault();
-
-     // 유효성검사
-
-     if(!isId || !isPassword || !isPasswordConfirm){
-
-     }
 
      /* 1. 가맹점 식별하기 */
      const { IMP } = window;
