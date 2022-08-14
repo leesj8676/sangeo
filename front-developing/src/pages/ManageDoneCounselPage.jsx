@@ -4,6 +4,7 @@ import axios from 'axios';
 import styles from './ManageDoneCounselPage.module.css';
 import { useNavigate } from "react-router-dom";
 import { useSelector} from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 
 // 상담사가 완료된 상담에 메세지를 남기고 이미지 업로드 하는 페이지
@@ -15,7 +16,8 @@ function ManageDoneCounselPage({imageUploader}) {
     const isLogin = useSelector(state => state.user.isLogin);
 
     // scheduleId -> 상담사 마이페이지 구현된 후 수정, 일단은 임의로
-    const scheduleId = 8;
+    const scheduleId = useParams().scheduleNo;
+    console.log(scheduleId);
 
     const [available, setAvailalbe] = useState(false);
 

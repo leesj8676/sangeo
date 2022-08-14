@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import "./LoginRegister.css";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function RegisterCounselorPage() {
+  const navigate = useNavigate();
+
   const [shortIntroduction, setShortIntroduction] = useState("");
   const [contactStartTime, setContactStartTime] = useState("");
   const [contactEndTime, setContactEndTime] = useState("");
@@ -49,8 +52,9 @@ function RegisterCounselorPage() {
         contactEndTime: contactEndTime
     })
     .then(function(result){
-      alert(result.data.userId+"님 가입을 축하드립니다.");
+      alert(result.data.name+"님 가입을 축하드립니다.");
       // 로그인 페이지로 이동하게 수정
+      navigate('../sign_in');
     }).catch(function(err){
       if(err.response.status===401){
         alert("이미 가입된 사용자입니다.");
@@ -75,6 +79,7 @@ function RegisterCounselorPage() {
           />
         </div>
         <div>
+        <div className="text-center">연락가능 시작시간</div>
           <input
             name="contactStartTime"
             type="time"
@@ -85,6 +90,7 @@ function RegisterCounselorPage() {
           />
         </div>
         <div>
+          <div className="text-center">연락가능 종료시간</div>
           <input
             name="contactEndTime"
             type="time"

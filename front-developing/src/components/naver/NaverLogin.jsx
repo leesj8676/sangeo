@@ -10,7 +10,7 @@ const NaverLogin = () => {
 
   const { naver } = window;
   const NAVER_CLIENT_ID = "inus2tR6r0Yhxccpov0m"; // 발급 받은 Client ID 입력 
-  const NAVER_CALLBACK_URL = "http://localhost:3000/sign_in/"; // 작성했던 Callback URL 입력
+  const NAVER_CALLBACK_URL = "https://i7e207.p.ssafy.io/sign_in/"; // 작성했던 Callback URL 입력
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

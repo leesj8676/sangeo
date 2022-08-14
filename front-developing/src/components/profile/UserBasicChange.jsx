@@ -90,7 +90,7 @@ function UserBasicChange({imageUploader, naverUser}){
     }
 
     // 회원정보 수정
-    function onClickUpdate(){
+    async function onClickUpdate(){
         
         if(!checkInput())
         return;
@@ -101,13 +101,14 @@ function UserBasicChange({imageUploader, naverUser}){
         user.id = id;
         if(!naverUser){ // naverUser는 password 없음, naverUser 아니면 비밀번호 검사
             const password = prompt("정보 변경을 위해 비밀번호를 입력해주세요.");
+            user.password = password;
+            console.log(user);
             if(password){
-                axios.post(process.env.REACT_APP_DB_HOST+`/users/password/${id}`, {
+                await axios.post(process.env.REACT_APP_DB_HOST+`/users/password/${id}`, {
                     password: password
                 })
                 .then(function(result){ // 비밀번호 일치
                     console.log(result);
-                    user.password = password;
                 }).catch(function(err){
                     alert(err.response.data);
                     return;
@@ -115,7 +116,7 @@ function UserBasicChange({imageUploader, naverUser}){
             }
         }
         // 정보 수정
-        axios.put(process.env.REACT_APP_DB_HOST+'/users', {
+        await axios.put(process.env.REACT_APP_DB_HOST+'/users', {
             name: newname,
             phoneNumber: newphonenumber,
             profile: newprofile,
@@ -129,6 +130,7 @@ function UserBasicChange({imageUploader, naverUser}){
               user.phoneNumber = newphonenumber;
               user.profile = newprofile;
             }
+            console.log(user);
             axios.post(process.env.REACT_APP_DB_HOST+login_url, user)
               .then(function(result){
                 localStorage.setItem("Authorization", result.data.accessToken);

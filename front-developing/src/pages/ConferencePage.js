@@ -350,7 +350,6 @@ class ConferencePage extends Component {
                 {this.state.session !== undefined ? (
                     <div id="session">
                         {/* <div id="session-header">
->>>>>>> 8c21545bc31062cf120f984fabac4f8873f25882
                             <img src={"http://localhost:3001/sangeo_logo.png"} alt="상어 로고" />
                         </div> */}
                         <div className='session-body'>

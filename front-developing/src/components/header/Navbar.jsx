@@ -102,7 +102,7 @@ function NavigationBar({authService}) {
             (
               <div className="text-center">
                 {/* cloud에서 이미지 받아오므로 process.env.REACT_APP_DB_HOST+"/" 뺌 */}
-                <img src={user.profile} className={styles.profileImg+" me-1"} width="50" height="50" alt="profile"></img>
+                <img src={user.profile==="basic.png" ? "https://i7e207.p.ssafy.io/basic.png" : user.profile} className={styles.profileImg+" me-1"} width="50" height="50" alt="profile"></img>
                 { user.isUser ?  (<a href={"/mypage"}>{user.name}님</a>) : (<>상담사 <a href={"/counmypage"}>{user.name}님</a></>)}
               </div>
               )
