@@ -16,6 +16,8 @@ import lombok.Setter;
 public class UserRes {
 	@ApiModelProperty(name="id")
 	Long id;
+	@ApiModelProperty(name="userId")
+	String userId;
 	@ApiModelProperty(name="name")
 	String name;
 	@ApiModelProperty(name="naverUser")
@@ -30,6 +32,7 @@ public class UserRes {
 	public static UserRes of(User User) {
 		UserRes res = new UserRes();
 		res.setId(User.getId());
+		res.setUserId(User.getUserId());
 		res.setName(User.getName());
 		res.setNaverUser(false); //네이버 유저인거 확인하는거 물어보기
 		res.setPassword(User.getPassword());
