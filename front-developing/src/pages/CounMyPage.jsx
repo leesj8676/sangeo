@@ -24,9 +24,9 @@ function CounMyPage ({imageUploader}){
         </div> */}
         <button onClick={changeConfirm1}>상담목록</button>
         <button onClick={changeConfirm2}>상담요청</button>
-        <div>
+        {/* <div>
             { confirm==="상담목록" ? <CounSchedulebox/> : <CounRequest/>}
-        </div>
+        </div> */}
         
       </div>
     )

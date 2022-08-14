@@ -34,6 +34,7 @@ export default function CounBasicChange({imageUploader}){
     // 버튼 이미지 바꾸기
     const [imgbtn, setImgbtn ] = useState(true);
     const [targetimg, setTargetImg] = useState("");
+    const [profileImg, setProfileImg] = useState(false);
    
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -80,12 +81,10 @@ export default function CounBasicChange({imageUploader}){
             setPrice(info.price)
             setTargetBox(target.map((t)=><div>{t}<input checked={consultTarget.includes(t)} onChange={TargetChange} type="checkbox" value={t}/></div>))
  
-            console.log(consultTarget)
         }
     },[info])
 
     useEffect(()=>{
-        console.log(consultTarget)
         setTargetBox(target.map((t)=><div>{t}<input checked={consultTarget.includes(t)} onChange={TargetChange} type="checkbox" value={t}/></div>))
     },[consultTarget])
 
@@ -114,7 +113,6 @@ export default function CounBasicChange({imageUploader}){
         let newtarget = consultTarget
         if (newtarget.includes(e.target.value)){
            newtarget = newtarget.filter((x) => x !== e.target.value)
-           console.log(newtarget,'필터')
         }
         else{
             newtarget.push(e.target.value)
@@ -132,6 +130,7 @@ export default function CounBasicChange({imageUploader}){
         newinfo.price = price
         newinfo.consultTarget = consultTarget.join('/')
         newinfo.longIntroduction = longIntroduction
+        newinfo.profile = imgURL
         delete newinfo.password
         console.log(newinfo)
 
@@ -172,9 +171,10 @@ export default function CounBasicChange({imageUploader}){
     }
 
      // 이미지 업로드 버튼
-     const onButtonClick = (event) => {
+     const onButtonClick = async (event) => {
         event.preventDefault();
         inputRef.current.click();
+
     }
 
 
@@ -182,15 +182,13 @@ export default function CounBasicChange({imageUploader}){
     // 이미지 등록 버튼
     const onButtonPost = async (event) => {
         const uploaded = await imageUploader.upload(targetimg);
-        // await setImgName(uploaded.original_filename);
-        await setProfile(uploaded.url);
-        // await console.log("gggg ", imgURL);
+        setImgURL(uploaded.url);
+
     }
 
     // 파일 저장
     const saveFileImage = async (event) => {
         if(event.target.files[0]){
-            console.log("bbbbb  ",event.target.files[0]);
             setTargetImg(event.target.files[0]);
             reader.readAsDataURL(event.target.files[0]);
         }
@@ -200,28 +198,49 @@ export default function CounBasicChange({imageUploader}){
             if(previewImgUrl){
                 setFileImage(previewImgUrl);
             }
-        }
+        }   
 
-        setImgbtn(false);
+        // setImgUpdate(false);
     };
 
+    // const[imgUpdate, setImgUpdate] = useState(false);
+    // const imgRef = useRef();
 
+
+    
     return(
         <div className='text-center'>
             <div>
                 <div>프로필</div>
 
                 <div>
-                  <div>{newprofile && (<img alt="sample" src={newprofile} className = {styles.imgframe} />)}</div>
-                  <input
-                    ref = {inputRef}
-                    className = {styles.input} 
-                    name="imgUpload"
-                    type="file"
-                    accept="image/*"
-                    onChange={saveFileImage}
-                  />
-                    {imgbtn ?  <button className={styles.button} onClick={onButtonClick}> 이미지 업로드 </button> :  <button className={styles.button} onClick={onButtonPost}> 등록하기 </button>}
+
+                {/* 디비에서 가져온 이미지 */}
+
+                <div>
+                  {newprofile ? (
+                    <div>
+                         <img alt="sample" src={newprofile} className = {styles.imgframe} />
+                         <div>
+                         <input ref = {inputRef} className = {styles.input} name="imgUpload" type="file" accept="image/*" onChange={saveFileImage} />
+                        <button className={styles.button} onClick={onButtonClick}> 수정하기 </button> </div>
+                    </div>
+                 ):
+                 ( 
+                    <div>
+                        {/* 버튼 관리 */}
+                        <input ref = {inputRef} className = {styles.input} name="imgUpload" type="file" accept="image/*" onChange={saveFileImage} />
+                        <button className={styles.button} onClick={onButtonClick}> 이미지 업로드 </button>
+                        <button className={styles.button} onClick={onButtonClick}> 이미지 업로드 </button>
+                 </div>
+                 )}
+                </div>
+
+
+
+                  
+                
+      
                  
                   </div> 
                

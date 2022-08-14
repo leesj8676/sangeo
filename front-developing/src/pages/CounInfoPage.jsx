@@ -16,8 +16,6 @@ export default function CounInfoPage({imageUploader}){
     const target = ['아동','청소년','성인(여)','성인(남)']
     const [targetbox,setTargetBox] = useState();
 
-    const[auth, setAuth] = useState();
-
     
     useEffect(()=>{
         axios.get(URL)
@@ -26,7 +24,7 @@ export default function CounInfoPage({imageUploader}){
     useEffect(()=>{
         if(info){
         setConsultTarget(info.consultTarget.split(''))
-        console.log(consultTarget,'lllllll')
+  
         setPhoneNumber(info.phoneNumber)
         setShort(info.shortIntroduction)
         setLong(info.longIntroduction)

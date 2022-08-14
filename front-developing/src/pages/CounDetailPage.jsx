@@ -44,7 +44,6 @@ const CounDetailPage = ({card}) => {
                     (<div>등록된 후기가 없어요 <FaRegSadCry/></div>)
                 }
                 </div>
-                    <button className={styles.wbtn}>문의하기</button>
                 </div>
             </div>
             <div className={styles.tab}>
