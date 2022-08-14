@@ -10,6 +10,7 @@ function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [Tel, setTel] = useState("");
   const [disable, setDisable] = React.useState(false);
+  const [certstyle, setCertStyle] = useState({display: 'block'})
   const [ style, setStyle ] = useState({display: 'none'})
 
   const onNameHandler = (event) => {
@@ -123,6 +124,7 @@ function RegisterPage() {
        console.log(response.imp_uid);
        alert('본인인증 성공');
        setDisable(true);
+      setCertStyle({display: 'none'}); // 인증 버튼 더이상 보이지 않도록 하기
        setStyle({display: 'block'}); // 회원가입 버튼 생성
      } else {
        alert(`본인인증 실패: ${error_msg}`);
@@ -185,7 +187,9 @@ function RegisterPage() {
         <div>        
           <button 
           type="submit"
+          id="certifiaction"
           disabled={disable} 
+          style={certstyle}
           onClick={onClickCertification} 
           className="loginregister__button">
           본인인증하기
