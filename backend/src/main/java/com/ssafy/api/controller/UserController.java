@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.api.request.PasswordUpdateReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.request.UserUpdateReq;
+import com.ssafy.api.response.UserRes;
+import com.ssafy.api.service.ReviewService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
+import com.ssafy.db.entity.Counselor;
+import com.ssafy.db.entity.Review;
 import com.ssafy.db.entity.User;
 
 import io.swagger.annotations.Api;
@@ -40,7 +45,9 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
-
+	@Autowired
+	ReviewService reviewService;
+	
 	// 토큰 없이 본인 정보 조회 -> 확인 후 삭제
 	@GetMapping("/{userId}")
 	@ApiOperation(value = "회원 정보 조회", notes = "<strong>아이디</strong>를 통해 회원 정보를 조회한다.")
@@ -117,6 +124,13 @@ public class UserController {
 			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<String> delete(
 			@PathVariable("userId") @ApiParam(value = "삭제할 회원 아이디", required = true) String userId){
+		
+		//회원을 FK로 갖고 있는 리뷰를 찾아서 먼저 삭제한다 (예외처리 필요...)
+		User user = userService.getUserByUserId(userId);
+		List<Review> reviewList = reviewService.getReviewByUserId(user.getId());		
+		for (Review review : reviewList) {
+			reviewService.deleteReviewByScheduleId(review.getSchedule().getId());
+		}
 		boolean result = userService.deleteUser(userId);
 		if(result)
 			return ResponseEntity.status(200).body("삭제 완료");
@@ -128,7 +142,7 @@ public class UserController {
 	@ApiOperation(value = "회원 본인 정보 조회", notes = "로그인한 회원 본인의 정보를 응답한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<User> getUserInfo(@ApiIgnore Authentication authentication) {
+	public ResponseEntity<UserRes> getUserInfo(@ApiIgnore Authentication authentication) {
 		/**
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
@@ -137,7 +151,7 @@ public class UserController {
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
 		System.out.println(userId+" 본인 인증 성공");
-		return ResponseEntity.status(200).body(user);
+		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
 
 }

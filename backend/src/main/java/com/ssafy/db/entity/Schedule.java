@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.springframework.util.Assert;
 
@@ -27,12 +28,12 @@ import lombok.Setter;
 @Setter
 public class Schedule extends BaseEntity implements Serializable{
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "COUNSELOR_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "COUNSELOR_ID", nullable= true)
 	private Counselor counselor;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "USER_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_ID", nullable= true)
 	private User user;
 
 	@Column(nullable = false)

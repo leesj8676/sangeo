@@ -26,11 +26,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Review extends BaseEntity{
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	// 리뷰를 등록시 해당 User, COUNSELOR, ID에 cascade할 필요가 있는지 확인 필요,,
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumns({
-        @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID"),
-        @JoinColumn(name = "COUNSELOR_ID", referencedColumnName = "COUNSELOR_ID"),
-        @JoinColumn(name = "SCHEDULE_ID", referencedColumnName = "ID")
+        @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", nullable= true),
+        @JoinColumn(name = "COUNSELOR_ID", referencedColumnName = "COUNSELOR_ID", nullable= true),
+        @JoinColumn(name = "SCHEDULE_ID", referencedColumnName = "ID", nullable= true)
 	})
 	private Schedule schedule;
 	

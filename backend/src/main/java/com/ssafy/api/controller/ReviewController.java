@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,26 +79,34 @@ public class ReviewController {
 	@ApiOperation(value = "상담사별 후기 조회", notes = "<strong>상담사 ID</strong>를 통해 후기를 조회한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"),
 			@ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<List<Review>> searchReviewsByCounselorId(@PathVariable("counselorId") @ApiParam(value = "후기를 조회할 상담사 아이디", required = true) String counselorId){
+	public ResponseEntity<List<ReviewRes>> searchReviewsByCounselorId(@PathVariable("counselorId") @ApiParam(value = "후기를 조회할 상담사 아이디", required = true) String counselorId){
 		Counselor counselor = counselorService.getCounselorByCounselorId(counselorId);
 		if(counselor == null)
 			return ResponseEntity.status(400).body(null);
 		
 		List<Review> reviewList = reviewService.getReviewByCounselorId(counselor.getId());
-		return ResponseEntity.status(200).body(reviewList);
+		List<ReviewRes> reviewResList = new ArrayList<ReviewRes>();
+		for (Review review : reviewList) {
+			reviewResList.add(ReviewRes.of(review));
+		}
+		return ResponseEntity.status(200).body(reviewResList);
 	}
 	
 	@GetMapping("user/{userId}")
 	@ApiOperation(value = "고객별 후기 조회", notes = "<strong>고객 ID</strong>를 통해 후기를 조회한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "고객 ID 부적절"),
 			@ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<List<Review>> searchReviewsByUserId(@PathVariable("userId") @ApiParam(value = "후기를 조회할 고객 아이디", required = true) String userId){
+	public ResponseEntity<List<ReviewRes>> searchReviewsByUserId(@PathVariable("userId") @ApiParam(value = "후기를 조회할 고객 아이디", required = true) String userId){
 		User user = userService.getUserByUserId(userId);
 		if(user == null)
 			return ResponseEntity.status(400).body(null);
 		
 		List<Review> reviewList = reviewService.getReviewByUserId(user.getId());
-		return ResponseEntity.status(200).body(reviewList);
+		List<ReviewRes> reviewResList = new ArrayList<ReviewRes>();
+		for (Review review : reviewList) {
+			reviewResList.add(ReviewRes.of(review));
+		}
+		return ResponseEntity.status(200).body(reviewResList);
 	}
 	
 	@PutMapping()

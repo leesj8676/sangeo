@@ -1,7 +1,6 @@
 package com.ssafy.api.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,8 +24,10 @@ import com.ssafy.api.request.CounselorUpdateReq;
 import com.ssafy.api.request.PasswordUpdateReq;
 import com.ssafy.api.response.CounselorRes;
 import com.ssafy.api.service.CounselorService;
+import com.ssafy.api.service.ReviewService;
 import com.ssafy.common.auth.CounselorDetails;
 import com.ssafy.db.entity.Counselor;
+import com.ssafy.db.entity.Review;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,6 +47,8 @@ public class CounselorController {
 	
 	@Autowired
 	CounselorService counselorService;
+	@Autowired
+	ReviewService reviewService;
 	
 	@GetMapping("/{counselorId}")
 	@ApiOperation(value = "상담사 정보 조회", notes = "<strong>아이디</strong>를 통해 상담사 정보를 조회한다.")
@@ -143,16 +146,23 @@ public class CounselorController {
 			@ApiResponse(code = 404, message = "상담사 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<String> delete(
 			@PathVariable("counselorId") @ApiParam(value = "삭제할 상담사 아이디", required = true) String counselorId) {
+		
+		//상담사를 FK로 갖고 있는 리뷰를 찾아서 먼저 삭제한다
+		Counselor counselor = counselorService.getCounselorByCounselorId(counselorId);
+		List<Review> reviewList = reviewService.getReviewByCounselorId(counselor.getId());		
+		for (Review review : reviewList) {
+			reviewService.deleteReviewByScheduleId(review.getSchedule().getId());
+		}
+		
 		counselorService.deleteCounselor(counselorId);
 		return ResponseEntity.status(200).body("삭제 완료");
-
 	}
 	
 	@GetMapping("/me")
 	@ApiOperation(value = "상담사 본인 정보 조회", notes = "로그인한 상담사 본인의 정보를 응답한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "상담사 없음"), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<Counselor> getUserInfo(@ApiIgnore Authentication authentication) {
+	public ResponseEntity<CounselorRes> getUserInfo(@ApiIgnore Authentication authentication) {
 		/**
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 상담사 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
@@ -162,7 +172,7 @@ public class CounselorController {
 		String counselorId = counselorDetails.getUsername();
 		Counselor counselor = counselorService.getCounselorByCounselorId(counselorId);
 		System.out.println(counselorId+" 본인 인증 성공");
-		return ResponseEntity.status(200).body(counselor);
+		return ResponseEntity.status(200).body(CounselorRes.of(counselor));
 	}
 
 }

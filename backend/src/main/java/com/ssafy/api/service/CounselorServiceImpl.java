@@ -10,7 +10,9 @@ import com.ssafy.api.mapping.CounselorMapping;
 import com.ssafy.api.request.CounselorRegisterPostReq;
 import com.ssafy.api.request.CounselorUpdateReq;
 import com.ssafy.api.request.PasswordUpdateReq;
+import com.ssafy.db.entity.Certificate;
 import com.ssafy.db.entity.Counselor;
+import com.ssafy.db.entity.Schedule;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.CounselorRepository;
 
@@ -106,6 +108,17 @@ public class CounselorServiceImpl implements CounselorService{
 	
 	@Override
 	public void deleteCounselor(String counselorId) {
+		Counselor counselor = counselorRepository.findByCounselorId(counselorId).get();
+		// 부모 객체인 모든 스케줄마다 FK인 user를 null로 변경한 다음 counselor 삭제하기
+		for (Schedule s : counselor.getScheudles()) {
+			s.setCounselor(null);
+		}
+		
+		// 부모 객체인 모든 자격증마다 FK인 user를 null로 변경한 다음 counselor 삭제하기
+		for (Certificate c : counselor.getCertificate()) {
+			c.setCounselor(null);
+		}
+		
 		counselorRepository.deleteByCounselorId(counselorId);
 	}
 

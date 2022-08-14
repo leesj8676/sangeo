@@ -21,8 +21,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Certificate extends BaseEntity implements Serializable{
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "COUNSELOR_ID")
+	
+	// 자격증을 등록시 상담사에 cascade할 필요가 있는지 확인 필요,,
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "COUNSELOR_ID", nullable= true)
 	private Counselor counselor;
 
 	private String name;

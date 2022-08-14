@@ -3,7 +3,6 @@ package com.ssafy.api.controller;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +27,11 @@ import com.ssafy.api.request.ScheduleUpdatePutReq;
 import com.ssafy.api.response.ScheduleRes;
 import com.ssafy.api.response.ScheduleResultRes;
 import com.ssafy.api.service.CounselorService;
+import com.ssafy.api.service.ReviewService;
 import com.ssafy.api.service.ScheduleService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.db.entity.Counselor;
+import com.ssafy.db.entity.Review;
 import com.ssafy.db.entity.Schedule;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.ScheduleRepository.DateOnly;
@@ -57,6 +58,8 @@ public class ScheduleController {
 	CounselorService counselorService; // 나중에 mappedBy로 스케줄 조회만 가능한거 만들기
 	@Autowired
 	ScheduleService scheduleService;
+	@Autowired
+	ReviewService reviewService;
 
 	@PostMapping()
 	@ApiOperation(value = "스케줄 생성", notes = "<strong>상담사ID와 고객ID, 날짜가 포함된 시작 시간</strong>을 통해 스케줄을 생성한다.")
@@ -97,14 +100,10 @@ public class ScheduleController {
 		if (counselor == null)
 			return ResponseEntity.status(400).body(null);
 
-		// JPA에서 Schedule이 User객체를 참조하기 위해, User의 FK가 필요 (설계랑 달라짐)
-		// 설계를 고치지 않으려면,, 실제 사용하지 않는 계정을 user를 FK로 가지도록 하기
-		// 새로 만들거나, 배포할때는 admin으로 두기
-		User user = userService.getUserByUserId("kimssafy");
-
+		// 휴가 스케쥴의 경우, FK인 user를 null로 두기
 		for (String date : holidayInfo.getDates()) {
 			try {
-				scheduleService.createHoliday(counselor, user, date);
+				scheduleService.createHoliday(counselor, null, date);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return ResponseEntity.status(401).body(null);
@@ -410,6 +409,9 @@ public class ScheduleController {
 	public ResponseEntity<String> delete(
 			@PathVariable("scheduleId") @ApiParam(value = "삭제할 스케줄 아이디", required = true) Long id) {
 
+		//스케쥴을 FK로 갖고 있는 리뷰를 찾아서 먼저 삭제한다
+		reviewService.deleteReviewByScheduleId(id);
+		
 		Schedule schedule;
 		schedule = scheduleService.getScheduleById(id);
 		if (schedule == null)

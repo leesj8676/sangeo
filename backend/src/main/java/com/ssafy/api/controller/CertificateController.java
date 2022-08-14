@@ -54,7 +54,7 @@ public class CertificateController {
 			
 	
 	@GetMapping("{counselorId}")
-	@ApiOperation(value = "자격증 조회", notes = "<strong>상담사ID</strong>을 통해 자격증을 조회한다.")
+	@ApiOperation(value = "자격증 조회", notes = "<strong>자격증ID</strong>을 통해 자격증을 조회한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<List<CertificateMapping>> searchCertificateByCounselorId(
 			@PathVariable("counselorId") @ApiParam(value = "자격증을 조회할 상담사 아이디", required = true) String counselorId){

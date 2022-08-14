@@ -2,8 +2,11 @@ package com.ssafy.db.entity;
 
 import java.io.Serializable;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -46,6 +49,12 @@ public class Counselor extends BaseEntity implements Serializable{
 	int consultNumber;
 	String holiday;
 
+	@OneToMany(mappedBy = "counselor")
+	private List<Schedule> scheudles = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "counselor")
+	private List<Certificate> certificate= new ArrayList<>();
+	
 	@JsonIgnore
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@NotNull

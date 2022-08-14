@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.api.request.PasswordUpdateReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.request.UserUpdateReq;
+import com.ssafy.db.entity.Schedule;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRepository;
 
@@ -85,6 +86,10 @@ public class UserServiceImpl implements UserService {
 		// user가 null이면 false 리턴
 		if(user == null)
 			return false;
+		// 부모 객체인 모든 스케줄마다 FK인 user를 null로 변경한 다음 user 삭제하기
+		for (Schedule s : user.getScheudles()) {
+			s.setUser(null);
+		}
 		userRepository.deleteByUserId(userId);
 		return true;
 	}

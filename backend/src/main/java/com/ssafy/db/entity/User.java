@@ -8,8 +8,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 /**
  * 유저 모델 정의.
@@ -28,6 +31,9 @@ public class User extends BaseEntity implements Serializable{
 	String profile;
 	boolean isNaverUser;
 
+	@OneToMany(mappedBy = "user")
+	private List<Schedule> scheudles = new ArrayList<>();
+	
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     String password;
