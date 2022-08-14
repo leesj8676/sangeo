@@ -47,16 +47,14 @@ export default function UserProfile(){
     return(
         <div className={styles.profile}>
             <div className= {styles.profileImg}>
+                {/* 서버에서는 이미지 링크 "https://i7e207.p.ssafy.io/basic.png" */}
                 <img src={ info.profile ? info.profile : "http://localhost:3000/basic.png"} alt="profile"/>
             </div>
             <div className= {styles.info}>
                 <div>{info.name} 고객님</div>
                 { info.naverUser ? <div className="text-success">네이버 유저</div> :  <div>{info.userId}</div>}
             </div>
-            { info.naverUser ?
-            "" :
-            <div className={styles.btn}><button><Link to = "./change">수정</Link></button></div>
-            }
+            <div className={styles.btn}><button><Link to = "./change" state={{naverUser : info.naverUser}}>수정</Link></button></div>
         </div>
 
     )

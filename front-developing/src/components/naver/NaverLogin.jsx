@@ -5,12 +5,12 @@ import axios from "axios";
 import setAuthorizationToken from "../../utils/setAuthorizationToken";
 import jwtDecode from "jwt-decode";
 
-const NaverLogin = ({ setGetToken, setUserInfo }) => {
+const NaverLogin = () => {
 
 
   const { naver } = window;
   const NAVER_CLIENT_ID = "inus2tR6r0Yhxccpov0m"; // 발급 받은 Client ID 입력 
-  const NAVER_CALLBACK_URL = "https://i7e207.p.ssafy.io/sign_in/"; // 작성했던 Callback URL 입력
+  const NAVER_CALLBACK_URL = "http://localhost:3000/sign_in/"; // 작성했던 Callback URL 입력
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -45,20 +45,19 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
       if (status) {
         // 아래처럼 선택하여 추출이 가능하고, 
         const id = naverLogin.user.getId();
-        const email = naverLogin.user.getEmail();
         const username = naverLogin.user.getName();
         const mobile = naverLogin.user.getMobile();
-        console.log(id + " " + email + " " + username);
+        console.log(id + " " + username);
 
         // db 연결 -> 
         axios.post(process.env.REACT_APP_DB_HOST + "/auth/naver/login", {
-          userId: id,
+          id: id,
           name: username,
           phoneNumber: mobile,
           profile: "basic.png"
         })
           .then(function (result) {
-            //alert(result.data.message);
+            alert(result.data.message);
             localStorage.setItem("Authorization", result.data.accessToken)
             // token이 필요한 API 요청시 헤더에 token 담아서 보냄
             setAuthorizationToken(result.data.accessToken);

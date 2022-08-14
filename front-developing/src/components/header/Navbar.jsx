@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styles from './Navbar.module.css';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -21,6 +21,10 @@ function NavigationBar({authService}) {
   const isLogin = useSelector(state => state.user.isLogin);
 
   const [searchWord, setSearchWord] = useState("");
+
+  useEffect(() => {
+
+  }, [user, isLogin]);
 
   const onSearchWordHandler = (event) => {
     setSearchWord(event.currentTarget.value);
@@ -57,6 +61,7 @@ function NavigationBar({authService}) {
     <Navbar key="lg" expand="lg" className={styles.color}>
     <Container fluid>
       <Navbar.Brand className="col-4 ps-3" href="/">
+      {/* 서버에서는 이미지 링크 "https://i7e207.p.ssafy.io/sangeo_logo.png" */}
       <img src="http://localhost:3000/sangeo_logo.png" width="250" height="100" alt="logo"></img>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} />

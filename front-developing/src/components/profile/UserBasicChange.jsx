@@ -4,8 +4,9 @@ import styles from '../../pages/UserInfoChangePage.module.css';
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import setAuthorizationToken from "../../utils/setAuthorizationToken";
+import jwtDecode from "jwt-decode";
 
-function UserBasicChange({imageUploader}){
+function UserBasicChange({imageUploader, naverUser}){
     //aixos로 최초정보 받음
     //보낼 폼 sendinfo
     //아이디 중복확인버튼 해당아이디를 사용하는 사람이 있는지 확인
@@ -80,45 +81,102 @@ function UserBasicChange({imageUploader}){
         setPhonenumber(e.target.value);
     }
 
+    function checkInput(){
+        if(!newname || !newphonenumber || !newprofile){
+          alert("모든 값을 입력해주세요.");
+          return false;
+        }
+        return true;
+    }
+
     // 회원정보 수정
     function onClickUpdate(){
+        
+        if(!checkInput())
+        return;
+
+        // 새로 로그인 될 user 정보
+        console.log(id);
+        let user = {};
+        user.id = id;
+        if(!naverUser){ // naverUser는 password 없음, naverUser 아니면 비밀번호 검사
+            const password = prompt("정보 변경을 위해 비밀번호를 입력해주세요.");
+            if(password){
+                axios.post(process.env.REACT_APP_DB_HOST+`/users/password/${id}`, {
+                    password: password
+                })
+                .then(function(result){ // 비밀번호 일치
+                    console.log(result);
+                    user.password = password;
+                }).catch(function(err){
+                    alert(err.response.data);
+                    return;
+                });
+            }
+        }
+        // 정보 수정
         axios.put(process.env.REACT_APP_DB_HOST+'/users', {
             name: newname,
             phoneNumber: newphonenumber,
             profile: newprofile,
             userId: id,
         })
-          .then(function(result){
-            alert("정보가 수정되었습니다!");
-          }).catch(function(err){
+        .then(function(result){
+            // Navbar에서 바로 적용되게 새로 로그인 처리
+            let login_url = "/auth/user/login";
+            if(naverUser){
+              login_url = "/auth/naver/login";
+              user.phoneNumber = newphonenumber;
+              user.profile = newprofile;
+            }
+            axios.post(process.env.REACT_APP_DB_HOST+login_url, user)
+              .then(function(result){
+                localStorage.setItem("Authorization", result.data.accessToken);
+                // token이 필요한 API 요청시 헤더에 token 담아서 보냄
+                setAuthorizationToken(result.data.accessToken);
+                dispatch({type:"LOG_IN", user: jwtDecode(result.data.accessToken)});
+                alert("정보가 수정되었습니다!");
+              }).catch(function(err){
+                alert(err);
+              });
+        }).catch(function(err){
             alert(err);
-          });
+        });
+    }
+
+    function deleteUser(){
+        axios.delete(process.env.REACT_APP_DB_HOST+`/users/${id}`)
+        .then(function(result){
+        // 로그아웃 처리
+        localStorage.removeItem("Authorization");
+        setAuthorizationToken(null);
+        dispatch({type:'LOG_OUT'});
+        alert("탈퇴되었습니다!");
+        navigate('/');
+    }).catch(function(err){
+        alert(err);
+    });
     }
 
     // 회원 탈퇴
     function onClickDelete(){
-        const password = prompt("탈퇴를 위해 비밀번호를 입력해주세요.");
-        if(password){
-            axios.post(process.env.REACT_APP_DB_HOST+`/users/${id}`, {
-                password: password
-            })
-            .then(function(result){
-                console.log(result);
-                // 비밀번호 일치 확인 후 회원 탈퇴
-                axios.delete(process.env.REACT_APP_DB_HOST+`/users/${id}`)
-                    .then(function(result){
-                    // 로그아웃 처리
-                    localStorage.removeItem("Authorization");
-                    setAuthorizationToken(null);
-                    dispatch({type:'LOG_OUT'});
-                    alert("탈퇴되었습니다!");
-                    navigate('/');
+        if(naverUser){ // naverUser는 비밀번호 없음
+            deleteUser();
+        }
+        else { // 일반 User는 비밀번호 필요
+            const password = prompt("탈퇴를 위해 비밀번호를 입력해주세요.");
+            if(password){
+                axios.post(process.env.REACT_APP_DB_HOST+`/users/password/${id}`, {
+                    password: password
+                })
+                .then(function(result){
+                    console.log(result);
+                    // 비밀번호 일치 확인 후 회원 탈퇴
+                    deleteUser();
                 }).catch(function(err){
-                    alert(err);
+                    alert(err.response.data);
                 });
-            }).catch(function(err){
-                alert(err.response.data);
-            });
+            }
         }
     }
 
@@ -160,8 +218,16 @@ function UserBasicChange({imageUploader}){
     return(
         <div className='text-center'>
             <div>
+                {naverUser ? 
+                <div className="text-success">네이버 유저</div>
+                :
+                <>
+                <div>아이디</div>
+                <div>
+                    <input value={id ? id : ""} disabled/>
+                </div>
+                </>}
                 <div>프로필</div>
-
                 <div>
                   <div>{newprofile && (<img alt="sample" src={newprofile} className = {styles.imgframe} />)}</div>
                   <input
@@ -175,11 +241,6 @@ function UserBasicChange({imageUploader}){
                     {imgbtn ?  <button className={styles.button} onClick={onButtonClick}> 이미지 업로드 </button> :  <button className={styles.button} onClick={onButtonPost}> 등록하기 </button>}
                  
                   </div> 
-               
-                <div>아이디</div>
-                <div>
-                    <input value={id ? id : ""} disabled/>
-                </div>
                 <div>이름</div>
                 <div>
                     <input onChange={nameChange} value={newname ? newname : ""}/>

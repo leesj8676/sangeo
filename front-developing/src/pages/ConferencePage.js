@@ -357,6 +357,7 @@ class ConferencePage extends Component {
                 {this.state.session !== undefined ? (
                     <div id="session">
                         <div id="session-header">
+                            {/* 서버에서는 이미지 링크 "https://i7e207.p.ssafy.io/sangeo_logo.png" */}
                             <img src={"http://localhost:3001/sangeo_logo.png"} alt="상어 로고" />
                             <div id="session-tools">
                                 {localUser !== undefined && localUser.getStreamManager() !== undefined && (

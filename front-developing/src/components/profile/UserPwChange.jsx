@@ -18,8 +18,19 @@ export default function UserPwChange(){
         setNewPassword(e.target.value);
     }
 
+    function checkInput(){
+        if(!password || !newPassword){
+          alert("모든 값을 입력해주세요.");
+          return false;
+        }
+        return true;
+      }
+
     // 비밀번호 수정
     function onClickUpdate(){
+        if(!checkInput())
+        return;
+
         axios.put(process.env.REACT_APP_DB_HOST+'/users/password', {
             id: id,
             password: password,
