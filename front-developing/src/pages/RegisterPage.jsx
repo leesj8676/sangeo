@@ -113,7 +113,7 @@ function RegisterPage() {
       password : password,
       name: name,
       phoneNumber: Tel,
-      profile: "basic.png"
+      profile: imgurl
     })
     .then(function(result){
       alert(result.data.userId+"님 가입을 축하드립니다.");
@@ -132,7 +132,7 @@ function RegisterPage() {
 
   // 기본이미지 url
 
-  const url = 'https://res.cloudinary.com/daomkhvu8/image/upload/v1660512760/KakaoTalk_20220731_203458342_y2sith.jpg';
+  const imgurl = 'https://res.cloudinary.com/daomkhvu8/image/upload/v1660512760/KakaoTalk_20220731_203458342_y2sith.jpg';
 
   function onClickCounselor(event){ // 상담사 회원가입을 위해 페이지 이동
     event.preventDefault();
@@ -146,7 +146,7 @@ function RegisterPage() {
         password: password,
         name: name,
         phoneNumber: Tel,
-        profile: url,
+        profile: imgurl,
       }
     });
   }

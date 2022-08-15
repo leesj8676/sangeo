@@ -57,6 +57,7 @@ export default function CounBasicChange({imageUploader}){
         axios.get(process.env.REACT_APP_DB_HOST+URL)
         .then(function (response) {
             setInfo(response.data);
+            console.log("response.!!!!" , response.data);
         })
         .catch(function (error){
             if(error.response.status===401){ // 토큰 만료
@@ -141,6 +142,7 @@ export default function CounBasicChange({imageUploader}){
         return true;
     }
 
+
     async function checkPassword() {
         console.log(password);
         if(password === null){
@@ -185,6 +187,7 @@ export default function CounBasicChange({imageUploader}){
         newinfo.consultTarget = consultTarget.join('/');
         newinfo.longIntroduction = longIntroduction;
         newinfo.profile = newprofile;
+
         await axios.put(process.env.REACT_APP_DB_HOST+'/counselors', newinfo)
         .then(function(result){
              // Navbar에서 바로 적용되게 새로 로그인 처리
@@ -201,6 +204,7 @@ export default function CounBasicChange({imageUploader}){
           }).catch(function(err){
             alert(err);
           });
+
     }
 
     function onClickUpdate(){
