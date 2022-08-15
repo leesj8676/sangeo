@@ -48,7 +48,7 @@ export default function UserProfile(){
         <div className={styles.profile}>
             <div className= {styles.profileImg}>
                 {/* 서버에서는 이미지 링크 "https://i7e207.p.ssafy.io/basic.png"*/}
-                <img src={ info.profile ? info.profile : "https://i7e207.p.ssafy.io/basic.png"} alt="profile"/>
+                <img src={ info.profile === "basic.png" ? "https://i7e207.p.ssafy.io/basic.png" : info.profile} alt="profile"/>
             </div>
             <div className= {styles.info}>
                 <div>{info.name} 고객님</div>

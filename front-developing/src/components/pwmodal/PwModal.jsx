@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-function UserPwModal({show, handleClose, setPassword, checkPassword}) {
+function PwModal({show, handleClose, setPassword, checkPassword}) {
 
   function onChangePassword(e){
     setPassword(e.target.value);
@@ -29,4 +29,4 @@ function UserPwModal({show, handleClose, setPassword, checkPassword}) {
   );
 }
 
-export default UserPwModal;
+export default PwModal;

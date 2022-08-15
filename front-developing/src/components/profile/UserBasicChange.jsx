@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import setAuthorizationToken from "../../utils/setAuthorizationToken";
 import jwtDecode from "jwt-decode";
-import UserPwModal from '../pwmodal/UserPwModal';
+import PwModal from '../pwmodal/PwModal';
 
 function UserBasicChange({imageUploader, naverUser}){
     //aixos로 최초정보 받음
@@ -260,7 +260,8 @@ function UserBasicChange({imageUploader, naverUser}){
                 </>}
                 <div>프로필</div>
                 <div>
-                  <div>{newprofile && (<img alt="sample" src={newprofile} className = {styles.imgframe} />)}</div>
+                    {/* 우선 서버 basic.png 사용 */}
+                  <div>{newprofile && (<img alt="sample" src={newprofile === "basic.png" ? "https://i7e207.p.ssafy.io/basic.png" : newprofile} className = {styles.imgframe} />)}</div>
                   <input
                     ref = {inputRef}
                     className = {styles.input} 
@@ -282,7 +283,7 @@ function UserBasicChange({imageUploader, naverUser}){
             <button className={styles.ubcBtn} onClick={onClickUpdate}>수정</button>
             <br/>
             <button className={styles.ubcBtn} onClick={onClickDelete}>회원탈퇴</button>
-            <UserPwModal show={show} handleClose={handleClose} setPassword={setPassword} checkPassword={checkPassword}></UserPwModal>
+            <PwModal show={show} handleClose={handleClose} setPassword={setPassword} checkPassword={checkPassword}></PwModal>
         </div>
     )
 }
