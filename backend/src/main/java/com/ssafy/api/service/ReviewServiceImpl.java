@@ -60,4 +60,9 @@ public class ReviewServiceImpl implements ReviewService{
 		reviewRepository.deleteBySchedule_Id(scheduleId);
 		
 	}
+
+	@Override
+	public void setUserNull(Review review) {
+		reviewRepository.SetUserIdNull(review.getId());
+	}
 }

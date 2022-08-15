@@ -14,4 +14,5 @@ public interface ReviewService {
 	List<Review> getReviewByUserId(Long userId);
 	Review updateReview(ReviewRegisterPostReq reviewRegisterPostReq);
 	void deleteReviewByScheduleId(Long scheduleId);
+	void setUserNull(Review review);
 }
