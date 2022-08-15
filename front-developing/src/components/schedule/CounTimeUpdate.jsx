@@ -19,7 +19,7 @@ export default function CounTimeUpdate(data){
 
 
 
-    const URL = `https://i7e207.p.ssafy.io:8080/api/v1/counselors/${user.id}` //강사정보
+    const URL = process.env.REACT_APP_DB_HOST+`/counselors/${user.id}` //강사정보
     
     useEffect(()=>{
         axios.get(URL)

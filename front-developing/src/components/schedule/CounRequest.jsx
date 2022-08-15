@@ -9,7 +9,7 @@ export default function Request(x) {
     
 
     function Approve(){
-        const URL = 'https://i7e207.p.ssafy.io:8080/api/v1/schedules/confirm'
+        const URL = process.env.REACT_APP_DB_HOST+'/schedules/confirm'
         axios.put(URL,{
             "counselorId": `${counselorId}`,
             "startTime": `${date}`
@@ -18,7 +18,7 @@ export default function Request(x) {
           setShow({display: 'none'})
     }
     function Refuse(){
-        const URL = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/${counselorId}/${date}`
+        const URL = process.env.REACT_APP_DB_HOST+`/schedules/${counselorId}/${date}`
         axios.delete(URL)
         setShow({display: 'none'})
     }

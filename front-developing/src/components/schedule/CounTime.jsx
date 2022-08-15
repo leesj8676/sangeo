@@ -13,9 +13,9 @@ export default function CounTime(data){
     const [holidays1,setHolidays1] = useState()
     const [holidays2,setHolidays2] = useState()
     const user = useSelector(state => state.user.user);
-    const URL = `https://i7e207.p.ssafy.io:8080/api/v1/counselors/me` //강사정보
-    const URLT = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/counselors/holidays/${user.id}/${year}-${month1}` //휴일정보 이번달
-    const URLN = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/counselors/holidays/${user.id}/${year}-${month2}` //휴일정보 다음달
+    const URL = process.env.REACT_APP_DB_HOST+`/counselors/me` //강사정보
+    const URLT = process.env.REACT_APP_DB_HOST+`/schedules/counselors/holidays/${user.id}/${year}-${month1}` //휴일정보 이번달
+    const URLN = process.env.REACT_APP_DB_HOST+`/schedules/counselors/holidays/${user.id}/${year}-${month2}` //휴일정보 다음달
     useEffect(()=>{
         axios.get(URL)
         .then(function(response){

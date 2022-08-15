@@ -19,14 +19,14 @@ function CounMyPage ({imageUploader}){
       <div>
         <h1>마이페이지</h1>
         <CounProfile imageUploader={imageUploader} />
-        {/* <div>
+        <div>
             { data===false ? <CounTime setData={setData}/> : <CounTimeUpdate setData={setData}/>}
-        </div> */}
+        </div>
         <button onClick={changeConfirm1}>상담목록</button>
         <button onClick={changeConfirm2}>상담요청</button>
-        {/* <div>
+        <div>
             { confirm==="상담목록" ? <CounSchedulebox/> : <CounRequest/>}
-        </div> */}
+        </div>
         
       </div>
     )

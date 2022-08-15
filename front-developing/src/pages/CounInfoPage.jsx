@@ -5,8 +5,8 @@ import axios from 'axios';
 
 export default function CounInfoPage({imageUploader}){
     const navigate = useNavigate()
-    const URL = 'https://i7e207.p.ssafy.io:8080/api/v1/counselors/me'
-    const sendURL = 'https://i7e207.p.ssafy.io:8080/api/v1/counselors'
+    const URL = process.env.REACT_APP_DB_HOST+'/counselors/me'
+    const sendURL = process.env.REACT_APP_DB_HOST+'/counselors'
     const [info,setInfo] = useState()
     const [consultTarget,setConsultTarget] = useState()
     const [phoneNumber,setPhoneNumber] = useState()

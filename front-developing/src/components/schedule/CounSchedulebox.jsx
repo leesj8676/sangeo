@@ -11,7 +11,7 @@ export default function ScheduleBox (props){
     const [onoff,setOnoff] = useState("오래된")
     const [list,setList] = useState() //컨퍼런스 복사한 리스트
     const [page, setPage] = useState(1);
-    const URL = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/counselors/${user.id}`
+    const URL = process.env.REACT_APP_DB_HOST+`/schedules/counselors/${user.id}`
     
     useEffect(()=>{
     //console.log(process.env.REACT_APP_DB_HOST//+URL)

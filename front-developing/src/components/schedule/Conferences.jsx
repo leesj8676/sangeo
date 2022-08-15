@@ -15,7 +15,7 @@ export default function Conference(x) {
                 </div>
                 <div className={`col-11 row ${styles.scheduleInfo}`}>
                     <div className="col-6">
-                    <Link to={`../counselordetail/${counselorName}`}>{counselorName} 상담사</Link>
+                    {counselorName} 상담사
                     <br/>
                     {date}
                     </div>
@@ -34,7 +34,7 @@ export default function Conference(x) {
                     </div>
                     <div className={`col-11 row ${styles.scheduleInfo}`}>
                         <div className="col-6">
-                        <Link to={`../counselordetail/${counselorId}`}>{counselorName} 상담사</Link>
+                        {counselorName} 상담사
                         <br/>
                         {date}
                         </div>
@@ -58,7 +58,7 @@ rel="noopener noreferrer">사전질문 연결</a>) : "사전질문 미등록"}
                     </div>
                     <div className={`col-11 row ${styles.scheduleInfo}`}>
                         <div className="col-6">
-                        <Link to={`../counselordetail/${counselorId}`}>{counselorName} 상담사</Link>
+                        {counselorName} 상담사
                         <br/>
                         {date}
                         </div>

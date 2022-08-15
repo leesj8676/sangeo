@@ -8,7 +8,7 @@ export default function Conference(x,state) {
     let date = startTime.substring(16, 0)
     const now = new Date
     const time = new Date(startTime)
-    const URL = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/complete`
+    const URL = process.env.REACT_APP_DB_HOST+`/schedules/complete`
 
     function IsComplete(){
         console.log(date)
