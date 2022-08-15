@@ -30,10 +30,10 @@ export default class ChatComponent extends Component {
             // 이모티콘 관련
             // const document = window.document;
             // setTimeout(() => {
-            //         const userImg = document.getElementById('userImg-' + (this.state.messageList.length - 1));
-            //         const video = document.getElementById('video-' + data.streamId);
-            //         const avatar = userImg.getContext('2d');
-            //         avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
+            //     const userImg = document.getElementById('userImg-' + (this.state.messageList.length - 1));
+            //     const video = document.getElementById('video-' + data.streamId);
+            //     const avatar = userImg.getContext('2d');
+            //     avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
             //     this.props.messageReceived();
             // }, 50);
             this.setState({ messageList: messageList });
@@ -98,7 +98,6 @@ export default class ChatComponent extends Component {
                                     'message' + (data.connectionId !== this.props.user.getConnectionId() ? ' left' : ' right')
                                 }
                             >
-                                {/* <canvas id={'userImg-' + i} width="60" height="60" className="user-img" /> */}
                                 <div className="msg-detail">
                                     <div className="msg-info">
                                         <p> {data.nickname}</p>

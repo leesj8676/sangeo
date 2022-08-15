@@ -49,6 +49,9 @@
     position: relative;
     padding: 7px 0;
   }
+  #remoteUsers {
+    height: 70px;
+  }
   /* .user-img {
     position: absolute;
     border-radius: 45px;
@@ -99,14 +102,14 @@
   }
   
   /* Start message from other user */
-  
+
   .message > .left .msg-detail .msg-info {
     text-align: left;
   }
   
   .message.left .msg-detail {
-    padding-left: 65px;
-  }
+    text-align: left;
+  } 
   
   .message.left .user-img {
     left: -5px;
