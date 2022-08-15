@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.api.request.PasswordUpdateReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.request.UserUpdateReq;
+import com.ssafy.api.service.ReviewService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
+import com.ssafy.db.entity.Review;
 import com.ssafy.db.entity.User;
 
 import io.swagger.annotations.Api;
@@ -41,6 +44,10 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	ReviewService reviewService;
+
+	
 	// 토큰 없이 본인 정보 조회 -> 확인 후 삭제
 	@GetMapping("/{userId}")
 	@ApiOperation(value = "회원 정보 조회", notes = "<strong>아이디</strong>를 통해 회원 정보를 조회한다.")
@@ -117,6 +124,20 @@ public class UserController {
 			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<String> delete(
 			@PathVariable("userId") @ApiParam(value = "삭제할 회원 아이디", required = true) String userId){
+		User user = userService.getUserByUserId(userId);
+		if(user == null) {
+			System.out.println("TEST --- 유저 없음");
+			return ResponseEntity.status(404).body("삭제 실패");
+		}
+		long id = user.getId();
+		System.out.println("TEST --- id" +  id);
+		// 회원이 기록한 모든 리뷰들을 회원 컬럼이 null 이 되도록 변경한다
+		List<Review> reviewList = reviewService.getReviewByUserId(id); 
+		for (Review review : reviewList) {
+			reviewService.setUserNull(review);
+			System.out.println("TEST --- review" +  review);
+		}
+		
 		boolean result = userService.deleteUser(userId);
 		if(result)
 			return ResponseEntity.status(200).body("삭제 완료");
