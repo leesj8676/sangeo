@@ -52,7 +52,7 @@ const CounListPage = () => {
         <section className={styles.list}>
             <div className={styles.container} >
                 {cardList.length === 0 ?
-                <h3>검색된 상담사가 없습니다.</h3>
+                <div  className={styles.header}><h3>검색된 상담사가 없습니다.</h3></div>
                 :
                 <>
                 <div className={styles.sort}>
