@@ -33,9 +33,6 @@ export default function CounTime(data){
         })
     })
     },[])
-        
-    useEffect(()=>{
-    },[info])
 
     function Change(){
         setData(true)
@@ -69,3 +66,5 @@ export default function CounTime(data){
         </div>
     )
 }
+
+
