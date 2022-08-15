@@ -45,10 +45,10 @@
     overflow: auto;
   }
   
-  .message {
+  /* .message {
     position: relative;
     padding: 7px 0;
-  }
+  } */
   #remoteUsers {
     height: 70px;
   }
