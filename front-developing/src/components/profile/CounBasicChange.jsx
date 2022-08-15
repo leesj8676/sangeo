@@ -188,10 +188,6 @@ export default function CounBasicChange({imageUploader}){
         newinfo.longIntroduction = longIntroduction;
         newinfo.profile = newprofile;
 
-    }
-
-    async function updateBasic(newinfo){
-
         await axios.put(process.env.REACT_APP_DB_HOST+'/counselors', newinfo)
         .then(function(result){
              // Navbar에서 바로 적용되게 새로 로그인 처리
@@ -208,6 +204,7 @@ export default function CounBasicChange({imageUploader}){
           }).catch(function(err){
             alert(err);
           });
+
     }
 
     function onClickUpdate(){
