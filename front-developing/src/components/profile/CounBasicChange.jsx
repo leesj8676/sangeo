@@ -125,18 +125,23 @@ export default function CounBasicChange({imageUploader}){
     // 회원정보 수정
     function onClickUpdate(){
         let newinfo = info
+        newinfo.name = newname
         newinfo.phoneNumber = newphonenumber
         newinfo.shortIntroduction = shortIntroduction
         newinfo.price = price
         newinfo.consultTarget = consultTarget.join('/')
         newinfo.longIntroduction = longIntroduction
-        newinfo.profile = imgURL
+        newinfo.profile = profileImg
         delete newinfo.password
-        console.log(newinfo)
+        console.log("수정했다 ",newinfo);
+        updateBasic(newinfo)
 
+    }
 
-        axios.put(process.env.REACT_APP_DB_HOST+'/counselors',newinfo)
-          .then(function(result){
+    async function updateBasic(newinfo){
+        await axios.put(process.env.REACT_APP_DB_HOST+'/counelors', newinfo)
+        .then(function(result){
+            console.log("상담사 수정 보냈어!!! ", newinfo);
             alert("정보가 수정되었습니다!");
           }).catch(function(err){
             alert(err);
@@ -182,8 +187,7 @@ export default function CounBasicChange({imageUploader}){
     // 이미지 등록 버튼
     const onButtonPost = async (event) => {
         const uploaded = await imageUploader.upload(targetimg);
-        setImgURL(uploaded.url);
-
+        setProfile(uploaded.url);
     }
 
     // 파일 저장
@@ -200,47 +204,27 @@ export default function CounBasicChange({imageUploader}){
             }
         }   
 
-        // setImgUpdate(false);
+        setImgbtn(false);
     };
 
-    // const[imgUpdate, setImgUpdate] = useState(false);
-    // const imgRef = useRef();
-
+   
 
     
     return(
         <div className='text-center'>
             <div>
-                <div>프로필</div>
-
+            <div>프로필</div>
                 <div>
-
-                {/* 디비에서 가져온 이미지 */}
-
-                <div>
-                  {newprofile ? (
-                    <div>
-                         <img alt="sample" src={newprofile} className = {styles.imgframe} />
-                         <div>
-                         <input ref = {inputRef} className = {styles.input} name="imgUpload" type="file" accept="image/*" onChange={saveFileImage} />
-                        <button className={styles.button} onClick={onButtonClick}> 수정하기 </button> </div>
-                    </div>
-                 ):
-                 ( 
-                    <div>
-                        {/* 버튼 관리 */}
-                        <input ref = {inputRef} className = {styles.input} name="imgUpload" type="file" accept="image/*" onChange={saveFileImage} />
-                        <button className={styles.button} onClick={onButtonClick}> 이미지 업로드 </button>
-                        <button className={styles.button} onClick={onButtonClick}> 이미지 업로드 </button>
-                 </div>
-                 )}
-                </div>
-
-
-
-                  
-                
-      
+                  <div>{newprofile && (<img alt="sample" src={newprofile} className = {styles.imgframe} />)}</div>
+                  <input
+                    ref = {inputRef}
+                    className = {styles.input} 
+                    name="imgUpload"
+                    type="file"
+                    accept="image/*"
+                    onChange={saveFileImage}
+                  />
+                    {imgbtn ?  <button className={styles.button} onClick={onButtonClick}> 이미지 업로드 </button> :  <button className={styles.button} onClick={onButtonPost}> 등록하기 </button>}
                  
                   </div> 
                

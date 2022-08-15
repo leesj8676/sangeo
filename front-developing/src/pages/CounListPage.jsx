@@ -20,7 +20,6 @@ const CounListPage = () => {
         }
         axios.get(url, {params :{searchWord: decodeURI(searchWord)}})
         .then(function (response){
-            //console.log(response.data,'데이터')
             setCards(response.data)} //카드에 받아온 값 넣음           
         )
         .catch(function(err){
@@ -29,7 +28,6 @@ const CounListPage = () => {
         },[searchWord])
 
     useEffect(()=> {
-        console.log(cards,"카드변경")
         if(cards.length > 0){setCardList(cards.map((card)=><Card card={card}/>))}
         else{setCardList([])}
     },[cards])
@@ -66,10 +64,6 @@ const CounListPage = () => {
                 </div> 
                 </>}
             </div>
-
-            {/*Footer 뺄지*/}
-            {/*<Footer />*/}
-
         </section>
     )
 }
