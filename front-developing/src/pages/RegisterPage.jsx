@@ -72,7 +72,7 @@ function RegisterPage() {
     const PwdConfirmCurrent = event.currentTarget.value;
     setConfirmPassword(PwdConfirmCurrent);
 
-    if(password == PwdConfirmCurrent){
+    if(password === PwdConfirmCurrent){
       setPasswordConfirmMessage('비밀번호가 일치합니다 :) ');
       setIsPasswordConfirm(true);
 
