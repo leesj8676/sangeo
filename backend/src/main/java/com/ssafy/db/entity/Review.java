@@ -26,7 +26,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Review extends BaseEntity{
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumns({
         @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID"),
         @JoinColumn(name = "COUNSELOR_ID", referencedColumnName = "COUNSELOR_ID"),
