@@ -5,7 +5,7 @@ import CounTime from '../components/schedule/CounTime'
 import CounTimeUpdate from '../components/schedule/CounTimeUpdate'
 import CounRequest from '../components/schedule/CounRequestbox'
 
-function CounMyPage (){
+function CounMyPage ({imageUploader}){
     const [data,setData] = useState(false) //상담시간, 상담시간수정 토글
     const [confirm,setConfirm] = useState("상담목록") //승인된 상담 승인되지 않은 상담
 
@@ -18,15 +18,15 @@ function CounMyPage (){
     return (
       <div>
         <h1>마이페이지</h1>
-        <CounProfile />
-        <div>
+        <CounProfile imageUploader={imageUploader} />
+        {/* <div>
             { data===false ? <CounTime setData={setData}/> : <CounTimeUpdate setData={setData}/>}
-        </div>
+        </div> */}
         <button onClick={changeConfirm1}>상담목록</button>
         <button onClick={changeConfirm2}>상담요청</button>
-        <div>
+        {/* <div>
             { confirm==="상담목록" ? <CounSchedulebox/> : <CounRequest/>}
-        </div>
+        </div> */}
         
       </div>
     )

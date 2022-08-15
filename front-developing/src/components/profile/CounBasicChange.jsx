@@ -34,6 +34,7 @@ export default function CounBasicChange({imageUploader}){
     // 버튼 이미지 바꾸기
     const [imgbtn, setImgbtn ] = useState(true);
     const [targetimg, setTargetImg] = useState("");
+    const [profileImg, setProfileImg] = useState(false);
    
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -70,7 +71,7 @@ export default function CounBasicChange({imageUploader}){
 
     useEffect(()=>{
         if(info){
-            setConsultTarget(info.consultTarget.split('/'))
+            // setConsultTarget(info.consultTarget.split('/'))
             setId(info.counselorId);
             setName(info.name);
             setPhonenumber(info.phoneNumber);
@@ -79,14 +80,11 @@ export default function CounBasicChange({imageUploader}){
             setLong(info.longIntroduction)
             setPrice(info.price)
             setTargetBox(target.map((t)=><div>{t}<input checked={consultTarget.includes(t)} onChange={TargetChange} type="checkbox" value={t}/></div>))
-            
-            console.log(info)
-            console.log(consultTarget)
+ 
         }
     },[info])
 
     useEffect(()=>{
-        console.log(consultTarget)
         setTargetBox(target.map((t)=><div>{t}<input checked={consultTarget.includes(t)} onChange={TargetChange} type="checkbox" value={t}/></div>))
     },[consultTarget])
 
@@ -115,7 +113,6 @@ export default function CounBasicChange({imageUploader}){
         let newtarget = consultTarget
         if (newtarget.includes(e.target.value)){
            newtarget = newtarget.filter((x) => x !== e.target.value)
-           console.log(newtarget,'필터')
         }
         else{
             newtarget.push(e.target.value)
@@ -128,17 +125,23 @@ export default function CounBasicChange({imageUploader}){
     // 회원정보 수정
     function onClickUpdate(){
         let newinfo = info
+        newinfo.name = newname
         newinfo.phoneNumber = newphonenumber
         newinfo.shortIntroduction = shortIntroduction
         newinfo.price = price
         newinfo.consultTarget = consultTarget.join('/')
         newinfo.longIntroduction = longIntroduction
+        newinfo.profile = profileImg
         delete newinfo.password
-        console.log(newinfo)
+        console.log("수정했다 ",newinfo);
+        updateBasic(newinfo)
 
+    }
 
-        axios.put(process.env.REACT_APP_DB_HOST+'/counselors',newinfo)
-          .then(function(result){
+    async function updateBasic(newinfo){
+        await axios.put(process.env.REACT_APP_DB_HOST+'/counelors', newinfo)
+        .then(function(result){
+            console.log("상담사 수정 보냈어!!! ", newinfo);
             alert("정보가 수정되었습니다!");
           }).catch(function(err){
             alert(err);
@@ -173,9 +176,10 @@ export default function CounBasicChange({imageUploader}){
     }
 
      // 이미지 업로드 버튼
-     const onButtonClick = (event) => {
+     const onButtonClick = async (event) => {
         event.preventDefault();
         inputRef.current.click();
+
     }
 
 
@@ -183,15 +187,12 @@ export default function CounBasicChange({imageUploader}){
     // 이미지 등록 버튼
     const onButtonPost = async (event) => {
         const uploaded = await imageUploader.upload(targetimg);
-        // await setImgName(uploaded.original_filename);
-        await setProfile(uploaded.url);
-        // await console.log("gggg ", imgURL);
+        setProfile(uploaded.url);
     }
 
     // 파일 저장
     const saveFileImage = async (event) => {
         if(event.target.files[0]){
-            console.log("bbbbb  ",event.target.files[0]);
             setTargetImg(event.target.files[0]);
             reader.readAsDataURL(event.target.files[0]);
         }
@@ -201,17 +202,18 @@ export default function CounBasicChange({imageUploader}){
             if(previewImgUrl){
                 setFileImage(previewImgUrl);
             }
-        }
+        }   
 
         setImgbtn(false);
     };
 
+   
 
+    
     return(
         <div className='text-center'>
             <div>
-                <div>프로필</div>
-
+            <div>프로필</div>
                 <div>
                   <div>{newprofile && (<img alt="sample" src={newprofile} className = {styles.imgframe} />)}</div>
                   <input
