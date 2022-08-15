@@ -9,6 +9,7 @@ const DEFAULT_IMAGE = '/images/default_logo.png';
 const CounselorCard = ({card}) => {
     const {counselorId, name, shortIntroduction, price, avgScore, profile} = card;
     const url = profile || DEFAULT_IMAGE;
+    console.log("상담자 디테일 페이지 url  ", url);
 
     return (
         <li className={styles.card}>
