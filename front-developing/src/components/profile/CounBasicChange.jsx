@@ -45,6 +45,7 @@ export default function CounBasicChange({imageUploader}){
         axios.get(process.env.REACT_APP_DB_HOST+URL)
         .then(function (response) {
             setInfo(response.data);
+            console.log("response.!!!!" , response.data);
         })
         .catch(function (error){
             if(error.response.status===401){ // 토큰 만료
@@ -80,7 +81,7 @@ export default function CounBasicChange({imageUploader}){
             setLong(info.longIntroduction)
             setPrice(info.price)
             setTargetBox(target.map((t)=><div>{t}<input checked={consultTarget.includes(t)} onChange={TargetChange} type="checkbox" value={t}/></div>))
- 
+            console.log("프로필 URL 들어왔숴  ?  ", newprofile);
         }
     },[info])
 
@@ -139,7 +140,7 @@ export default function CounBasicChange({imageUploader}){
     }
 
     async function updateBasic(newinfo){
-        await axios.put(process.env.REACT_APP_DB_HOST+'/counelors', newinfo)
+        await axios.put(process.env.REACT_APP_DB_HOST+'/counselors', newinfo)
         .then(function(result){
             console.log("상담사 수정 보냈어!!! ", newinfo);
             alert("정보가 수정되었습니다!");
