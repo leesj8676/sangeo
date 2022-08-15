@@ -14,29 +14,55 @@ function Certification({imageUploader , Id}) {
     const[ textValue, setTextValue] = useState("");
 
     const [auth, setAuth] = useState();
-    const [authURL, setAuthURL] = useState();
-    const [authName, setAuthName] = useState();
+    const [certificates, setCertificates] = useState([]);
 
     const counselorId = Id;
-    // 자격증 인증 정보가 있다면 불러오기
 
-    useEffect(()=>{
-        axios.get(process.env.REACT_APP_DB_HOST+`/certificates/${counselorId}`)
+    const getCertificates = async () => {
+        await axios.get(process.env.REACT_APP_DB_HOST+`/certificates/${counselorId}`)
         .then(response=>{
-            if(response.data.length > 0){
-                setAuth(response.data);
-            }       
-            
-        })
+            setAuth(response.data);
+        });
+    }
+
+    // 자격증 인증 정보가 있다면 불러오기
+    useEffect(()=>{
+        getCertificates();
     },[]);
 
     useEffect(()=> {
         if(auth){
-            setAuthURL(auth[0].imgPath);
-            setAuthName(auth[0].name);
-
+            setCertificates(auth);
         }
-    }, [auth])
+    }, [auth]);
+
+    const deleteCertificate = (e) => {
+        alert("정말로 삭제할까요?");
+        axios.delete(process.env.REACT_APP_DB_HOST+`/certificates/${e.target.value}`)
+        .then(response=>{
+            alert(response.data);
+            // 삭제했으므로 자격증 리스트 새로 get
+            getCertificates();
+        });
+    }
+
+    const returnContent = () => {
+        let content = [];
+
+        if(certificates === null || certificates === undefined || certificates.length === 0){
+            return <div>등록된 자격증이 없습니다.</div>;
+        }
+
+        for(let i = 0; i < certificates.length; i++){
+          content.push(
+            <li key={i}>
+                <a href={certificates[i].imgPath} target="_blank" rel="noopener noreferrer">{certificates[i].name}</a> 
+                <button onClick={deleteCertificate} value={certificates[i].id}>삭제</button>
+            </li>
+          )
+        };
+        return content;
+    }
 
 
      // 이미지 업로드 버튼
@@ -79,6 +105,8 @@ function Certification({imageUploader , Id}) {
         })
         .then(function (response) {
              alert("저장 완료");
+             // 추가했으므로 자격증 리스트 새로 get
+             getCertificates();
         }).catch(function (error) {
             // 오류발생시 실행
         });
@@ -87,84 +115,69 @@ function Certification({imageUploader , Id}) {
 
 
     return (
-        <div>
+      <div>
         <div> 자격증 등록하기</div>
-
-
-        <div>
-
-            {authURL? (
-                <div>
-                    <img alt="sample" src={authURL} className = {styles.imgframe}/>
-                    <div> {authName} </div>
-                </div>
-             )
-            :
-            (
-                fileImage? (
-                    <div>
-                    <img alt="sample" src={fileImage} className = {styles.imgframe} />
-                    <div>
-                    <span>자격증명 </span> 
-                <input type="text" placeholder ="자격증명을 입력해주세요. "className={styles.authName} onChange = {onChange}/>
+        { fileImage ? (
+          <div>
+            <img alt="sample" src={fileImage} className={styles.imgframe} />
+            <div>
+              <span>자격증명 </span>
+              <input
+                type="text"
+                placeholder="자격증명을 입력해주세요. "
+                className={styles.authName}
+                onChange={onChange}
+              />
             </div>
-                    <button className={styles.button} onClick={onSubmit}> 인증하기</button>
-                            
-                            <input
-                            ref = {inputRef}
-                            className = {styles.input} 
-                            name="imgUpload"
-                            type="file"
-                            accept="image/*"
-                            onChange={saveFileImage}/>                   
-                </div>
-                )
-                    : (
-                    <div>
-                        <button className={styles.authbtn} onClick={onButtonClick}> 자격증 사진 올리기</button>
-                        <div> 
-                <span>자격증명 </span> 
-                <input type="text" placeholder ="자격증명을 입력해주세요. "className={styles.authName} onChange = {onChange}/>
-            </div>
-                        <button className={styles.button} onClick={onSubmit}> 인증하기</button>
-                                
-                                <input
-                                ref = {inputRef}
-                                className = {styles.input} 
-                                name="imgUpload"
-                                type="file"
-                                accept="image/*"
-                                onChange={saveFileImage}/>                   
-                    </div>
-                    )                   
-            )}
+            <button className={styles.button} onClick={onSubmit}>
+              {" "}
+              인증하기
+            </button>
 
-            
-           
-
-        </div>
-
-        {/* <div>
-        {authURL? (<img alt="sample" src={authURL} className = {styles.imgframe} />)
-        : (<button className={styles.authbtn} onClick={onButtonClick}> 자격증 사진 올리기</button>)}
-            <div> <span>자격증명 </span> 
-            <input type="text" placeholder ="자격증명을 입력해주세요. "className={styles.authName} onChange = {onChange}/>
+            <input
+              ref={inputRef}
+              className={styles.input}
+              name="imgUpload"
+              type="file"
+              accept="image/*"
+              onChange={saveFileImage}
+            />
+          </div>
+        ) : (
+          <div>
+            <button className={styles.authbtn} onClick={onButtonClick}>
+              {" "}
+              자격증 사진 올리기
+            </button>
+            <div>
+              <span>자격증명 </span>
+              <input
+                type="text"
+                placeholder="자격증명을 입력해주세요. "
+                className={styles.authName}
+                onChange={onChange}
+              />
             </div>
-        </div>
-        <div>
-        {fileImage? (<img alt="sample" src={fileImage} className = {styles.imgframe} />)
-        : (<button className={styles.authbtn} onClick={onButtonClick}> 자격증 사진 올리기</button>)}
-            <div> <span>자격증명 </span> 
-            <input type="text" placeholder ="자격증명을 입력해주세요. "className={styles.authName} onChange = {onChange}/>
-            </div>
-        </div>
-        */}
-        
-        
-    
-    </div>
- 
-   );
+            <button className={styles.button} onClick={onSubmit}>
+              {" "}
+              인증하기
+            </button>
+
+            <input
+              ref={inputRef}
+              className={styles.input}
+              name="imgUpload"
+              type="file"
+              accept="image/*"
+              onChange={saveFileImage}
+            />
+          </div>
+        )}
+
+        <div className="mt-5"> 등록한 자격증 목록</div>
+        <div className="ml-1">{returnContent()}</div>
+      </div>
+    );
   
             
            

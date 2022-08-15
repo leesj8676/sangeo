@@ -92,12 +92,12 @@ export default function CounBasicChange({imageUploader}){
             setLong(info.longIntroduction);
             setPrice(info.price);
             setConsultTarget(info.consultTarget.split("/"));
-            setTargetBox(target.map((t)=><div>{t}<input checked={consultTarget.includes(t)} onChange={TargetChange} type="checkbox" value={t}/></div>))
+            setTargetBox(target.map((t)=><div><p>{t}</p><input checked={consultTarget.includes(t)} onChange={TargetChange} type="checkbox" value={t}/></div>))
         }
     },[info])
 
     useEffect(()=>{
-        setTargetBox(target.map((t)=><div>{t}<input checked={consultTarget.includes(t)} onChange={TargetChange} type="checkbox" value={t}/></div>))
+        setTargetBox(target.map((t)=><div><p>{t}</p><input checked={consultTarget.includes(t)} onChange={TargetChange} type="checkbox" value={t}/></div>))
     },[consultTarget])
 
 
@@ -130,7 +130,7 @@ export default function CounBasicChange({imageUploader}){
             newtarget.push(e.target.value);
         }
         setConsultTarget(newtarget);
-        setTargetBox(target.map((t)=><div>{t}<input checked={consultTarget.includes(t)} onChange={TargetChange} type="checkbox" value={t}/></div>))
+        setTargetBox(target.map((t)=><div><p>{t}</p><input checked={consultTarget.includes(t)} onChange={TargetChange} type="checkbox" value={t}/></div>))
     }
 
     function checkInput(){
@@ -268,6 +268,10 @@ export default function CounBasicChange({imageUploader}){
     return(
         <div className='text-center'>
             <div>
+            <div>아이디</div>
+                <div>
+                    <input value={id ? id : ""} disabled/>
+                </div>
             <div>프로필</div>
                 <div>
                     {/* 우선 서버 basic.png 사용 */}
@@ -283,11 +287,6 @@ export default function CounBasicChange({imageUploader}){
                     {imgbtn ?  <button className={styles.button} onClick={onButtonClick}> 이미지 업로드 </button> :  <button className={styles.button} onClick={onButtonPost}> 등록하기 </button>}
                  
                   </div> 
-               
-                <div>아이디</div>
-                <div>
-                    <input value={id ? id : ""} disabled/>
-                </div>
                 <div>이름</div>
                 <div>
                     <input onChange={nameChange} value={newname ? newname : ""}/>
