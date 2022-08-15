@@ -16,6 +16,8 @@ export default function CounTimeUpdate(data){
                                                                     </div>))
     const [start,setStart] = useState() // 예약 시작시간
     const [end,setEnd] = useState() // 예약 종료시간
+    const [rstart,setRStart] = useState() // 연락 시작시간
+    const [rend,setREnd] = useState() // 연락 종료시간
 
 
 
@@ -29,9 +31,12 @@ export default function CounTimeUpdate(data){
     },[])
 
     useEffect(()=>{
+        console.log(info,'info')
         if (info){
         setStart(info.reserveStartTime)
         setEnd(info.reserveEndTime)
+        setRStart(info.contactStartTime)
+        setREnd(info.contactEndTime)
         let a = [false,false,false,false,false,false,false]
         for (let i=0; i<7; i++){
             if(info.holiday.includes(`${i}`)){a[i]=false}
@@ -71,6 +76,12 @@ export default function CounTimeUpdate(data){
     function changeEnd(e){
         setEnd(e.target.value)
     }
+    function changeRStart(e){
+        setRStart(e.target.value)
+    }
+    function changeREnd(e){
+        setREnd(e.target.value)
+    }
     function changeCheck(e){
         console.log(e.target.value)
         let tmp = holiday
@@ -89,19 +100,55 @@ export default function CounTimeUpdate(data){
         console.log(start)
         console.log(end)
         console.log(holiday)
-        let hol=''
+        let hol=[]
         for (let i =0; i<7; i++){ 
-            if (holiday[i] === false){hol+=`${i}/`}
+            if (holiday[i] === false){hol.push(`${i}`)}
         } 
-        if (hol.length>1){hol=hol.slice(0,-1)}
-        console.log(hol)
+        console.log(hol.join('/'))
+        let newinfo = info
+        delete newinfo.password
+        delete newinfo.id
+        newinfo.holiday=hol.join('/')
+        if (start==info.reserveStartTime){
+            newinfo.reserveStartTime = info.reserveStartTime}
+        else { newinfo.reserveStartTime=start+':00' }
 
+        if (end==info.reserveEndTime){
+            newinfo.reserveEndTime = info.reserveEndTime}
+        else { newinfo.reserveEndTime=end+':00' }
+
+        if (rstart==info.contactStartTime){
+            newinfo.contactStartTime = info.contactStartTime}
+        else { newinfo.contactStartTime=rstart+':00' }
+
+        if (rend==info.contactEndTime){
+            newinfo.contactEndTime = info.contactEndTime}
+        else { newinfo.contactEndTime=rend+':00' }
+
+        console.log(newinfo,'newinfo')
+        axios.put(`https://i7e207.p.ssafy.io:8080/api/v1/counselors`,
+        newinfo)
+        .catch(
+            alert('정보가 수정되었습니다')
+        )
     }
 
 
     return (
         <div>
             <div>일정 수정</div>
+            <div>
+                <div>연락가능시간</div>
+                <label>
+                    <select onChange={changeRStart}>
+                        {timestartoption}
+                    </select>
+                    <span>~</span>
+                    <select onChange={changeREnd}>
+                        {timestartoption}
+                    </select>
+                </label>
+            </div>   
             <div>
                 <div>상담가능시간</div>
                 <label>

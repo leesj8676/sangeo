@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSelector } from 'react-redux';
 import { PropaneSharp } from '@mui/icons-material';
 
-export default function CounHolidayChange2(){   
+export default function CounHolidayChange(){   
     const user = useSelector(state => state.user.user); 
     const year = (new Date().getFullYear())
     const month = ('0' + (new Date().getMonth()+2)).slice(-2)
@@ -18,7 +18,7 @@ export default function CounHolidayChange2(){
     useEffect(()=>{
         axios.get(URL)
         .then(function(response){
-            console.log(response.data,'9월')
+            console.log(response.data,'8월')
             console.log(days,'dddd')
             setHolidays(response.data.map((x)=><button value={x.id} onClick={holidayDelete}>{x.holiday}일 X</button>))
         })
@@ -27,6 +27,12 @@ export default function CounHolidayChange2(){
     function holidayDelete(e){
         console.log(e.target.value)
         axios.delete(process.env.REACT_APP_DB_HOST+`/schedules/${e.target.value}`)
+        axios.get(URL)
+        .then(function(response){
+            console.log(response.data,'9월')
+            console.log(days,'dddd')
+            setHolidays(response.data.map((x)=><button value={x.id} onClick={holidayDelete}>{x.holiday}일 X</button>))
+        })
     }
     function changeSelect(e){
         setSelected(e.target.value)
@@ -34,7 +40,6 @@ export default function CounHolidayChange2(){
     }
 
     function makeHoliday(){
-        console.log(holidays.map((x)=>x.props.children[0]).includes(selected))
         if (holidays.map((x)=>x.props.children[0]).includes(selected)){ console.log('있음')}
         else if (holidays.map((x)=>'0'+x.props.children[0]).includes(selected)){console.log('있음')}
         else{

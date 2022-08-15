@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom"
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Conference(x,state) {
+    const navigate = useNavigate()
     const { id, complete, confirmed, counselorId, counselorName, endTime, startTime, userId, userName } = x.props
     console.log("test",x.props);
     let date = startTime.substring(16, 0)
@@ -17,6 +19,8 @@ export default function Conference(x,state) {
             "counselorId": `${counselorId}`,
             "startTime": `${date}`
           })
+        .then(navigate(`/managedonecounsel/${id}`))
+        //네이게이트로 상담완료로
     }
     //예정
     if (complete === false) {
