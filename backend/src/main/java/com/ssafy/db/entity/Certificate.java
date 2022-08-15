@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Certificate extends BaseEntity implements Serializable{
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "COUNSELOR_ID")
 	private Counselor counselor;
 
