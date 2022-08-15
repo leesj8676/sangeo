@@ -139,12 +139,12 @@ public class ScheduleController {
 	@ApiOperation(value = "스케줄 정보 조회", notes = "<strong>스케줄 번호</strong>를 통해 스케줄 정보를 조회한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "스케줄 존재하지 않음"),
 			@ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<Schedule> searchScheduleById(
+	public ResponseEntity<ScheduleRes> searchScheduleById(
 			@PathVariable("scheduleId") @ApiParam(value = "스케줄 아이디", required = true) Long id) {
 		Schedule schedule = scheduleService.getScheduleById(id);
 		if (schedule == null)
 			ResponseEntity.status(401).body(null);
-		return ResponseEntity.status(200).body(schedule);
+		return ResponseEntity.status(200).body(ScheduleRes.of(schedule));
 	}
 
 	@GetMapping("/counselors/{counselorId}")
@@ -167,7 +167,7 @@ public class ScheduleController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "상담사 ID 부적절"),
 			@ApiResponse(code = 401, message = "starttime 포맷 부적절 or 다른 exception"),
 			@ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<Schedule> searchSchedulesByCounselorId(
+	public ResponseEntity<ScheduleRes> searchSchedulesByCounselorId(
 			@PathVariable("counselorId") @ApiParam(value = "스케줄을 조회할 상담사 아이디", required = true) String counselorId,
 			@PathVariable("starttime") @ApiParam(value = "날짜가 포함된 시작 시간(예: \"2022-07-27 17:30\")", required = true) String startTime) {
 
@@ -181,10 +181,10 @@ public class ScheduleController {
 			schedule = scheduleService.getSchedulesByCounselorIdAndStartTime(counselor.getId(), startTime);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(401).body(schedule);
+			return ResponseEntity.status(401).body(ScheduleRes.of(schedule));
 		}
 
-		return ResponseEntity.status(200).body(schedule);
+		return ResponseEntity.status(200).body(ScheduleRes.of(schedule));
 	}
 
 	@GetMapping("/users/{userId}")
@@ -206,7 +206,7 @@ public class ScheduleController {
 	@ApiOperation(value = "회원 스케줄 상세 조회", notes = "<strong>아이디와 날짜가 포함된 시작 시간</strong>을 통해 회원의 해당 스케줄을 조회한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 400, message = "회원 ID 부적절"),
 			@ApiResponse(code = 401, message = "starttime 포맷 부적절"), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<Schedule> searchSchedulesByUserId(
+	public ResponseEntity<ScheduleRes> searchSchedulesByUserId(
 			@PathVariable("userId") @ApiParam(value = "스케줄을 조회할 회원 아이디", required = true) String userId,
 			@PathVariable("starttime") @ApiParam(value = "날짜가 포함된 시작 시간(예: \"2022-07-27 17:30\")", required = true) String startTime) {
 
@@ -220,10 +220,10 @@ public class ScheduleController {
 			schedule = scheduleService.getSchedulesByUserIdAndStartTime(user.getId(), startTime);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(401).body(schedule);
+			return ResponseEntity.status(401).body(ScheduleRes.of(schedule));
 		}
 
-		return ResponseEntity.status(200).body(schedule);
+		return ResponseEntity.status(200).body(ScheduleRes.of(schedule));
 	}
 
 	@GetMapping("/counselors/date/{counselorId}/{date}")

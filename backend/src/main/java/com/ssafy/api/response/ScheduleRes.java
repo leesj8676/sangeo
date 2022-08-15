@@ -21,6 +21,8 @@ import lombok.Setter;
 @Setter
 @ApiModel("ScheduleResponse")
 public class ScheduleRes {
+	@ApiModelProperty(name="ID")
+	Long id;
 	@ApiModelProperty(name="Counselor ID")
 	String counselorId;
 	@ApiModelProperty(name="Counselor Name")
@@ -37,10 +39,20 @@ public class ScheduleRes {
 	boolean isConfirmed;
 	@ApiModelProperty(name="완료여부")
 	boolean isComplete;	
-	
+	@ApiModelProperty(name="휴가여부")
+	boolean isHoliday;	
+	@ApiModelProperty(name="상담 결과 등록 여부")
+	boolean isRegistredResult;
+	@ApiModelProperty(name="상담 결과")
+	String resultContent;
+	@ApiModelProperty(name="상담 결과 이미지")
+	String resultImg;
+	@ApiModelProperty(name="사전 설문 경로")
+	String formPath;
 	
 	public static ScheduleRes of(Schedule schedule) {
 		ScheduleRes res = new ScheduleRes();
+		res.setId(schedule.getId());
 		res.setCounselorId(schedule.getCounselor().getCounselorId());
 		res.setCounselorName(schedule.getCounselor().getName());
 		res.setUserId(schedule.getUser().getUserId());
@@ -49,6 +61,11 @@ public class ScheduleRes {
 		res.setEndTime(schedule.getEndTime());
 		res.setConfirmed(schedule.isConfirmed());
 		res.setComplete(schedule.isComplete());
+		res.setHoliday(schedule.isHoliday());
+		res.setRegistredResult(schedule.isRegisteredResult());
+		res.setResultContent(schedule.getResultContent());
+		res.setResultImg(schedule.getResultImg());
+		res.setFormPath(schedule.getFormPath());
 		return res;
 	}
 
