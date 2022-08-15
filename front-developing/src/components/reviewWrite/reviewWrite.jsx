@@ -10,7 +10,7 @@ function ReviewWrite({scheduleId}) {
     const [exist, setExist] = useState(false);
     const [existReview, setExistReview] = useState();
     const [content, setContent] = useState();
-    const [star, setStar] = useState();
+    const [star, setStar] = useState(3);
     const [ done, setDone] = useState(false);
 
     useEffect(() => {

@@ -23,7 +23,7 @@ const CounDetailPage = ({card}) => {
                 {/*src에 전체 url을 적거나 항상 루트 폴더를 같게 지정해야 함*/}
                 {/*cloud에서 이미지 불러오도록 수정*/}
                 {/* 서버에서는 이미지 링크 "https://i7e207.p.ssafy.io/" */}
-                <img className={styles.avatar} src={Councard.profile} alt ="profile photo" />
+                <img className={styles.avatar} src={Councard.profile === "basic.png" ? "https://i7e207.p.ssafy.io/basic.png" : Councard.profile} alt ="profile photo" />
                 <div className={styles.info}>
                     <h1 className={styles.name}>{Councard.name}</h1>
                     <p className={styles.detail}>전화번호 : {Councard.phoneNumber}</p>

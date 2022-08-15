@@ -18,7 +18,7 @@ const CounselorDetailInfo = ({card}) => {
 
     const returnHoliday = () => {
         if(card.holiday === null){
-            return "X";
+            return "등록되지 않았어요!";
         }
 
         let holidayList = card.holiday.split("/");
@@ -42,11 +42,11 @@ const CounselorDetailInfo = ({card}) => {
      <div>
         {/* 미등록 부분은 if로 처리할 것인지 */}
         <p className="mb-1">자격증 정보 : {certificates.length === 0 ? "등록되지 않았어요!" : certificates.map((c) => c.name).join(', ')}</p>
-        <p className="mb-1">경력 : {card.career}년</p>
-        <p className="mb-1">상담 대상 : {card.consultTarget}</p>
-        <p className="mb-1">상세 자기소개 : {card.longIntroduction}</p>
-        <p className="mb-1">연락 가능 시간 : {card.contactStartTime} ~ {card.contactEndTime}</p>
-        <p className="mb-1">예약 가능 시간 : {card.reserveStartTime} ~ {card.reserveEndTime}</p>
+        {/*<p className="mb-1">경력 : {card.career}년</p>*/}
+        <p className="mb-1">상담 대상 : {card.consultTarget ? card.consultTarget : "등록되지 않았어요!"}</p>
+        <p className="mb-1">상세 자기소개 : {card.longIntroduction ? card.longIntroduction : "등록되지 않았어요!"}</p>
+        <p className="mb-1">연락 가능 시간 : {(card.contactStartTime === null || card.contactEndTime === null) ? "등록되지 않았어요!" : (`${card.contactStartTime} ~ ${card.contactEndTime}`)}</p>
+        <p className="mb-1">예약 가능 시간 : {(card.reserveStartTime === null || card.reserveEndTime === null) ? "등록되지 않았어요!" : (`${card.reserveStartTime} ~ ${card.reserveEndTime}`)}</p>
         <p>휴일 : {returnHoliday()}</p>
       </div>
     );
