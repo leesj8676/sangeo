@@ -17,8 +17,9 @@ export default function ScheduleBox (props){
     //console.log(process.env.REACT_APP_DB_HOST//+URL)
         axios.get(URL)
         .then(function (response) {
-            console.log(response.data,'data')
-            setConference(response.data.filter(x=>x.confirmed===true))
+            let data = response.data;
+            console.log(data,'data')
+            setConference(data.filter(x=>x.confirmed===true&&x.userId!==null))
             }
         )},[])
     
@@ -26,8 +27,6 @@ export default function ScheduleBox (props){
         //console.log(process.env.REACT_APP_DB_HOST//+URL)
         setList(conference.map((x)=>(<CounSchedule props={x}/>))
         );},[conference])  
-    
-
 
     function clickButton(){
         console.log("버튼")
