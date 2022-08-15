@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.ssafy.db.entity.Counselor;
 import com.ssafy.db.entity.User;
+import com.sun.istack.Nullable;
 
 public class ScheduleMapping {
 
@@ -34,18 +35,26 @@ public class ScheduleMapping {
 	}
 
 	public String getCounselorId() {
+		if(counselor==null)
+			return null;
 		return counselor.getCounselorId();
 	}
 
 	public String getCounselorName() {
+		if(counselor==null)
+			return null;
 		return counselor.getName();
 	}
 
 	public String getUserId() {
+		if(user==null)
+			return null;
 		return user.getUserId();
 	}
 
 	public String getUserName() {
+		if(user==null)
+			return null;
 		return user.getName();
 	}
 
@@ -70,6 +79,8 @@ public class ScheduleMapping {
 	}
 
 	public String getUserPhoneNumber() {
+		if(user==null)
+			return null;
 		return user.getPhoneNumber();
 	}
 	
