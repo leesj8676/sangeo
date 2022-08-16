@@ -22,11 +22,12 @@ function Reservation({counselorId, rst, ret, holiday}) {
       :
       <>
         <div className="row bar"></div>
-        <div className="row body">
+        <div className="row body .calForm">
         <Calendar counselorId={counselorId} selectedYear={selectedYear} setSelectedYear={setSelectedYear} selectedMonth={selectedMonth} 
         setSelectedMonth={setSelectedMonth} selectedDate={selectedDate} setSelectedDate={setSelectedDate}
         today={today}
-        holiday={holiday}/> {/* 받을 때 일 -> 0, 토 -> 6 이런 식으로 받도록 */}
+        holiday={holiday} 
+        /> {/* 받을 때 일 -> 0, 토 -> 6 이런 식으로 받도록 */}
         <ReservationTime rst={rst === null ? "" : rst} ret={ret === null ? "" : ret} counselorId={counselorId}
         selectedYear={selectedYear} selectedMonth={selectedMonth} selectedDate={selectedDate} today={today}/>
         </div>

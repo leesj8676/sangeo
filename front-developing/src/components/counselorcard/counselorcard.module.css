@@ -1,4 +1,4 @@
-@value makerShadow, makerColorful, mainBlue from '../../common/colors.css';
+@value makerShadow, makerColorful, mainColor from '../../common/colors.css';
 
 .card {
     list-style-type: none;
