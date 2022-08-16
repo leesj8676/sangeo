@@ -133,7 +133,7 @@ function RegisterPage() {
 
   // 기본이미지 url
 
-  const imgurl = 'https://res.cloudinary.com/daomkhvu8/image/upload/v1660512760/KakaoTalk_20220731_203458342_y2sith.jpg';
+  const imgurl = 'https://res.cloudinary.com/daomkhvu8/image/upload/v1660629167/59D8F27B-045C-4FA9-B831-EDF629FC9C04_jxwp1a.png';
 
   function onClickCounselor(event){ // 상담사 회원가입을 위해 페이지 이동
     event.preventDefault();
