@@ -3,6 +3,8 @@ import axios from "axios";
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Request from './CounRequest'
+import styles from './Conferences.module.css';
 
 export default function Conference(x, state) {
     const navigate = useNavigate()
@@ -10,9 +12,10 @@ export default function Conference(x, state) {
     } = x.props
     console.log("test", x.props);
     let date = startTime.substring(16, 0)
-    const now = new Date
+    const now = new Date()
     const time = new Date(startTime)
     const URL = process.env.REACT_APP_DB_HOST + `/schedules/complete`
+    let scheduleState = confirmed ? (complete ? "완료" : "예정") : "요청";
 
     // 모달 관련
     const [show, setShow] = useState(false);
@@ -47,53 +50,77 @@ export default function Conference(x, state) {
                 "startTime": `${date}`
             })
             .then(navigate(`/managedonecounsel/${id}`))
-        //네이게이트로 상담완료로
+        //네비게이트로 상담완료로
     }
-    //예정
-    if (complete === false) {
+    //요청
+    if (confirmed === false) {
         return (
-            <div className="box">
-                <nav>
-                    <div className="state">예정</div>
-                    <Link to={`../counselordetail/${userName}`}>{userName}님 상담</Link>
-                    <span>{date}</span>
-                    {path ? (<a href={path} className="text-primary" target="_blank"
-                        rel="noopener noreferrer">사전질문 연결</a>) :
-                        <button onClick={handleShow}>사전 질문 링크 등록</button>}
-                    <Link to={`../conference/${id}`}>상담실링크</Link>
-                    {time < now ? <button onClick={IsComplete}>상담완료</button> : null}
-                </nav>
-                <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>사전 질문 링크를 등록하세요</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className='text-center'>
-                        <input type="text" id="path" className="text-center" placeholder='주소'></input>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" onClick={putPath}>
-                            등록하기
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
-        )
-    }
-    //완료후
-    else {
-        return (
-            <div className="box">
-                <nav>
-                    <div className="state">완료</div>
-                    <Link to={`../counselordetail/${userName}`}>{userName}님 상담</Link>
-                    <span>{date}</span>
-                    {path ? (<a href={path} className="text-primary" target="_blank"
-                        rel="noopener noreferrer">사전질문 연결</a>) : null
-                        }
-                    <Link to={`../managedonecounsel/${id}`}>상담결과링크</Link>
-                </nav>
-            </div>
+            <Request x={x}></Request>
         )
     }
 
+    else {
+        //예정
+        if (complete === false) {
+            return (
+                <div className={`row ${styles.box}`}>
+                    <div className={`col-1 ${styles.state} ${styles.expected}`}>
+                        <p>{scheduleState}</p>
+                    </div>
+                    <div className={`col-11 row ${styles.scheduleInfo}`}>
+                        <div className="col-6">
+                            {counselorName} 상담사
+                            <br />
+                            {date}
+                        </div>
+                        <div className="col-3">
+                            {path ? (<a href={path} className="text-primary" target="_blank"
+                                rel="noopener noreferrer">사전질문 연결</a>) :
+                                <a href='#' onClick={handleShow}>사전 질문 링크 등록</a>}
+                        </div>
+                        <div className="col-3">
+                            <Link to={`../counselordetail/${userName}`}>{userName}님 상담</Link>
+                        </div>
+                    </div>
+                    <Modal show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>사전 질문 링크를 등록하세요</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body className='text-center'>
+                            <input type="text" id="path" className="text-center" placeholder='주소'></input>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="primary" onClick={putPath}>
+                                등록하기
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
+            )
+        }
+        //완료후
+        else {
+            return (
+                <div className={`row ${styles.box}`}>
+                    <div className={`col-1 ${styles.state} ${styles.completed}`}>
+                        <p>{scheduleState}</p>
+                    </div>
+                    <div className={`col-11 row ${styles.scheduleInfo}`}>
+                        <div className="col-6">
+                            {counselorName} 상담사
+                            <br />
+                            {date}
+                        </div>
+                        <div className="col-3">
+                            {formPath ? (<a href={formPath} className="text-primary" target="_blank"
+                                rel="noopener noreferrer">사전질문 연결</a>) : "사전질문 미등록"}
+                        </div>
+                        <div className="col-3">
+                            <Link to={`../counselordetail/${userName}`}>{userName}님 상담</Link>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+    }
 }

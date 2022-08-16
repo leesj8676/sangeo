@@ -57,7 +57,7 @@ function Certification({imageUploader , Id}) {
           content.push(
             <li key={i}>
                 <a href={certificates[i].imgPath} target="_blank" rel="noopener noreferrer">{certificates[i].name}</a> 
-                <button onClick={deleteCertificate} value={certificates[i].id}>삭제</button>
+                <button className={styles.deleteBtn} onClick={deleteCertificate} value={certificates[i].id}>삭제</button>
             </li>
           )
         };
@@ -115,7 +115,7 @@ function Certification({imageUploader , Id}) {
 
 
     return (
-      <div>
+      <div className='text-center'>
         <div> 자격증 등록하기</div>
         { fileImage ? (
           <div>
@@ -150,7 +150,7 @@ function Certification({imageUploader , Id}) {
               자격증 사진 올리기
             </button>
             <div>
-              <span>자격증명 </span>
+              <div>자격증명 </div>
               <input
                 type="text"
                 placeholder="자격증명을 입력해주세요. "
@@ -174,7 +174,7 @@ function Certification({imageUploader , Id}) {
           </div>
         )}
 
-        <div className="mt-5"> 등록한 자격증 목록</div>
+        <div className="mt-3"> 등록한 자격증 목록</div>
         <div className="ml-1">{returnContent()}</div>
       </div>
     );
