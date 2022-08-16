@@ -17,7 +17,7 @@ function CounMyPage ({imageUploader}){
     }
     return (
       <div>
-        <h1>마이페이지</h1>
+        <h2 className='text-center'>마이페이지</h2>
         <CounProfile imageUploader={imageUploader} />
         <div>
             { data===false ? <CounTime setData={setData}/> : <CounTimeUpdate setData={setData}/>}
