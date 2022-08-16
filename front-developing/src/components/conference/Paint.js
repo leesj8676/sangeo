@@ -250,6 +250,7 @@ function Paint(props) {
     // console.log(imgURL);//blob:http://127.0.0.1:5500/d605923f-931b-4b31-8193-8a5999056d9e
     const image = new Image();
     image.src = imgURL;
+    image.crossOrigin = "anonymous";
     image.onload = function () {
       contextRef.current.drawImage(image, moveToX, moveToY, width, height);
     }
