@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import CounSchedule from './CounSchedule'
 import axios from 'axios';
 import Pagination from 'react-js-pagination';
+import styles from './Schedulebox.module.css';
 
 export default function ScheduleBox (props){
     //본인인경우 아니면 오류페이지로
@@ -52,7 +53,7 @@ export default function ScheduleBox (props){
 
     return (
       <div>
-        <label>
+        <label className={styles.selectBox}>
             <select onChange={changeSee}>
                 <option value="모두">모두</option>
                 <option value="완료">완료</option>
