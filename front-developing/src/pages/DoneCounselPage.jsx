@@ -79,7 +79,7 @@ useEffect(() => {
         <div style={{width: '80%', marginLeft:'10%'}} className = {`border border-3 mt-5 `}>
             <h2 className='text-center mt-3'>상담 결과 분석</h2>
             <img style={{width: '60%', marginLeft:'20%'}} className='mt-3' src={counselResult.resultImg} alt="profile photo" /> 
-            <textarea style={{width: '80%', marginLeft:'10%', resize: 'none'}} className='mt-3' placeholder={counselResult.resultContent} disabled/>
+            <textarea style={{width: '80%', marginLeft:'10%',  height: '200px', resize: 'none'}} className='mt-3' placeholder={counselResult.resultContent} disabled/>
         </div>
         )
         : 
