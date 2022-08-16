@@ -32,6 +32,7 @@ var counselorId;
 var counselorName;
 var userId;
 var userName;
+let isUserrrr;
 
 const OPENVIDU_SERVER_URL = 'https://i7e207.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
@@ -105,6 +106,7 @@ class ConferencePage extends Component {
             .then(({ data }) => {
                 console.log("users", data);
                 isUser = true;
+                isUserrrr = true
                 responseUserId = data.userId;
             }
             ).catch((err) => {
@@ -340,7 +342,8 @@ class ConferencePage extends Component {
             publisher: undefined
         });
         alert("상담을 종료합니다.");
-        window.history.back();
+        if (isUserrrr) {window.location.href = '/mypage';}
+        else {window.location.href = '/counmypage';}
     }
 
     render() {
