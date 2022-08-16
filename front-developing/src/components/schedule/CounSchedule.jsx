@@ -79,7 +79,7 @@ export default function Conference(x, state) {
                                 <a href='#' onClick={handleShow}>사전 질문 링크 등록</a>}
                         </div>
                         <div className="col-3">
-                            <Link to={`../counselordetail/${userName}`}>{userName}님 상담</Link>
+                            <Link to={`../conference/${id}`}>상담실링크</Link>
                         </div>
                     </div>
                     <Modal show={show} onHide={handleClose}>
@@ -116,7 +116,7 @@ export default function Conference(x, state) {
                                 rel="noopener noreferrer">사전질문 연결</a>) : "사전질문 미등록"}
                         </div>
                         <div className="col-3">
-                            <Link to={`../counselordetail/${userName}`}>{userName}님 상담</Link>
+                            <Link to={`../conference/${id}`}>상담실링크</Link>
                         </div>
                     </div>
                 </div>
