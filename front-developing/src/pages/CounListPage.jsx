@@ -32,6 +32,10 @@ const CounListPage = () => {
         else{setCardList([])}
     },[cards])
     
+    
+
+
+
 
     // 가격 오름차순 정렬    
     const onSortPrice = () => {

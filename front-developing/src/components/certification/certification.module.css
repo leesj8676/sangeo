@@ -20,12 +20,12 @@
 }
 
 .button{
-    display: flex;
+    /* display: flex; */
     justify-content: center;
 }
 
 .authName{
-    display: flex;
+    /* display: flex; */
     flex-direction: row-reverse;
     width: 300px;
 }
@@ -44,4 +44,7 @@ input, input:focus{
 
 .authbtn:hover {
     opacity: 1.2;
+}
+.deleteBtn{
+    margin-left: 3px;
 }

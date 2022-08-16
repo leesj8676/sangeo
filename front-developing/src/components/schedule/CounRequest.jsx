@@ -1,38 +1,49 @@
-import {React, useState } from 'react';
+import { React, useState } from 'react';
 import axios from "axios";
 import { Link } from "react-router-dom"
 import styles from './Conferences.module.css';
 
-export default function Request(x) {
-    const { id, complete, confirmed, counselorId, counselorName, endTime, startTime, userId, userName, userPhoneNumber } = x.props
-    console.log("test",x.props);
+export default function Request({ x }) {
+    console.log("test", x);
+    const { complete, confirmed, counselorId, counselorName, endTime, startTime, userId, userName, userPhoneNumber } = x.props
     let date = startTime.substring(16, 0)
-    const [show,setShow] = useState({display: ''})
-    
-
-    function Approve(){
-        const URL = process.env.REACT_APP_DB_HOST+'/schedules/confirm'
-        axios.put(URL,{
+    const [show, setShow] = useState({ display: '' })
+    function Approve() {
+        const URL = process.env.REACT_APP_DB_HOST + '/schedules/confirm'
+        axios.put(URL, {
             "counselorId": `${counselorId}`,
             "startTime": `${date}`
-          }
-          )
-          setShow({display: 'none'})
+        }
+        )
+        setShow({ display: 'none' })
     }
-    function Refuse(){
-        const URL = process.env.REACT_APP_DB_HOST+`/schedules/${counselorId}/${date}`
+    function Refuse() {
+        const URL = process.env.REACT_APP_DB_HOST + `/schedules/${counselorId}/${date}`
         axios.delete(URL)
-        setShow({display: 'none'})
+        setShow({ display: 'none' })
     }
 
     return (
-        <div style={show} className={`row ${styles.box}`}>
-            <Link to={`../counselordetail/${userName}`}>{userName} 님 요청</Link>
-            <span>{date}</span>
-            <span> 연락처 : { userPhoneNumber} </span>
-            <button onClick={Approve}>수락</button>
-            <button onClick={Refuse}>거절</button>
+        <div className={`row ${styles.box}`}>
+            <div className={`col-1 ${styles.notConfirmed}`}>
+                <p>요청</p>
+            </div>
+            <div className={`col-11 row ${styles.scheduleInfo}`}>
+                <div className="col-6">
+                    {userName}님
+                    <br />
+                    {date}
+                </div>
+                <div className="col-3">
+                    📞 {userPhoneNumber}
+                </div>
+                <div className="col-3">
+                    <button className={styles.approveBtn} onClick={Approve}>수락</button>
+                    <button className={styles.refuseBtn} onClick={Refuse}>거절</button>
+                </div>
+            </div>
         </div>
+
     )
 
 }
