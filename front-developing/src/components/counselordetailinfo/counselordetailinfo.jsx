@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import styles from './counselordetailinfo.module.css';
 
 const CounselorDetailInfo = ({card}) => {
 
@@ -39,16 +40,24 @@ const CounselorDetailInfo = ({card}) => {
     }
     
     return (
-     <div>
-        {/* 미등록 부분은 if로 처리할 것인지 */}
-        <p className="mb-1">자격증 정보 : {certificates.length === 0 ? "등록되지 않았어요!" : certificates.map((c) => c.name).join(', ')}</p>
-        {/*<p className="mb-1">경력 : {card.career}년</p>*/}
-        <p className="mb-1">상담 대상 : {card.consultTarget ? card.consultTarget : "등록되지 않았어요!"}</p>
-        <p className="mb-1">상세 자기소개 : {card.longIntroduction ? card.longIntroduction : "등록되지 않았어요!"}</p>
-        <p className="mb-1">연락 가능 시간 : {(card.contactStartTime === null || card.contactEndTime === null) ? "등록되지 않았어요!" : (`${card.contactStartTime} ~ ${card.contactEndTime}`)}</p>
-        <p className="mb-1">예약 가능 시간 : {(card.reserveStartTime === null || card.reserveEndTime === null) ? "등록되지 않았어요!" : (`${card.reserveStartTime} ~ ${card.reserveEndTime}`)}</p>
-        <p>휴일 : {returnHoliday()}</p>
-      </div>
+    
+    
+    
+    <div>
+    
+
+
+      <table cellspacing="50" className={styles.tableinfo}>
+        <tr className={styles.detail} ><td className={styles.attr}>자격증 정보</td> <td>{certificates.length === 0 ? "등록되지 않았어요!" : certificates.map((c) => c.name).join(', ')}</td> </tr>
+        <tr className={styles.detail}><td className={styles.attr}>상담 대상</td> <td> {card.consultTarget ? card.consultTarget : "등록되지 않았어요!"}</td></tr>
+        <tr className={styles.detail}><td className={styles.attr}>소개</td> <td>{card.longIntroduction ? card.longIntroduction : "등록되지 않았어요!"}</td></tr>
+        <tr className={styles.detail}><td className={styles.attr}>연락 가능 시간</td> <td> {(card.contactStartTime === null || card.contactEndTime === null) ? "등록되지 않았어요!" : (`${card.contactStartTime} ~ ${card.contactEndTime}`)}</td></tr>
+        <tr className={styles.detail}><td className={styles.attr}>예약 가능 시간</td> <td>{(card.reserveStartTime === null || card.reserveEndTime === null) ? "등록되지 않았어요!" : (`${card.reserveStartTime} ~ ${card.reserveEndTime}`)}</td></tr>
+        <tr className={styles.detail}><td className={styles.attr}>휴일</td> <td>{returnHoliday()}</td> </tr>
+                    
+     </table>
+    </div>
+    
     );
 }
 

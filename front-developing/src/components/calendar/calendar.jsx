@@ -16,11 +16,11 @@ const Calendar = (props) => {
   useEffect(() => {
     async function fetchData() {
       try{
-          console.log("fetch Data"+YM);
+          // console.log("fetch Data"+YM);
           const result = await axios.get(process.env.REACT_APP_DB_HOST+`/schedules/counselors/holidays/${props.counselorId}/${YM}`);
           // result.data에서 holiday만 뽑음
           setHolidate(result.data.map((rd)=>rd.holiday));
-          console.log(holidate);
+          // console.log(holidate);
           setTimeout(5000);
       }
       catch(error){
@@ -99,7 +99,7 @@ const Calendar = (props) => {
   }
 
   const checkHoliday = (nowDay) => {
-    console.log(holiday);
+    // console.log(holiday);
     if(holiday === null){
       return false;
     }
@@ -172,14 +172,16 @@ const Calendar = (props) => {
   };
 
   return (
-    <div className="col-6">
+    <div className="col-6 p-3 border border-secondary border-1 rounded shadow">
       <div className={styles.cal_header}>
         <AiFillLeftCircle onClick={preMonth}/>
         <h3 className={styles.cal_title}>{props.selectedYear}.{props.selectedMonth}</h3>
         <AiFillRightCircle onClick={nextMonth}/>
       </div>
-      {returnWeek()}
-      {returnDate()}
+      <div className={styles.calForm}>
+        {returnWeek()}
+        {returnDate()}
+      </div>
     </div>
   );
 };
