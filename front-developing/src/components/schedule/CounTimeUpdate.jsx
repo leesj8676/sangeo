@@ -132,12 +132,14 @@ export default function CounTimeUpdate(data) {
         }
         else { newinfo.contactEndTime = rend + ':00' }
 
-        console.log(newinfo, 'newinfo')
+        console.log('newinfo', newinfo)
         axios.put(process.env.REACT_APP_DB_HOST + `/counselors`,
             newinfo)
-            .catch(
-                alert('정보가 수정되었습니다')
-            )
+            .then(response => {
+                console.log(response);
+                alert('정보가 수정되었습니다');
+            }
+        )
     }
 
 

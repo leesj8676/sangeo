@@ -14,6 +14,9 @@ export default function ScheduleBox(props) {
     const [page, setPage] = useState(1);
     const URL = process.env.REACT_APP_DB_HOST + `/schedules/counselors/${user.id}`
 
+
+
+
     useEffect(() => {
         //console.log(process.env.REACT_APP_DB_HOST//+URL)
         axios.get(URL)
@@ -41,11 +44,13 @@ export default function ScheduleBox(props) {
 
     function changeSee(e) {
         console.log(e.target.value)
-        setPage(page => 1)
+
+        setPage(page => 1);
+
         if (e.target.value === "모두") { setList(conference.map((x) => (<CounSchedule props={x} />))); console.log("모두", list) }
-        else if (e.target.value === "요청") { setList(conference.filter(c => c.confirmed===false).map((x) => (<CounSchedule props={x} />))); console.log("요청", list) }
-        else if (e.target.value === "완료") { setList(conference.filter(c => c.complete === true && c.confirmed===true).map((x) => (<CounSchedule props={x} />))); console.log("완료", list) }
-        else { setList(conference.filter(c => c.complete === false && c.confirmed===true).map((x) => (<CounSchedule props={x} />))); console.log("예정", list) }
+        else if (e.target.value === "요청") { setList(conference.filter(c => c.confirmed === false).map((x) => (<CounSchedule props={x} />))); console.log("요청", list) }
+        else if (e.target.value === "완료") { setList(conference.filter(c => c.complete === true && c.confirmed === true).map((x) => (<CounSchedule props={x} />))); console.log("완료", list) }
+        else { setList(conference.filter(c => c.complete === false && c.confirmed === true).map((x) => (<CounSchedule props={x} />))); console.log("예정", list) }
         console.log(list)
     }
 

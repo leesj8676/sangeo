@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import Request from './CounRequest'
 import styles from './Conferences.module.css';
 
-export default function Conference(x, state) {
+export default function Conference(x) {
     const navigate = useNavigate()
     const { id, complete, confirmed, counselorId, counselorName, endTime, startTime, userId, userName, formPath
     } = x.props
@@ -16,6 +16,8 @@ export default function Conference(x, state) {
     const time = new Date(startTime)
     const URL = process.env.REACT_APP_DB_HOST + `/schedules/complete`
     let scheduleState = confirmed ? (complete ? "완료" : "예정") : "요청";
+
+    console.warn(x);
 
     // 모달 관련
     const [show, setShow] = useState(false);
@@ -36,7 +38,7 @@ export default function Conference(x, state) {
             .then(function ({ data }) {
                 console.warn("등록 성공 ", data);
                 alert("등록에 성공했습니다");
-                setPath(path);
+                setPath(path.value);
             }).catch(function (err) {
                 console.warn("등록 실패 ", err);
             })
@@ -69,7 +71,7 @@ export default function Conference(x, state) {
                     </div>
                     <div className={`col-11 row ${styles.scheduleInfo}`}>
                         <div className="col-6">
-                            {counselorName} 상담사
+                            {userName} 님
                             <br />
                             {date}
                         </div>
@@ -80,6 +82,7 @@ export default function Conference(x, state) {
                         </div>
                         <div className="col-3">
                             <Link to={`../conference/${id}`}>상담실링크</Link>
+                            {time < now ? <button className={styles.completeBtn} onClick={IsComplete}>상담 완료</button>  : null}
                         </div>
                     </div>
                     <Modal show={show} onHide={handleClose}>
@@ -107,7 +110,7 @@ export default function Conference(x, state) {
                     </div>
                     <div className={`col-11 row ${styles.scheduleInfo}`}>
                         <div className="col-6">
-                            {counselorName} 상담사
+                            {userName} 님
                             <br />
                             {date}
                         </div>
@@ -116,7 +119,7 @@ export default function Conference(x, state) {
                                 rel="noopener noreferrer">사전질문 연결</a>) : "사전질문 미등록"}
                         </div>
                         <div className="col-3">
-                            <Link to={`../conference/${id}`}>상담실링크</Link>
+                            <Link to={`../managedonecounsel/${id}`}>상담결과링크</Link>
                         </div>
                     </div>
                 </div>

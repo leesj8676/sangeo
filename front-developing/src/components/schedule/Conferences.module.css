@@ -57,3 +57,13 @@
     font-size: 16px;
     padding: 5px;
 }
+
+.completeBtn{
+    border-radius: 10px;
+    background-color: gray;
+    color: white;
+    font-size: 16px;
+    /* margin-left: 5px; */
+    position: absolute;
+    right : 8%;
+}
