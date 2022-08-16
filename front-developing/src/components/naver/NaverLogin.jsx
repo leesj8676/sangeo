@@ -46,14 +46,14 @@ const NaverLogin = () => {
         // 아래처럼 선택하여 추출이 가능하고, 
         const id = naverLogin.user.getId();
         const username = naverLogin.user.getName();
-        const mobile = naverLogin.user.getMobile();
+        //const mobile = naverLogin.user.getMobile();
         console.log(id + " " + username);
 
         // db 연결 -> 
         axios.post(process.env.REACT_APP_DB_HOST + "/auth/naver/login", {
           id: id,
           name: username,
-          phoneNumber: mobile,
+          phoneNumber: null,
           profile: "basic.png"
         })
           .then(function (result) {
