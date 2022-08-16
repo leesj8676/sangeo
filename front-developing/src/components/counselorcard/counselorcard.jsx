@@ -36,7 +36,7 @@ const CounselorCard = ({card}) => {
                     />
                     )
                     :
-                    (<div>등록된 후기가 없어요 <FaRegSadCry/></div>)
+                    (<div className={styles.noreview}>등록된 후기가 없어요 <FaRegSadCry/></div>)
                 }
                 </div>
             </div>
