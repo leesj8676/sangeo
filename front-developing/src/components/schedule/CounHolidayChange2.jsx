@@ -24,22 +24,27 @@ export default function CounHolidayChange(){
         })
     },[])
 
+
     function holidayDelete(e){
         console.log(e.target.value)
         axios.delete(process.env.REACT_APP_DB_HOST+`/schedules/${e.target.value}`)
-        axios.get(URL)
-        .then(function(response){
-            console.log(response.data,'9월')
-            console.log(days,'dddd')
-            setHolidays(response.data.map((x)=><button value={x.id} onClick={holidayDelete}>{x.holiday}일 X</button>))
+        .then(()=>{
+            axios.get(URL)
+            .then(function(response){
+                console.log(response.data,'8월')
+                console.log(days,'dddd')
+                setHolidays(response.data.map((x)=><button value={x.id} onClick={holidayDelete}>{x.holiday}일 X</button>))})
+            
         })
     }
+    
     function changeSelect(e){
         setSelected(e.target.value)
         console.log(e.target.value)
     }
 
     function makeHoliday(){
+        console.log(holidays.map((x)=>x.props.children[0]))
         if (holidays.map((x)=>x.props.children[0]).includes(selected)){ console.log('있음')}
         else if (holidays.map((x)=>'0'+x.props.children[0]).includes(selected)){console.log('있음')}
         else{
@@ -49,12 +54,14 @@ export default function CounHolidayChange(){
                 `${year}-${month}-${selected}`,
                 ]
             })
-            .then(axios.get(URL)
+            .then(()=>{
+                axios.get(URL)
                 .then(function(response){
-                console.log(response.data,'8월')
-                console.log(days,'dddd')
-                setHolidays(response.data.map((x)=><button value={x.id} onClick={holidayDelete}>{x.holiday}일 X</button>))
-            }))
+                    console.log(response.data,'8월')
+                    console.log(days,'dddd')
+                    setHolidays(response.data.map((x)=><button value={x.id} onClick={holidayDelete}>{x.holiday}일 X</button>))})
+                
+            })
         }
     }
 

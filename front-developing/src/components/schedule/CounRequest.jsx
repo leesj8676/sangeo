@@ -1,6 +1,8 @@
 import {React, useState } from 'react';
 import axios from "axios";
 import { Link } from "react-router-dom"
+import styles from './Conferences.module.css';
+
 export default function Request(x) {
     const { id, complete, confirmed, counselorId, counselorName, endTime, startTime, userId, userName, userPhoneNumber } = x.props
     console.log("test",x.props);
@@ -24,7 +26,7 @@ export default function Request(x) {
     }
 
     return (
-        <div style={show} className="box">
+        <div style={show} className={`row ${styles.box}`}>
             <Link to={`../counselordetail/${userName}`}>{userName} 님 요청</Link>
             <span>{date}</span>
             <span> 연락처 : { userPhoneNumber} </span>
