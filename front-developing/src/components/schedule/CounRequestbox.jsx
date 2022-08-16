@@ -18,7 +18,7 @@ export default function CounRequest (props){
       axios.get(URL)
       .then(function (response) {
               console.log(response.data,'data')
-              setConference(response.data.filter(x=>x.confirmed===false))
+              setConference(response.data.filter(x=>x.confirmed===false && x.userId!==null))
     });    
     },[])
     

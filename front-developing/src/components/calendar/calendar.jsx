@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 const Calendar = (props) => {
   const week = ["일", "월", "화", "수", "목", "금", "토"]; //일주일
   const dateTotalCount = new Date(props.selectedYear, props.selectedMonth, 0).getDate(); //선택된 연도, 달의 마지막 날짜
-  const holiday = props.holiday.split("/").map(Number);
+  const holiday = props.holiday === null ? null : props.holiday.split("/").map(Number);
   const [holidate, setHolidate] = useState(null);
 
   const YM = props.selectedYear + "-" + ("0" + props.selectedMonth).slice(-2);
@@ -99,6 +99,7 @@ const Calendar = (props) => {
   }
 
   const checkHoliday = (nowDay) => {
+    console.log(holiday);
     if(holiday === null){
       return false;
     }
