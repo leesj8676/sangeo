@@ -41,12 +41,8 @@ const CounDetailPage = ({card}) => {
                     :
                     (<span className={styles.noreview}>등록된 후기가 없어요 <FaRegSadCry/></span>)
                 } </span>
-                    
-                    
+                      
                     </div>
-
-                    
-
 
                     <table className={styles.table}>
                     <tr className={styles.detail}><td className={styles.attr}>전화번호</td> <td>{Councard.phoneNumber}</td> </tr>
