@@ -18,10 +18,10 @@ const CounselorCard = ({card}) => {
             <img className={styles.avatar} src={url} alt ="profile photo" />
             </Link>
             <div className={styles.info}>
-                <h1 className={styles.name}>{name}</h1>
+                <div className={styles.name}>{name} <span className={styles.price}> {price}</span></div>
                 <div className={styles.details}>
-                <p className={styles.detail}>소개 : {shortIntroduction}</p>
-                <p className={styles.detail}>상담비용 : {price}</p> 
+                <p className={styles.detail}>{shortIntroduction}</p>
+               
                 </div>
                 <div className={styles.score}>
                 {   avgScore ?
