@@ -1,15 +1,23 @@
 .wrapper{
     width: 100%;
+    min-height: 100%;
+    /* position: relative; */
 }
 
 
 .container{
-    background: url("../../public/mainback12.gif") center/cover;
-    /* max-width: 100%; */
+    background: url("../../public/mainback12.gif");
+    background-size: cover;
+    width: 100%;
     /* height: auto; */
-    min-height: 200vh;
-
+    /* height: 100vh; */
+    min-height: 100%;
     display: flex;
+    /* position: absolute; */
+    /* max-width: 100%;
+    /* height: auto; 
+    
+
     /* align-items: center; */
 
 
