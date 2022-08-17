@@ -10,6 +10,9 @@ body {
 
 .conference-container {
   background: none !important;
+  width: 100%;
+  max-width: 100%;
+  min-height: 690px !important;
 }
 
 #main-container {
@@ -224,11 +227,11 @@ a:hover .demo-logo {
 }
 
 
-.conference-container {
+/* .container {
   width: 100%;
   max-width: 100%;
   min-height: 690px !important;
-}
+} */
 
 /* .stream-container {
   padding: 20px;
