@@ -114,7 +114,9 @@ public class AuthController {
 			userRegisterInfo.setPhoneNumber(phoneNumber);
 			userRegisterInfo.setProfile(profile);
 			userService.createUser(userRegisterInfo, true);
+			return ResponseEntity.ok(LoginPostRes.of(200, name+"님 환영합니다.", JwtTokenUtil.getToken(true, userId, name, profile)));
+			
 		}
-		return ResponseEntity.ok(LoginPostRes.of(200, name+"님 환영합니다.", JwtTokenUtil.getToken(true, userId, name, profile)));
+		return ResponseEntity.ok(LoginPostRes.of(200, user.getName()+"님 환영합니다.", JwtTokenUtil.getToken(true, user.getUserId(), user.getName(), user.getProfile())));
 	}
 }
