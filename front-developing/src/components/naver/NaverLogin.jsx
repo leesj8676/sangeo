@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect} from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,9 +15,19 @@ const NaverLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [naverId, setNaverId] = useState();
-  const [naverName, setNaverName] = useState();
-  const [user, setUser] = useState();
+  const postNaverLogin = (loginInfo) => {
+    axios.post(process.env.REACT_APP_DB_HOST + "/auth/naver/login", loginInfo)
+    .then(function (result) {
+      alert(result.data.message);
+      localStorage.setItem("Authorization", result.data.accessToken)
+      // token이 필요한 API 요청시 헤더에 token 담아서 보냄
+      setAuthorizationToken(result.data.accessToken);
+      dispatch({ type: "LOG_IN", user: jwtDecode(result.data.accessToken) });
+      navigate('/');
+    }).catch(function (err) {
+      alert(err);
+    });
+  }
 
   const initializeNaverLogin = () => {
 
@@ -50,9 +60,32 @@ const NaverLogin = () => {
         // 아래처럼 선택하여 추출이 가능하고, 
         const id = naverLogin.user.getId();
         const username = naverLogin.user.getName();
-        setNaverId(id);
-        setNaverName(username);
         console.log(id + " " + username);
+
+        await axios.get(process.env.REACT_APP_DB_HOST+"/users/"+id)
+        .then(function (result) { // 네이버 로그인한 적 있음
+          console.log(result.data);
+          const user = result.data;
+          const loginInfo = {
+            id: user.userId,
+            name: user.name,
+            phoneNumber: user.phoneNumber,
+            profile: user.profile
+          };
+          postNaverLogin(loginInfo);
+        }).catch(function (err) {
+          console.log(err);
+          if(err.response.status === 404){ // 신규가입
+            const phoneNumber = prompt("상어에서 상담 예약을 위해서는 전화번호가 추가로 필요해요!");
+            const loginInfo = {
+              id: id,
+              name: username,
+              phoneNumber: phoneNumber,
+              profile: 'https://res.cloudinary.com/daomkhvu8/image/upload/v1660629167/59D8F27B-045C-4FA9-B831-EDF629FC9C04_jxwp1a.png'
+            };
+            postNaverLogin(loginInfo);
+        }
+        });
       }
     })
   }
@@ -80,51 +113,7 @@ const NaverLogin = () => {
   useEffect(() => {
     initializeNaverLogin();
     //userAccessToken();
-  }, []);
-
-  useEffect(() => {
-    axios.get(process.env.REACT_APP_DB_HOST+"/users/"+naverId)
-    .then(function (result) {
-      console.log(result.data);
-      setUser(result.data);
-    }).catch(function (err) {
-      // 에러메세지 수정
-      setUser(null);
-    });
-  }, [naverId]);
-
-  useEffect(() => {
-    let loginInfo;
-    if(user === null){
-      const phoneNumber = prompt('상어 서비스를 사용하기 위해서는 전화번호가 필요해요!');
-      loginInfo = {
-        id: naverId,
-        name: naverName,
-        phoneNumber: phoneNumber,
-        profile: 'https://res.cloudinary.com/daomkhvu8/image/upload/v1660629167/59D8F27B-045C-4FA9-B831-EDF629FC9C04_jxwp1a.png'
-      };
-    }else{
-      loginInfo = {
-        id: user.userId,
-        name: user.name,
-        phoneNumber: user.phoneNumber,
-        profile: user.profile
-      };
-    }
-
-    axios.post(process.env.REACT_APP_DB_HOST + "/auth/naver/login", loginInfo)
-    .then(function (result) {
-      alert(result.data.message);
-      localStorage.setItem("Authorization", result.data.accessToken)
-      // token이 필요한 API 요청시 헤더에 token 담아서 보냄
-      setAuthorizationToken(result.data.accessToken);
-      dispatch({ type: "LOG_IN", user: jwtDecode(result.data.accessToken) });
-      navigate('/');
-    }).catch(function (err) {
-      // 에러메세지 수정
-      alert(err);
-    });
-  }, [user]);
+  }, [])
 
 
   return (
