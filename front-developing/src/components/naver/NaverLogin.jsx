@@ -53,11 +53,12 @@ const NaverLogin = () => {
 
         // db 연결
         if(phoneNumber){
+          console.log();
           axios.post(process.env.REACT_APP_DB_HOST + "/auth/naver/login", {
             id: id,
             name: username,
             phoneNumber: phoneNumber,
-            profile: "basic.png"
+            profile: 'https://res.cloudinary.com/daomkhvu8/image/upload/v1660629167/59D8F27B-045C-4FA9-B831-EDF629FC9C04_jxwp1a.png'
           })
             .then(function (result) {
               alert(result.data.message);
