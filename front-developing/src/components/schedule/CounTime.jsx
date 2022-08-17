@@ -20,6 +20,8 @@ export default function CounTime(data) {
         axios.get(URL)
             .then(function (response) {
                 console.log(response.data, 'dddd')
+                if(response.data.holiday===null)  // 최초 회원가입시 아무 데이터 없는것 예외처리
+                    response.data.holiday = '/';
                 setInfo(response.data)
                 axios.get(URLT)
                     .then(function (response) {

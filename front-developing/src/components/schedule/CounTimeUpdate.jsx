@@ -27,6 +27,8 @@ export default function CounTimeUpdate(data) {
     useEffect(() => {
         axios.get(URL)
             .then(function (response) {
+                if(response.data.holiday===null)
+                    response.data.holiday = '/';
                 setInfo(response.data)
             })
 
