@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -14,6 +14,10 @@ const NaverLogin = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [naverId, setNaverId] = useState();
+  const [naverName, setNaverName] = useState();
+  const [user, setUser] = useState();
 
   const initializeNaverLogin = () => {
 
@@ -46,38 +50,43 @@ const NaverLogin = () => {
         // 아래처럼 선택하여 추출이 가능하고, 
         const id = naverLogin.user.getId();
         const username = naverLogin.user.getName();
-        //const mobile = naverLogin.user.getMobile();
+        setNaverId(id);
+        setNaverName(username);
         console.log(id + " " + username);
 
-        const phoneNumber = prompt("상어에서 상담 예약을 위해서는 전화번호가 추가로 필요해요!");
-
-        // db 연결
-        if(phoneNumber){
-          console.log();
-          axios.post(process.env.REACT_APP_DB_HOST + "/auth/naver/login", {
+        let loginInfo;
+        await axios.get(process.env.REACT_APP_DB_HOST+"/users/"+id)
+        .then(function (result) {
+          console.log(result.data);
+          setUser(result.data);
+        }).catch(function (err) {
+          // 에러메세지 수정
+          setUser(null);
+          const phoneNumber = prompt("상어에서 상담 예약을 위해서는 전화번호가 추가로 필요해요!");
+          loginInfo = {
             id: id,
             name: username,
             phoneNumber: phoneNumber,
             profile: 'https://res.cloudinary.com/daomkhvu8/image/upload/v1660629167/59D8F27B-045C-4FA9-B831-EDF629FC9C04_jxwp1a.png'
-          })
-            .then(function (result) {
-              alert(result.data.message);
-              localStorage.setItem("Authorization", result.data.accessToken)
-              // token이 필요한 API 요청시 헤더에 token 담아서 보냄
-              setAuthorizationToken(result.data.accessToken);
-              dispatch({ type: "LOG_IN", user: jwtDecode(result.data.accessToken) });
-              navigate('/');
-            }).catch(function (err) {
-              // 에러메세지 수정
-              alert(err);
-            })
-        }
+          };
+        });
+
+        // db 연결
+        await axios.post(process.env.REACT_APP_DB_HOST + "/auth/naver/login", loginInfo)
+          .then(function (result) {
+            alert(result.data.message);
+            localStorage.setItem("Authorization", result.data.accessToken)
+            // token이 필요한 API 요청시 헤더에 token 담아서 보냄
+            setAuthorizationToken(result.data.accessToken);
+            dispatch({ type: "LOG_IN", user: jwtDecode(result.data.accessToken) });
+            navigate('/');
+          }).catch(function (err) {
+            // 에러메세지 수정
+            alert(err);
+          });
       }
     })
-    // 요기!*/
   }
-
-
 
   // 네이버 소셜 로그인 (네아로) 는 URL 에 엑세스 토큰이 붙어서 전달된다.
   // 우선 아래와 같이 토큰을 추출 할 수 있으며,
@@ -102,7 +111,51 @@ const NaverLogin = () => {
   useEffect(() => {
     initializeNaverLogin();
     //userAccessToken();
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    axios.get(process.env.REACT_APP_DB_HOST+"/users/"+naverId)
+    .then(function (result) {
+      console.log(result.data);
+      setUser(result.data);
+    }).catch(function (err) {
+      // 에러메세지 수정
+      setUser(null);
+    });
+  }, [naverId]);
+
+  useEffect(() => {
+    let loginInfo;
+    if(user === null){
+      const phoneNumber = prompt('상어 서비스를 사용하기 위해서는 전화번호가 필요해요!');
+      loginInfo = {
+        id: naverId,
+        name: naverName,
+        phoneNumber: phoneNumber,
+        profile: 'https://res.cloudinary.com/daomkhvu8/image/upload/v1660629167/59D8F27B-045C-4FA9-B831-EDF629FC9C04_jxwp1a.png'
+      };
+    }else{
+      loginInfo = {
+        id: user.userId,
+        name: user.name,
+        phoneNumber: user.phoneNumber,
+        profile: user.profile
+      };
+    }
+
+    axios.post(process.env.REACT_APP_DB_HOST + "/auth/naver/login", loginInfo)
+    .then(function (result) {
+      alert(result.data.message);
+      localStorage.setItem("Authorization", result.data.accessToken)
+      // token이 필요한 API 요청시 헤더에 token 담아서 보냄
+      setAuthorizationToken(result.data.accessToken);
+      dispatch({ type: "LOG_IN", user: jwtDecode(result.data.accessToken) });
+      navigate('/');
+    }).catch(function (err) {
+      // 에러메세지 수정
+      alert(err);
+    });
+  }, [user]);
 
 
   return (
