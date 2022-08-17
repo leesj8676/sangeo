@@ -53,37 +53,6 @@ const NaverLogin = () => {
         setNaverId(id);
         setNaverName(username);
         console.log(id + " " + username);
-
-        let loginInfo;
-        await axios.get(process.env.REACT_APP_DB_HOST+"/users/"+id)
-        .then(function (result) {
-          console.log(result.data);
-          setUser(result.data);
-        }).catch(function (err) {
-          // 에러메세지 수정
-          setUser(null);
-          const phoneNumber = prompt("상어에서 상담 예약을 위해서는 전화번호가 추가로 필요해요!");
-          loginInfo = {
-            id: id,
-            name: username,
-            phoneNumber: phoneNumber,
-            profile: 'https://res.cloudinary.com/daomkhvu8/image/upload/v1660629167/59D8F27B-045C-4FA9-B831-EDF629FC9C04_jxwp1a.png'
-          };
-        });
-
-        // db 연결
-        await axios.post(process.env.REACT_APP_DB_HOST + "/auth/naver/login", loginInfo)
-          .then(function (result) {
-            alert(result.data.message);
-            localStorage.setItem("Authorization", result.data.accessToken)
-            // token이 필요한 API 요청시 헤더에 token 담아서 보냄
-            setAuthorizationToken(result.data.accessToken);
-            dispatch({ type: "LOG_IN", user: jwtDecode(result.data.accessToken) });
-            navigate('/');
-          }).catch(function (err) {
-            // 에러메세지 수정
-            alert(err);
-          });
       }
     })
   }
