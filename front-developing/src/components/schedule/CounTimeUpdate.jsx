@@ -67,7 +67,9 @@ export default function CounTimeUpdate(data) {
     for (let i = 0; i < 49; i++) { timetable[i] = `${('0' + parseInt(i / 2)).slice(-2)}:${i % 2 ? '30' : '00'}` }
 
 
-    const timestartoption = timetable.map((time) => <option value={time}>{time}</option>)
+    const timestartoption = timetable.map((time) =>
+    <option value={time}>{time}</option>
+    )
 
     function Change() {
         setData(false)
@@ -100,8 +102,8 @@ export default function CounTimeUpdate(data) {
     }
 
     function Submit() {
-        console.log(start)
-        console.log(end)
+        console.log(rstart+" "+rend)
+        console.log(start+" "+end)
         console.log(holiday)
         let hol = []
         for (let i = 0; i < 7; i++) {

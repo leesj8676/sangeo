@@ -49,24 +49,28 @@ const NaverLogin = () => {
         //const mobile = naverLogin.user.getMobile();
         console.log(id + " " + username);
 
-        // db 연결 -> 
-        axios.post(process.env.REACT_APP_DB_HOST + "/auth/naver/login", {
-          id: id,
-          name: username,
-          phoneNumber: null,
-          profile: "basic.png"
-        })
-          .then(function (result) {
-            alert(result.data.message);
-            localStorage.setItem("Authorization", result.data.accessToken)
-            // token이 필요한 API 요청시 헤더에 token 담아서 보냄
-            setAuthorizationToken(result.data.accessToken);
-            dispatch({ type: "LOG_IN", user: jwtDecode(result.data.accessToken) });
-            navigate('/');
-          }).catch(function (err) {
-            // 에러메세지 수정
-            alert(err);
+        const phoneNumber = prompt("상어에서 상담 예약을 위해서는 전화번호가 추가로 필요해요!");
+
+        // db 연결
+        if(phoneNumber){
+          axios.post(process.env.REACT_APP_DB_HOST + "/auth/naver/login", {
+            id: id,
+            name: username,
+            phoneNumber: phoneNumber,
+            profile: "basic.png"
           })
+            .then(function (result) {
+              alert(result.data.message);
+              localStorage.setItem("Authorization", result.data.accessToken)
+              // token이 필요한 API 요청시 헤더에 token 담아서 보냄
+              setAuthorizationToken(result.data.accessToken);
+              dispatch({ type: "LOG_IN", user: jwtDecode(result.data.accessToken) });
+              navigate('/');
+            }).catch(function (err) {
+              // 에러메세지 수정
+              alert(err);
+            })
+        }
       }
     })
     // 요기!*/

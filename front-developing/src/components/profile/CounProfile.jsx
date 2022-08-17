@@ -55,7 +55,7 @@ export default function CounProfile() {
                 <div>{info.name} 상담사님</div>
                 <div>{info.counselorId}</div>
             </div>
-            <div className={styles.btn}><button><Link to = "./change" state ={{counselorId: info.userId}}>수정</Link></button></div>
+            <div className={styles.btn}><button><Link to = "./change" state ={{counselorId: info.counselorId}}>수정</Link></button></div>
         </div >
 
     )

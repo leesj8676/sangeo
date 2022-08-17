@@ -16,6 +16,7 @@ function Certification({imageUploader , Id}) {
     const [auth, setAuth] = useState();
     const [certificates, setCertificates] = useState([]);
 
+    console.log(Id);
     const counselorId = Id;
 
     const getCertificates = async () => {
