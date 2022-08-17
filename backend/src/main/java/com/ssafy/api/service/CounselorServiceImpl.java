@@ -76,7 +76,7 @@ public class CounselorServiceImpl implements CounselorService{
 		counselor.setCareer(updateCounselorInfo.getCareer());
 		counselor.setLongIntroduction(updateCounselorInfo.getLongIntroduction());
 		counselor.setReserveStartTime(updateCounselorInfo.getReserveStartTime());
-		counselor.setReserveEndTime(updateCounselorInfo.getContactEndTime());
+		counselor.setReserveEndTime(updateCounselorInfo.getReserveEndTime());
 		counselor.setConsultTarget(updateCounselorInfo.getConsultTarget());
 		counselor.setPrice(updateCounselorInfo.getPrice());
 		counselor.setConsultNumber(updateCounselorInfo.getConsultNumber());

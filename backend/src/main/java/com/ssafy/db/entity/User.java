@@ -22,7 +22,6 @@ public class User extends BaseEntity implements Serializable{
 	String userId;
 	@NotNull
 	String name;
-	@NotNull
 	String phoneNumber;
 	@NotNull
 	String profile;
