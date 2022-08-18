@@ -40,7 +40,7 @@ export default function userReducer(state = initialState, action) {
                 ...state, 
                 user: null,
                 isLogin: false
-            }
+            };
         default:
             return state;
     }

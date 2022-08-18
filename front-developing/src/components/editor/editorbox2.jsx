@@ -1,16 +1,14 @@
 import React,  { useState, useRef } from "react";
-import ImageFileInput from "../image_file_input/image_file_input";
+import axios from 'axios';
 import styles from "./editorbox2.module.css";
 
 
-const EditorBox2 = ({imageUploader,EditorboxRepository, onFileChange, onPost}) => {
+const EditorBox2 = ({imageUploader, scheduleId, registeredResult, setCounselResult, setPost}) => {
     //파일 미리볼 url을 저장해줄 state
     const [fileImage, setFileImage] = useState("");
     const[ textValue, setTextValue] = useState("");
     const [ imgName, setImgName] = useState("");
     const [ imgURL, setImgURL] = useState("");
-
-
 
   // 파일 저장
     const saveFileImage = async (event) => {
@@ -48,23 +46,27 @@ const EditorBox2 = ({imageUploader,EditorboxRepository, onFileChange, onPost}) =
     }
 
     // 글 등록 메소드
-    const onData = () => {
-        onFileChange({
-            schduleId: 1,
-            fileName: imgName,
-            fileURL: imgURL,
-            content: textValue,
-        });
+    const onData = async() => {
+        await axios.put(process.env.REACT_APP_DB_HOST+"/schedules/result", {
+          scheduleId: scheduleId,
+          resultImg: imgURL,
+          resultContent: textValue,
+      })
+      .then(function (response) {
+           alert("저장 완료");
+           setCounselResult(response.data);
+      }).catch(function (error) {
+          // 오류발생시 실행
+          alert(error);
+      });
 
-
-        onPost();
+      // post -> false
+      setPost(false);
     }
-
-
 
     return (
     <>
-        <div>  
+        <div className={styles.insertImg}>   
                   <input
                     ref = {inputRef}
                     className = {styles.input} 
@@ -74,9 +76,7 @@ const EditorBox2 = ({imageUploader,EditorboxRepository, onFileChange, onPost}) =
                     onChange={saveFileImage}
                   />
                   <button className={styles.button} onClick={onButtonClick}> 이미지 업로드 </button>
-
                   <button onClick={() => deleteFileImage()}>삭제</button>
-
                   <div>
                   {fileImage && (<img alt="sample" src={fileImage} className = {styles.imgframe} />)}
                   </div>
@@ -87,8 +87,7 @@ const EditorBox2 = ({imageUploader,EditorboxRepository, onFileChange, onPost}) =
                     className= {styles.textarea}
                     onChange={(event) => handleSetValue(event)}
                   ></textarea>
-
-                  <button onClick = {onData}> 글 등록하기 </button>
+                  <button onClick = {onData}>{registeredResult ? "글 수정하기" : "글 작성하기"}</button>
                 </div>
     </>
   );

@@ -20,7 +20,6 @@ const CounListPage = () => {
         }
         axios.get(url, {params :{searchWord: decodeURI(searchWord)}})
         .then(function (response){
-            //console.log(response.data,'데이터')
             setCards(response.data)} //카드에 받아온 값 넣음           
         )
         .catch(function(err){
@@ -29,11 +28,14 @@ const CounListPage = () => {
         },[searchWord])
 
     useEffect(()=> {
-        console.log(cards,"카드변경")
         if(cards.length > 0){setCardList(cards.map((card)=><Card card={card}/>))}
         else{setCardList([])}
     },[cards])
     
+    
+
+
+
 
     // 가격 오름차순 정렬    
     const onSortPrice = () => {
@@ -54,7 +56,7 @@ const CounListPage = () => {
         <section className={styles.list}>
             <div className={styles.container} >
                 {cardList.length === 0 ?
-                <h3>검색된 상담사가 없습니다.</h3>
+                <div  className={styles.header}><h3>검색된 상담사가 없습니다.</h3></div>
                 :
                 <>
                 <div className={styles.sort}>
@@ -66,10 +68,6 @@ const CounListPage = () => {
                 </div> 
                 </>}
             </div>
-
-            {/*Footer 뺄지*/}
-            {/*<Footer />*/}
-
         </section>
     )
 }

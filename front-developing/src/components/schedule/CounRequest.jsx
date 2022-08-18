@@ -1,34 +1,53 @@
-import {React, useState, usetState} from 'react';
+import { React, useState } from 'react';
 import axios from "axios";
 import { Link } from "react-router-dom"
-export default function Request(x) {
-    const { id, complete, confirmed, counselorId, counselorName, endTime, startTime, userId, userName } = x.props
-    console.log("test",x.props);
-    let date = startTime.substring(16, 0)
-    
+import styles from './Conferences.module.css';
 
-    function Approve(){
-        const URL = 'https://i7e207.p.ssafy.io:8080/api/v1/schedules/confirm'
-        axios.put(URL,{
+export default function Request({ x }) {
+    console.log("test", x);
+    const { complete, confirmed, counselorId, counselorName, endTime, startTime, userId, userName, userPhoneNumber } = x.props
+    let date = startTime.substring(16, 0)
+    const [show, setShow] = useState({ display: '' })
+    function Approve() {
+        const URL = process.env.REACT_APP_DB_HOST + '/schedules/confirm'
+        axios.put(URL, {
             "counselorId": `${counselorId}`,
             "startTime": `${date}`
-          }
-        .then(function(){})
-          )
+        }
+        )
+        setShow({ display: 'none' })
+        alert('수락했습니다.');
+        window.location.reload();
     }
-    function Refuse(){
-        const URL = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/${counselorId}/${date}`
+    function Refuse() {
+        const URL = process.env.REACT_APP_DB_HOST + `/schedules/${counselorId}/${date}`
         axios.delete(URL)
-        .then(function(){})
+        setShow({ display: 'none' })
+        alert('거절했습니다.');
+        window.location.reload();
     }
 
     return (
-        <div className="box">
-            <Link to={`../counselordetail/${userName}`}>{userName} 님 요청</Link>
-            <span>{date}</span>
-            <button onClick={Approve}>수락</button>
-            <button onClick={Refuse}>거절</button>
+        <div className={`row ${styles.box}`} style={show}>
+            <div className={`col-1 ${styles.notConfirmed}`}>
+                <p>요청</p>
+            </div>
+            <div className={`col-11 row ${styles.scheduleInfo}`}>
+                <div className="col-6">
+                    {userName}님
+                    <br />
+                    {date}
+                </div>
+                <div className="col-3">
+                    📞 {userPhoneNumber}
+                </div>
+                <div className="col-3">
+                    <button className={styles.approveBtn} onClick={Approve}>수락</button>
+                    <button className={styles.refuseBtn} onClick={Refuse}>거절</button>
+                </div>
+            </div>
         </div>
+
     )
 
 }

@@ -14,19 +14,19 @@ const CounDetailPage = ({card}) => {
     }, [ location ])
     const Councard = location.state.card;
 
+
 // ========================================================
    
     return (
         <section >
             <div className={styles.card}>
                 {/*src에 전체 url을 적거나 항상 루트 폴더를 같게 지정해야 함*/}
-                <img className={styles.avatar} src={"http://localhost:3000/"+Councard.profile} alt ="profile photo" />
+                {/*cloud에서 이미지 불러오도록 수정*/}
+                {/* 서버에서는 이미지 링크 "https://i7e207.p.ssafy.io/" */}
+                <img className={styles.avatar} src={Councard.profile === "basic.png" ? "https://i7e207.p.ssafy.io/basic.png" : Councard.profile} alt ="profile photo" />
                 <div className={styles.info}>
-                    <h1 className={styles.name}>{Councard.name}</h1>
-                    <p className={styles.detail}>전화번호 : {Councard.phoneNumber}</p>
-                    <p className={styles.detail}>소개 : {Councard.shortIntroduction}</p>
-                    <p className={styles.detail}>상담비용 : {Councard.price}</p>
-                    <div className={styles.score}>
+                    <div className={styles.name}>{Councard.name}
+                    <span className={styles.score}>
                     { Councard.avgScore ?
                     (
                     <StarRatings
@@ -39,11 +39,23 @@ const CounDetailPage = ({card}) => {
                     />
                     )
                     :
-                    (<div>등록된 후기가 없어요 <FaRegSadCry/></div>)
-                }
+                    (<span className={styles.noreview}>등록된 후기가 없어요 <FaRegSadCry/></span>)
+                } </span>
+                      
+                    </div>
+
+                    <table className={styles.table}>
+                    <tr className={styles.detail}><td className={styles.attr}>전화번호</td> <td>{Councard.phoneNumber}</td> </tr>
+                    <tr className={styles.detail}><td className={styles.attr}>소개</td> <td> {Councard.shortIntroduction}</td></tr>
+                    <tr className={styles.detail}><td className={styles.attr}>상담비용</td> <td>{Councard.price}</td></tr>
+                    
+            
+                </table>
+
+               
                 </div>
-                    <button className={styles.wbtn}>문의하기</button>
-                </div>
+
+               
             </div>
             <div className={styles.tab}>
                 <Tabcounselordetail card={Councard} />

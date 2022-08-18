@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React from "react";
 import Review from "../review/review";
 import Reservation from "../reservation/reservation";
 import CounselorDetailInfo from "../counselordetailinfo/counselordetailinfo";
@@ -16,7 +16,7 @@ const Tabcounselordetail = ({card}) => {
     if(props.tab === 0){
       return <div><CounselorDetailInfo card = {card}></CounselorDetailInfo></div>
     }else if(props.tab === 1) {
-      return <div><Reservation counselorId = {card.counselorId} rst = {card.reserveStartTime} ret = {card.reserveEndTime}/></div>
+      return <div><Reservation counselorId = {card.counselorId} rst = {card.reserveStartTime} ret = {card.reserveEndTime} holiday = {card.holiday}/></div>
     }else if(props.tab === 2){
       return <div><Review counselorId = {card.counselorId} /></div>
     }

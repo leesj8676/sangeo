@@ -24,6 +24,11 @@ const Review = ({counselorId}) => {
 
   const returnContent = () => {
     let content = [];
+
+    if(reviewList.length === 0){
+      return <div>등록된 후기가 없어요!</div>
+    }
+
     for(let i = 0; i < reviewList.length; i++){
       content.push(
         <li className={`row ${styles.review}`}> 

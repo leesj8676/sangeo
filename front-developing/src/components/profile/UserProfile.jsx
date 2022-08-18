@@ -31,6 +31,11 @@ export default function UserProfile(){
                     // 로그인 페이지로 이동
                     navigate('/sign_in');
                   }
+                  else if(error.response.status===403){
+                    alert("로그인 후 접근 가능한 페이지입니다.");
+                    // 로그인 페이지로 이동
+                    navigate('/sign_in');
+                  }
                   else{
                     alert(error);
                   }
@@ -42,13 +47,14 @@ export default function UserProfile(){
     return(
         <div className={styles.profile}>
             <div className= {styles.profileImg}>
-                <img src={ info.profile ? `http://localhost:3000/${info.profile}` : "http://localhost:3000/basic.png"} alt="profile"/>
+                {/* 서버에서는 이미지 링크 "https://i7e207.p.ssafy.io/basic.png"*/}
+                <img src={ info.profile === "basic.png" ? "https://i7e207.p.ssafy.io/basic.png" : info.profile} alt="profile"/>
             </div>
             <div className= {styles.info}>
                 <div>{info.name} 고객님</div>
-                <div>{info.userId}</div>
+                { info.naverUser ? <div className="text-success">네이버 유저</div> :  <div>{info.userId}</div>}
             </div>
-            <div className={styles.btn}><button><Link to = "./change">수정</Link></button></div>
+            <div className={styles.btn}><button><Link to = "./change" state={{naverUser : info.naverUser}}>수정</Link></button></div>
         </div>
 
     )

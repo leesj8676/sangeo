@@ -17,6 +17,12 @@
     text-align: center;
 }
 
+.notConfirmed{
+    color: #62AAFF;
+    max-width: 60px;
+    text-align: center;
+}
+
 .completed{
     background-color: gray;
 }
@@ -33,4 +39,31 @@
 .scheduleInfo{
     align-items: center;
     text-align: center;
+}
+
+.approveBtn{
+    border-radius: 10px;
+    background-color: #62AAFF;
+    color: white;
+    font-size: 16px;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.refuseBtn{
+    border-radius: 10px;
+    background-color: orangered;
+    color: white;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.completeBtn{
+    border-radius: 10px;
+    background-color: gray;
+    color: white;
+    font-size: 16px;
+    /* margin-left: 5px; */
+    position: absolute;
+    right : 8%;
 }

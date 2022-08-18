@@ -3,8 +3,6 @@ import styles from "./reservationtime.module.css";
 import classNames from "classnames/bind";
 import axios from "axios";
 import { useSelector } from 'react-redux';
-import { StyledEngineProvider } from "@mui/material";
-import SelectInput from "@mui/material/Select/SelectInput";
 
 const cx = classNames.bind(styles);
 
@@ -193,13 +191,13 @@ function ReservationTime(props) {
     };
 
     return (
-        <div className="col-6 text-center">
+        <div className="col-6 text-center  p-3 border border-secondary border-1 rounded shadow">
             <div className={styles.time_header}>
                 <h5>{props.selectedMonth + "." + props.selectedDate} 예약 시간</h5>
             </div>
             <form>
                 <div className={styles.timeline}>{returnTime()}</div>
-                <div><input type="submit" className={styles.rsvBtn} value="예약하기" onClick={(event) => { onSubmit(event); } } /></div>
+                <div className={styles.reservBtn}><input type="submit" className={styles.rsvBtn} value="예약하기" onClick={(event) => { onSubmit(event); } } /></div>
             </form>
         </div>
     );

@@ -11,6 +11,7 @@ import RegisterCounselorPage from '../pages/RegisterCounselorPage';
 import CounListPage from '../pages/CounListPage';
 import CounDetailPage from '../pages/CounDetailPage';
 import CounMyPage from '../pages/CounMyPage'
+import CounInfoChangePage from '../pages/CounInfoChangePage'
 import UserInfoChangePage from '../pages/UserInfoChangePage';
 import UserMyPage from '../pages/UserMyPage'
 import DoneCounselPage from '../pages/DoneCounselPage';
@@ -21,7 +22,7 @@ import ConferencePage from '../pages/ConferencePage';
 import NavigationBar from '../components/header/Navbar';
 
 
-function MainLayoutRoutes({ authService }) {
+function MainLayoutRoutes({ authService ,imageUploader }) {
     return (
         <div>
             <React.Fragment />
@@ -32,23 +33,26 @@ function MainLayoutRoutes({ authService }) {
                 {/* 상담사 경로 */}
                 <Route path="/counselordetail/:id" element={<CounDetailPage />} />
                 <Route path="/counselorlist" element={<CounListPage authService={authService} />} />
-                <Route path="/counmypage/:id" element={<CounMyPage authService={authService} />} />
+                <Route path="/counmypage" element={<CounMyPage imageUploader={imageUploader} />} />
+                <Route path="/counmypage/change" element={<CounInfoChangePage imageUploader={imageUploader}/>} />
 
                 {/* 회원관리 경로 */}
                 <Route path="/sign_in" element={<LoginPage authService={authService} />} />
                 <Route path="/sign_up" element={<RegisterPage />} />
                 <Route path="/sign_up/counselor" element={<RegisterCounselorPage />} />
                 <Route path="/mypage" element={<UserMyPage authService={authService} />} />
-                <Route path="/mypage/change" element={<UserInfoChangePage authService={authService} />} />
+                <Route path="/mypage/change" element={<UserInfoChangePage authService={authService} imageUploader={imageUploader} />} />
 
                 {/* 상담관리 */}
                 <Route path="/donecounsel/:scheduleNo" element={<DoneCounselPage authService={authService} />} />
-                <Route path="/managedonecounsel" element={<ManageDoneCounselPage authService={authService} />} />
+                <Route path="/managedonecounsel/:scheduleNo" element={<ManageDoneCounselPage authService={authService} imageUploader= {imageUploader} />} />
 
 
                 {/* 컨퍼런스 */}
                 {/* 세션 아이디와 입장자, authService 확인 */}
                 <Route path="/conference/:id" element={<ConferencePage />} />
+            
+            
             </Routes>
             <React.Fragment />
         </div>

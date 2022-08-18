@@ -1,24 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import {useParams, Link} from 'react-router-dom'
+import { useSelector } from 'react-redux';
 import Request from './CounRequest'
 import axios from 'axios';
 import Pagination from 'react-js-pagination';
 
 export default function CounRequest (props){
     //본인인경우 아니면 오류페이지로
- 
+    const user = useSelector(state => state.user.user);
     const [conference,setConference] = useState([]) //리스트들
     const [onoff,setOnoff] = useState("오래된")
     const [list,setList] = useState([]) //컨퍼런스 복사한 리스트
     const [page, setPage] = useState(1);
-    const URL = `https://i7e207.p.ssafy.io:8080/api/v1/schedules/counselors/${useParams().id}`
+    const URL = process.env.REACT_APP_DB_HOST+`/schedules/counselors/${user.id}`
     
     useEffect(()=>{
     //console.log(process.env.REACT_APP_DB_HOST//+URL)
       axios.get(URL)
       .then(function (response) {
               console.log(response.data,'data')
-              setConference(response.data.filter(x=>x.confirmed===false))
+              setConference(response.data.filter(x=>x.confirmed===false && x.userId!==null))
     });    
     },[])
     
@@ -28,8 +28,8 @@ export default function CounRequest (props){
         .then(function (response) {
             console.log(conference,'con')
             if (conference.length>0){setList(conference.map((x)=>(<Request props={x}/>)))}}
-        );},[conference])  
-    
+        );},[conference])
+
 
 
     function clickButton(){

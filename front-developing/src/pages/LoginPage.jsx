@@ -5,23 +5,16 @@ import { useDispatch } from 'react-redux';
 import axios from "axios";
 import setAuthorizationToken from "../utils/setAuthorizationToken";
 import jwtDecode from "jwt-decode";
+import NaverLogin from '../components/naver/NaverLogin';
 
 const LoginPage = () =>{
   const [userid, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
-  //authService.logout();
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   let localStorage = window.localStorage;
-  const goToCunslList = (userId) => {
-    navigate({
-      pathname: '/counselorlist',
-      state: {id: userId},
-  });
-}
 
   // input check 추가
 
@@ -38,7 +31,7 @@ const LoginPage = () =>{
  
     let url = "/auth/user/login";
     if(!isUser){
-      url = "/auth/counselor/login"
+      url = "/auth/counselor/login";
     }
 
     axios.post(process.env.REACT_APP_DB_HOST+url, {
@@ -47,15 +40,19 @@ const LoginPage = () =>{
     })
     .then(function(result){
       alert(result.data.message);
-      localStorage.setItem("Authorization", result.data.accessToken)
+      localStorage.setItem("Authorization", result.data.accessToken);
       // token이 필요한 API 요청시 헤더에 token 담아서 보냄
       setAuthorizationToken(result.data.accessToken);
       dispatch({type:"LOG_IN", user: jwtDecode(result.data.accessToken)});
       navigate('/');
     }).catch(function(err){
-      // 에러메세지 수정
-      alert(err);
-    })
+      if(err.response.status === 401 || err.response.status === 404){
+        alert("아이디 혹은 비밀번호가 틀렸습니다.");
+      }
+      else{
+          alert(err);
+      }
+    });
 
   };
 
@@ -114,13 +111,10 @@ const LoginPage = () =>{
             상담사 로그인
           </button>
         </div>
-        {/* <div>
-          <button onClick={onLogin} className="loginregister__button">
-            Google
-          </button>
-        </div> */}
+        <div className="naverLoginBtn">간편 유저가 되고싶다면? <NaverLogin></NaverLogin></div>
       </form>
     </div>
+    
   );
 }
 

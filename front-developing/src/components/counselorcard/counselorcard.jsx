@@ -9,6 +9,7 @@ const DEFAULT_IMAGE = '/images/default_logo.png';
 const CounselorCard = ({card}) => {
     const {counselorId, name, shortIntroduction, price, avgScore, profile} = card;
     const url = profile || DEFAULT_IMAGE;
+    console.log("상담자 디테일 페이지 url  ", url);
 
     return (
         <li className={styles.card}>
@@ -17,10 +18,10 @@ const CounselorCard = ({card}) => {
             <img className={styles.avatar} src={url} alt ="profile photo" />
             </Link>
             <div className={styles.info}>
-                <h1 className={styles.name}>{name}</h1>
+                <div className={styles.name}>{name} <span className={styles.price}> {price}</span></div>
                 <div className={styles.details}>
-                <p className={styles.detail}>소개 : {shortIntroduction}</p>
-                <p className={styles.detail}>상담비용 : {price}</p> 
+                <p className={styles.detail}>{shortIntroduction}</p>
+               
                 </div>
                 <div className={styles.score}>
                 {   avgScore ?
@@ -35,7 +36,7 @@ const CounselorCard = ({card}) => {
                     />
                     )
                     :
-                    (<div>등록된 후기가 없어요 <FaRegSadCry/></div>)
+                    (<div className={styles.noreview}>등록된 후기가 없어요 <FaRegSadCry/></div>)
                 }
                 </div>
             </div>

@@ -10,7 +10,7 @@ function ReviewWrite({scheduleId}) {
     const [exist, setExist] = useState(false);
     const [existReview, setExistReview] = useState();
     const [content, setContent] = useState();
-    const [star, setStar] = useState();
+    const [star, setStar] = useState(3);
     const [ done, setDone] = useState(false);
 
     useEffect(() => {
@@ -87,7 +87,7 @@ function ReviewWrite({scheduleId}) {
           <div style={{width: '80%', marginLeft:'10%'}} className='mt-3 p-3 border border-3'>
           <h2>나의 후기</h2>
           <div className='row'>
-            <p className='col-3'>
+            <div className='col-3'>
               <StarRatings
               rating={existReview.score}
               starRatedColor="hotpink"
@@ -96,8 +96,8 @@ function ReviewWrite({scheduleId}) {
               starDimension='1.5rem'
               starSpacing='2px'
               />
-            </p> 
-            <p className='col-6'>{existReview.content}</p>
+            </div> 
+            <div className='col-6'>{existReview.content}</div>
           </div>
           <div className='row mt-3'>
             <div className='col-lg-11 col-10'></div>
