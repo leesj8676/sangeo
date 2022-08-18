@@ -1,26 +1,26 @@
-### 서버 배포시 변경사항
-- application.properties 변경 [참고](https://www.notion.so/EC2-86be60492dcf4e19990cc92f12fdbb0d#b4d315660a2c41aa999ae5b428dc2b93)
+# 미술 심리 상담 서비스 - 상어 (상담 어때요)
+## 로고 넣을 자리
 
-### 브랜치 전략
-- 백엔드 기능별로 feature 별로 브랜치해서 개발하기
-- be에 merge, 테스트 후 서버 배포
-
-## localhost:8080 으로 API 서버 접근시 변경사항
-- .env.development 파일이 REACT_APP_DB_HOST=""으로 변경 [참고](https://www.notion.so/EC2-86be60492dcf4e19990cc92f12fdbb0d#afe57b4278e9424989699cdf9f1c905d)
-- package.json의 프록시로 이용해서 로컬호스트 작동
-
-* 프로젝트명: 미술 심리 상담 서비스 - <b>상</b>담 <b>어</b>때(상어)
-* 서비스 특징: 화상 회의 기반 실시간 미술 심리 상담
+* 서비스 특징: Web RTC 기반 실시간 미술 심리 상담
 * 주요 기능
+  - 네이버 API를 이용한 로그인, 
   - 회원 관리 / 상담사 관리
   - 스케줄 기반 상담 예약
   - 화상 미팅룸
-  - 그룹 채팅
+  - 다른 사람의 그림을 확인하는 공유 캔버스
 * 주요 기술
   - WebRTC
   - WebSocket
   - JWT Authentication
   - REST API
+
+* 시연 영상
+  - 
+  - 네이버 로그인 API
+  - 회원 인증
+  - 공유 화이트보드
+  - 공유 화이트보드
+
 * 참조 리소스
   * Vuetify: 디자인 전반 적용
   * Vue Argon Design System: 디자인 전반 적용
