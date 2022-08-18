@@ -25,15 +25,16 @@ public class UserServiceImpl implements UserService {
 	PasswordEncoder passwordEncoder;
 	
 	@Override
-	public User createUser(UserRegisterPostReq userRegisterInfo) {
+	public User createUser(UserRegisterPostReq userRegisterInfo, boolean isNaverUser) {
 		User user = new User();
 		user.setUserId(userRegisterInfo.getUserId());
 		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
-		user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
+		if(userRegisterInfo.getPassword() != null)
+			user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
 		user.setName(userRegisterInfo.getName());
 		user.setPhoneNumber(userRegisterInfo.getPhoneNumber());
 		user.setProfile(userRegisterInfo.getProfile());
-		
+		user.setNaverUser(isNaverUser);
 		return userRepository.save(user);
 	}
 

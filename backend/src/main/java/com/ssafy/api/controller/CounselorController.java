@@ -1,7 +1,5 @@
 package com.ssafy.api.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
@@ -123,7 +121,7 @@ public class CounselorController {
 		return ResponseEntity.status(200).body(counselor);
 	}
 	
-	@PostMapping("/{counselorId}")
+	@PostMapping("/password/{counselorId}")
 	@ApiOperation(value = "상담사 비밀번호 확인", notes = "상담사의 <strong>비밀번호</strong>를 확인한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 401, message = "인증 실패"),
 			@ApiResponse(code = 404, message = "상담사 없음"), @ApiResponse(code = 500, message = "서버 오류") })
